@@ -100,61 +100,6 @@
   .ins-none-required{background:var(--success-light);color:var(--success);}
   .ins-commercial{background:#f3f4f6;color:#374151;}
 
-  /* ── Interactive borough SVG map ── */
-  .borough-map-wrap{position:relative;margin-bottom:6px;}
-  .borough-map-wrap svg{width:100%;height:auto;touch-action:none;}
-  .borough-region{cursor:pointer;transition:opacity .15s;}
-  .borough-region:active,.borough-region.hovered{opacity:0.75;}
-  .borough-label{font-size:13px;font-family:'Source Sans 3',sans-serif;font-weight:700;fill:#1C2B2D;pointer-events:none;}
-  .borough-map-hint{font-size:0.82rem;color:var(--muted);text-align:center;margin-top:6px;margin-bottom:18px;}
-
-  /* ── Interactive zone SVG map ── */
-  .zone-svg-wrap{position:relative;margin-bottom:24px;}
-  .zone-svg-wrap svg{width:100%;height:auto;touch-action:none;}
-  .zone-region{cursor:pointer;transition:opacity .15s,stroke-width .1s;}
-  .zone-region:active{opacity:0.7;}
-  .zone-region.selected-zone{stroke-width:3!important;opacity:1;}
-  .zone-label-txt{font-size:11px;font-family:'Source Sans 3',sans-serif;font-weight:600;fill:#1C2B2D;pointer-events:none;text-anchor:middle;}
-  .zone-map-hint{font-size:0.82rem;color:var(--muted);text-align:center;margin-top:6px;margin-bottom:4px;}
-
-  /* ── PRINT SHEET ── */
-  .sheet-wrap{background:#DEDACD;border-radius:18px;padding:22px;margin-bottom:22px;}
-  .sheet{background:#fff;border-radius:4px;box-shadow:0 10px 32px rgba(28,43,45,0.14);padding:34px 30px;max-width:640px;margin:0 auto;}
-  .sheet-eyebrow{font-size:0.71rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--path);font-weight:700;margin-bottom:8px;}
-  .sheet h1.headline{font-size:1.95rem;line-height:1.15;margin-bottom:8px;}
-  .sheet .sheet-sub{color:var(--muted);font-size:0.95rem;margin-bottom:4px;}
-  .sheet .sheet-date{color:var(--muted);font-size:0.81rem;margin-bottom:20px;padding-bottom:16px;border-bottom:2px solid var(--ink);}
-
-  /* Handwritten appointment box */
-  .appt-write-box{border:2px dashed var(--path);border-radius:14px;padding:18px 20px;margin-bottom:22px;background:#FAFDF9;}
-  .awb-label{font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--path);font-weight:700;margin-bottom:12px;}
-  .awb-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:12px;}
-  @media(max-width:500px){.awb-row{grid-template-columns:1fr;}}
-  .awb-field{display:flex;flex-direction:column;gap:5px;}
-  .awb-field label{font-size:0.78rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;}
-  .awb-line{border:none;border-bottom:1.5px solid var(--ink);width:100%;padding:5px 3px;font-size:1.02rem;font-family:'Source Sans 3',sans-serif;background:transparent;color:var(--ink);}
-  .awb-line:focus{outline:none;border-bottom-color:var(--path);}
-  .awb-line::placeholder{color:#C8C3B6;font-weight:400;font-style:italic;}
-
-  /* 2-week calendar */
-  .cal-wrap{margin-top:4px;}
-  .cal-label{font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);font-weight:700;margin-bottom:7px;}
-  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;}
-  .cal-head{font-size:0.65rem;font-weight:700;text-align:center;color:var(--muted);text-transform:uppercase;padding-bottom:2px;}
-  .cal-day{border:1.5px solid var(--line);border-radius:7px;aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;background:#fff;transition:background .12s;-webkit-user-select:none;user-select:none;min-height:36px;}
-  .cal-day:active{background:var(--path-light);}
-  .cal-day.today{border-color:var(--sun);background:#FFF8F2;}
-  .cal-day.marked-today{background:var(--sun);border-color:var(--sun);}
-  .cal-day.marked-today .cal-day-num,.cal-day.marked-appt .cal-day-num{color:#fff;}
-  .cal-day.marked-appt{background:var(--path);border-color:var(--path);}
-  .cal-day-num{font-size:0.88rem;font-weight:700;line-height:1;}
-  .cal-day-mo{font-size:0.55rem;color:var(--muted);margin-top:1px;line-height:1;}
-  .cal-day.marked-today .cal-day-mo,.cal-day.marked-appt .cal-day-mo{color:rgba(255,255,255,0.75);}
-  .cal-day.today .cal-day-num{color:var(--sun);}
-  .cal-legend{display:flex;gap:12px;margin-top:7px;flex-wrap:wrap;}
-  .cal-legend-item{display:flex;align-items:center;gap:4px;font-size:0.73rem;color:var(--muted);}
-  .cal-legend-dot{width:9px;height:9px;border-radius:3px;flex-shrink:0;}
-
   /* result cards */
   .result-card{border-bottom:1px solid var(--line);padding:18px 0;margin:0;}
   .result-card:last-child{border-bottom:none;}
@@ -265,26 +210,25 @@
     <div class="choice-list" id="insuranceList"></div>
   </section>
 
-  <!-- ══ SCREEN: Borough map ══ -->
+  <!-- ══ SCREEN: Borough list ══ -->
   <section class="screen" id="screen-borough">
     <div class="prompt">
       <div class="prompt-eyebrow" id="s_boroughEyebrow">Step 2 of 4</div>
       <h2 id="s_boroughH">Where in New York City are you right now?</h2>
-      <p class="sub" id="s_boroughSub">Tap your borough on the map below.</p>
+      <p class="sub" id="s_boroughSub">Select your borough.</p>
     </div>
-    <div class="borough-map-wrap" id="boroughMapWrap"></div>
-    <p class="borough-map-hint" id="s_boroughHint">Not sure? Tap the area that looks most familiar.</p>
+    <div class="choice-list" id="boroughList"></div>
   </section>
 
-  <!-- ══ SCREEN: Zone map ══ -->
+  <!-- ══ SCREEN: Zone list ══ -->
   <section class="screen" id="screen-zone">
     <div class="prompt">
       <div class="prompt-eyebrow" id="s_zoneEyebrow">Step 2 of 4</div>
       <h2 id="s_zoneH">Tap the part of <span id="zoneBorough"></span> closest to you.</h2>
       <p class="sub" id="s_zoneSub">This helps us find the nearest resources and transit routes.</p>
     </div>
-    <div class="zone-svg-wrap" id="zoneSvgWrap"></div>
-    <p class="zone-map-hint" id="s_zoneHint">Not sure? Tap anywhere — we'll use the center of the borough.</p>
+    <div class="choice-list" id="zoneList"></div>
+    <p class="borough-map-hint" id="s_zoneHint">Not sure? We'll use the center of the borough.</p>
   </section>
 
   <!-- ══ SCREEN: SHOW van area ══ -->
@@ -400,10 +344,9 @@ const LANG={
       {v:'unknown',l:"I'm not sure",d:''},
     ],
     boroughEyebrow:'Step 2 of 4', boroughH:'Where in New York City are you right now?',
-    boroughSub:'Tap your borough on the map below.',
-    boroughHint:"Not sure? Tap the area that looks most familiar.",
+    boroughSub:'Select your borough.',
     zoneEyebrow:'Step 2 of 4', zoneSub:'This helps us find the nearest resources and transit routes.',
-    zoneHint:"Not sure? Tap anywhere — we'll use the center of the borough.",
+    zoneHint:"Not sure? We'll use the center of the borough.",
     showEyebrow:'S.H.O.W. Mobile Van', showH:'Which area are you closest to?',
     showSub:'The van visits different locations on different days.',
     addlEyebrow:'Step 3 of 4', addlH:'Is there anything else you would like information about?',
@@ -451,10 +394,9 @@ const LANG={
       {v:'unknown',l:'No estoy seguro/a',d:''},
     ],
     boroughEyebrow:'Paso 2 de 4', boroughH:'¿Dónde en Nueva York se encuentra ahora?',
-    boroughSub:'Toque su condado en el mapa.',
-    boroughHint:'¿No está seguro/a? Toque el área que le resulte más familiar.',
+    boroughSub:'Seleccione su condado.',
     zoneEyebrow:'Paso 2 de 4', zoneSub:'Esto nos ayuda a encontrar los recursos más cercanos y las rutas de tránsito.',
-    zoneHint:'¿No está seguro/a? Toque en cualquier lugar — usaremos el centro del condado.',
+    zoneHint:'¿No está seguro/a? Usaremos el centro del condado.',
     showEyebrow:'Van móvil S.H.O.W.', showH:'¿A qué área está más cerca?',
     showSub:'La van visita diferentes lugares en diferentes días.',
     addlEyebrow:'Paso 3 de 4', addlH:'¿Hay algo más sobre lo que le gustaría información?',
@@ -502,7 +444,7 @@ function applyLang(){
   // insurance
   sa('s_insEyebrow',s.insEyebrow); sa('s_insH',s.insH); sa('s_insSub',s.insSub);
   // borough
-  sa('s_boroughEyebrow',s.boroughEyebrow); sa('s_boroughH',s.boroughH); sa('s_boroughSub',s.boroughSub); sa('s_boroughHint',s.boroughHint);
+  sa('s_boroughEyebrow',s.boroughEyebrow); sa('s_boroughH',s.boroughH); sa('s_boroughSub',s.boroughSub);
   // zone
   sa('s_zoneEyebrow',s.zoneEyebrow); sa('s_zoneSub',s.zoneSub); sa('s_zoneHint',s.zoneHint);
   // show
@@ -520,8 +462,8 @@ function applyLang(){
   // clarify
   document.getElementById('skipClarify').textContent=s.skipQ;
   // re-render dynamic lists
-  renderStaffGrid(); renderInsuranceScreen(); renderBoroughMap();
-  if(currentScreen==='screen-zone'&&state.borough) renderZoneMap(state.borough);
+  renderStaffGrid(); renderInsuranceScreen(); renderBoroughList();
+  if(currentScreen==='screen-zone'&&state.borough) renderZoneList(state.borough);
   if(currentScreen==='screen-additional'){ const rem=CATEGORY_IDS.filter(id=>!state.selectedCats.includes(id)); if(rem.length) renderAdditionalScreen(rem); }
 }
 function sa(id,v){const el=document.getElementById(id);if(el)el.textContent=v;}
@@ -606,40 +548,40 @@ const ACCESS_NYC='https://access.nyc.gov/';
 const BOROUGHS=['Manhattan','Brooklyn','Queens','Bronx','Staten Island'];
 const CATEGORY_IDS=['detox','show','telehealth','wellness','narcan','mentalhealth','shelter','benefits','mat','pcp'];
 
-/* Zone data — geographically ordered, with coordinates for SVG placement */
+/* Zone data — now simplified for list */
 const ZONES={
   Manhattan:[
-    {id:'inwood',label:'Inwood / Washington Heights',addr:'181st St & Broadway, Manhattan, NY',cx:148,cy:42},
-    {id:'harlem',label:'Harlem',addr:'125th St & Malcolm X Blvd, Manhattan, NY',cx:164,cy:100},
-    {id:'uws',label:'Upper West Side',addr:'79th St & Broadway, Manhattan, NY',cx:132,cy:148},
-    {id:'ues',label:'Upper East Side',addr:'79th St & Lexington Ave, Manhattan, NY',cx:194,cy:140},
-    {id:'midtown',label:'Midtown',addr:'42nd St & 6th Ave, Manhattan, NY',cx:158,cy:195},
-    {id:'chelsea',label:'Chelsea / West Village',addr:'23rd St & 8th Ave, Manhattan, NY',cx:136,cy:232},
-    {id:'les',label:'East Village / Lower East Side',addr:'Houston St & Ave A, Manhattan, NY',cx:186,cy:255},
-    {id:'fidi',label:'Financial District',addr:'Wall St & Broadway, Manhattan, NY',cx:162,cy:298},
+    {id:'inwood',label:'Inwood / Washington Heights',addr:'181st St & Broadway, Manhattan, NY'},
+    {id:'harlem',label:'Harlem',addr:'125th St & Malcolm X Blvd, Manhattan, NY'},
+    {id:'uws',label:'Upper West Side',addr:'79th St & Broadway, Manhattan, NY'},
+    {id:'ues',label:'Upper East Side',addr:'79th St & Lexington Ave, Manhattan, NY'},
+    {id:'midtown',label:'Midtown',addr:'42nd St & 6th Ave, Manhattan, NY'},
+    {id:'chelsea',label:'Chelsea / West Village',addr:'23rd St & 8th Ave, Manhattan, NY'},
+    {id:'les',label:'East Village / Lower East Side',addr:'Houston St & Ave A, Manhattan, NY'},
+    {id:'fidi',label:'Financial District',addr:'Wall St & Broadway, Manhattan, NY'},
   ],
   Brooklyn:[
-    {id:'wburg',label:'Williamsburg / Greenpoint',addr:'Bedford Ave & N 7th St, Brooklyn, NY',cx:120,cy:60},
-    {id:'bedstuy',label:'Bedstuy / Bushwick',addr:'Broadway & Myrtle Ave, Brooklyn, NY',cx:155,cy:100},
-    {id:'dtbk',label:'Downtown Brooklyn',addr:'Flatbush Ave & Fulton St, Brooklyn, NY',cx:95,cy:115},
-    {id:'sunset',label:'Sunset Park / Bay Ridge',addr:'5th Ave & 45th St, Brooklyn, NY',cx:80,cy:190},
-    {id:'flatbush',label:'Flatbush / East Flatbush',addr:'Church Ave & Flatbush Ave, Brooklyn, NY',cx:150,cy:195},
+    {id:'wburg',label:'Williamsburg / Greenpoint',addr:'Bedford Ave & N 7th St, Brooklyn, NY'},
+    {id:'bedstuy',label:'Bedstuy / Bushwick',addr:'Broadway & Myrtle Ave, Brooklyn, NY'},
+    {id:'dtbk',label:'Downtown Brooklyn',addr:'Flatbush Ave & Fulton St, Brooklyn, NY'},
+    {id:'sunset',label:'Sunset Park / Bay Ridge',addr:'5th Ave & 45th St, Brooklyn, NY'},
+    {id:'flatbush',label:'Flatbush / East Flatbush',addr:'Church Ave & Flatbush Ave, Brooklyn, NY'},
   ],
   Queens:[
-    {id:'astoria',label:'Astoria / Long Island City',addr:'31st St & Broadway, Queens, NY',cx:90,cy:60},
-    {id:'jhelm',label:'Jackson Heights / Elmhurst',addr:'Roosevelt Ave & 82nd St, Queens, NY',cx:140,cy:110},
-    {id:'flushing',label:'Flushing',addr:'Main St & Roosevelt Ave, Queens, NY',cx:210,cy:80},
-    {id:'jamaica',label:'Jamaica',addr:'Jamaica Ave & 165th St, Queens, NY',cx:210,cy:180},
+    {id:'astoria',label:'Astoria / Long Island City',addr:'31st St & Broadway, Queens, NY'},
+    {id:'jhelm',label:'Jackson Heights / Elmhurst',addr:'Roosevelt Ave & 82nd St, Queens, NY'},
+    {id:'flushing',label:'Flushing',addr:'Main St & Roosevelt Ave, Queens, NY'},
+    {id:'jamaica',label:'Jamaica',addr:'Jamaica Ave & 165th St, Queens, NY'},
   ],
   Bronx:[
-    {id:'motthaven',label:'Mott Haven / South Bronx',addr:'3rd Ave & 149th St, Bronx, NY',cx:110,cy:210},
-    {id:'tremont',label:'Tremont / Fordham',addr:'Tremont Ave & Grand Concourse, Bronx, NY',cx:105,cy:145},
-    {id:'morrisania',label:'Morrisania / Melrose',addr:'Melrose Ave & 161st St, Bronx, NY',cx:145,cy:180},
-    {id:'pelham',label:'Pelham / Co-op City',addr:'Baychester Ave & Co-op City Blvd, Bronx, NY',cx:200,cy:80},
+    {id:'motthaven',label:'Mott Haven / South Bronx',addr:'3rd Ave & 149th St, Bronx, NY'},
+    {id:'tremont',label:'Tremont / Fordham',addr:'Tremont Ave & Grand Concourse, Bronx, NY'},
+    {id:'morrisania',label:'Morrisania / Melrose',addr:'Melrose Ave & 161st St, Bronx, NY'},
+    {id:'pelham',label:'Pelham / Co-op City',addr:'Baychester Ave & Co-op City Blvd, Bronx, NY'},
   ],
   'Staten Island':[
-    {id:'stgeorge',label:'St. George / North Shore',addr:'Richmond Terrace & Victory Blvd, Staten Island, NY',cx:130,cy:80},
-    {id:'midisland',label:'Mid-Island',addr:'Richmond Ave & Forest Ave, Staten Island, NY',cx:120,cy:160},
+    {id:'stgeorge',label:'St. George / North Shore',addr:'Richmond Terrace & Victory Blvd, Staten Island, NY'},
+    {id:'midisland',label:'Mid-Island',addr:'Richmond Ave & Forest Ave, Staten Island, NY'},
   ],
 };
 
@@ -739,129 +681,37 @@ function buildCallPanel(id, panelId){
 }
 
 /* ============================================================
-   BOROUGH MAP — SVG (geographically accurate outlines)
+   BOROUGH LIST — Simple button list
 ============================================================ */
-function renderBoroughMap(){
-  const wrap=document.getElementById('boroughMapWrap'); wrap.innerHTML='';
-  // Simplified but geographically proportioned NYC borough outlines
-  // ViewBox represents a ~300x340 space matching relative NYC geography
-  const svg=`<svg viewBox="0 0 300 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Map of New York City boroughs">
-  <defs>
-    <style>
-      .b-manhattan{fill:#D4E8DF;stroke:#2F6F5E;stroke-width:1.5;}
-      .b-brooklyn{fill:#D9E8F5;stroke:#1a5276;stroke-width:1.5;}
-      .b-queens{fill:#FEF3CD;stroke:#7d6608;stroke-width:1.5;}
-      .b-bronx{fill:#F5D7D7;stroke:#7b241c;stroke-width:1.5;}
-      .b-si{fill:#E8D5F0;stroke:#6c3483;stroke-width:1.5;}
-      .borough-region{cursor:pointer;}
-      .borough-region:active{opacity:0.7;}
-      .blabel{font-family:'Source Sans 3',sans-serif;font-size:12px;font-weight:700;pointer-events:none;fill:#1C2B2D;}
-      .bsublabel{font-family:'Source Sans 3',sans-serif;font-size:9px;pointer-events:none;fill:#6B6459;}
-    </style>
-  </defs>
-  <!-- Staten Island -->
-  <g class="borough-region" data-b="Staten Island" tabindex="0" role="button" aria-label="Staten Island">
-    <path class="b-si" d="M 8 240 L 30 225 L 55 220 L 78 228 L 90 245 L 82 268 L 60 285 L 30 290 L 10 275 Z"/>
-    <text class="blabel" x="48" y="255" text-anchor="middle">Staten</text>
-    <text class="blabel" x="48" y="269" text-anchor="middle">Island</text>
-  </g>
-  <!-- Brooklyn -->
-  <g class="borough-region" data-b="Brooklyn" tabindex="0" role="button" aria-label="Brooklyn">
-    <path class="b-brooklyn" d="M 130 190 L 185 180 L 220 185 L 238 200 L 242 225 L 222 248 L 195 265 L 162 272 L 130 265 L 108 248 L 102 225 L 112 205 Z"/>
-    <text class="blabel" x="172" y="226" text-anchor="middle">Brooklyn</text>
-  </g>
-  <!-- Queens -->
-  <g class="borough-region" data-b="Queens" tabindex="0" role="button" aria-label="Queens">
-    <path class="b-queens" d="M 185 80 L 248 72 L 285 90 L 292 130 L 280 170 L 250 190 L 220 185 L 185 180 L 162 155 L 158 118 L 168 90 Z"/>
-    <text class="blabel" x="232" y="135" text-anchor="middle">Queens</text>
-  </g>
-  <!-- Bronx -->
-  <g class="borough-region" data-b="Bronx" tabindex="0" role="button" aria-label="The Bronx">
-    <path class="b-bronx" d="M 148 20 L 200 15 L 245 28 L 255 65 L 242 92 L 220 100 L 185 95 L 168 90 L 158 60 L 148 40 Z"/>
-    <text class="blabel" x="200" y="58" text-anchor="middle">The Bronx</text>
-  </g>
-  <!-- Manhattan -->
-  <g class="borough-region" data-b="Manhattan" tabindex="0" role="button" aria-label="Manhattan">
-    <path class="b-manhattan" d="M 148 40 L 158 60 L 164 90 L 162 118 L 162 155 L 158 180 L 148 200 L 130 190 L 112 165 L 108 130 L 112 95 L 118 60 L 128 40 Z"/>
-    <text class="blabel" x="136" y="125" text-anchor="middle">Manhattan</text>
-  </g>
-  <!-- Water label -->
-  <text style="font-family:'Source Sans 3',sans-serif;font-size:9px;fill:#8ab4c9;pointer-events:none;" x="88" y="170" text-anchor="middle">New York</text>
-  <text style="font-family:'Source Sans 3',sans-serif;font-size:9px;fill:#8ab4c9;pointer-events:none;" x="88" y="182" text-anchor="middle">Harbor</text>
-</svg>`;
-  wrap.innerHTML=svg;
-  wrap.querySelectorAll('.borough-region').forEach(el=>{
-    el.addEventListener('click',()=>{
-      const b=el.dataset.b; state.borough=b;
-      renderZoneMap(b); goTo('screen-zone');
+function renderBoroughList(){
+  const list=document.getElementById('boroughList'); list.innerHTML='';
+  BOROUGHS.forEach(borough=>{
+    const btn=document.createElement('button'); btn.className='choice-btn';
+    btn.textContent=borough;
+    btn.addEventListener('click',()=>{
+      state.borough=borough;
+      renderZoneList(borough);
+      goTo('screen-zone');
     });
+    list.appendChild(btn);
   });
 }
 
 /* ============================================================
-   ZONE MAP — SVG per borough (tappable labeled zones)
+   ZONE LIST — Simple button list
 ============================================================ */
-function renderZoneMap(borough){
+function renderZoneList(borough){
   document.getElementById('zoneBorough').textContent=borough;
-  const wrap=document.getElementById('zoneSvgWrap'); wrap.innerHTML='';
+  const list=document.getElementById('zoneList'); list.innerHTML='';
   const zones=ZONES[borough]||[];
-
-  // Build a simple schematic map: colored circles at approximate positions
-  // Each borough has a different viewBox to match its shape
-  const configs={
-    Manhattan:{vw:280,vh:340,bg:'#D4E8DF',stroke:'#2F6F5E'},
-    Brooklyn:{vw:280,vh:300,bg:'#D9E8F5',stroke:'#1a5276'},
-    Queens:{vw:280,vh:260,bg:'#FEF3CD',stroke:'#7d6608'},
-    Bronx:{vw:280,vh:260,bg:'#F5D7D7',stroke:'#7b241c'},
-    'Staten Island':{vw:200,vh:240,bg:'#E8D5F0',stroke:'#6c3483'},
-  };
-  const cfg=configs[borough]||{vw:280,vh:280,bg:'#E4EEE9',stroke:'#2F6F5E'};
-
-  let circles=''; let labels='';
-  zones.forEach((z,i)=>{
-    const hue=i%2===0?'#fff':'#f9f9f6';
-    circles+=`<circle class="zone-region" data-zid="${z.id}" cx="${z.cx}" cy="${z.cy}" r="22" fill="${hue}" stroke="${cfg.stroke}" stroke-width="2"/>`;
-    // Split long labels
-    const words=z.label.split(' / ');
-    if(words.length>1){
-      labels+=`<text class="zone-label-txt" data-zid="${z.id}" x="${z.cx}" y="${z.cy-2}" pointer-events="none">${words[0]}</text>`;
-      labels+=`<text class="zone-label-txt" data-zid="${z.id}" x="${z.cx}" y="${z.cy+10}" pointer-events="none" style="font-size:9px;fill:#6B6459">${words[1]}</text>`;
-    } else {
-      const parts=z.label.split(' ');
-      const mid=Math.ceil(parts.length/2);
-      const line1=parts.slice(0,mid).join(' ');
-      const line2=parts.slice(mid).join(' ');
-      if(line2){
-        labels+=`<text class="zone-label-txt" data-zid="${z.id}" x="${z.cx}" y="${z.cy-2}" pointer-events="none">${line1}</text>`;
-        labels+=`<text class="zone-label-txt" data-zid="${z.id}" x="${z.cx}" y="${z.cy+10}" pointer-events="none" style="font-size:9px;fill:#6B6459">${line2}</text>`;
-      } else {
-        labels+=`<text class="zone-label-txt" data-zid="${z.id}" x="${z.cx}" y="${z.cy+4}" pointer-events="none">${z.label}</text>`;
-      }
-    }
-  });
-
-  const svg=`<svg viewBox="0 0 ${cfg.vw} ${cfg.vh}" xmlns="http://www.w3.org/2000/svg">
-  <rect width="${cfg.vw}" height="${cfg.vh}" fill="${cfg.bg}" rx="12"/>
-  <text style="font-family:'Source Sans 3',sans-serif;font-size:14px;font-weight:700;fill:${cfg.stroke};opacity:0.25;" x="${cfg.vw/2}" y="${cfg.vh/2}" text-anchor="middle" dominant-baseline="middle">${borough}</text>
-  ${circles}${labels}
-</svg>`;
-
-  wrap.innerHTML=svg;
-  // Tap on circle or label → select zone
-  wrap.querySelectorAll('.zone-region').forEach(el=>{
-    el.addEventListener('click',()=>{
-      const z=zones.find(z=>z.id===el.dataset.zid); if(!z) return;
-      state.zone=z;
-      // highlight selected
-      wrap.querySelectorAll('.zone-region').forEach(c=>c.classList.remove('selected-zone'));
-      el.classList.add('selected-zone');
-      el.style.fill=cfg.stroke; el.style.stroke='#fff';
-      setTimeout(()=>afterZone(),250);
+  zones.forEach(zone=>{
+    const btn=document.createElement('button'); btn.className='choice-btn';
+    btn.textContent=zone.label;
+    btn.addEventListener('click',()=>{
+      state.zone=zone;
+      afterZone();
     });
-  });
-  // Fallback: tap borough background
-  wrap.querySelector('rect').addEventListener('click',()=>{
-    if(!state.zone){ state.zone=zones[0]||{id:'center',label:borough,addr:borough+', NY'}; afterZone(); }
+    list.appendChild(btn);
   });
 }
 
@@ -897,7 +747,7 @@ function renderInsuranceScreen(){
   t().insOpts.forEach(o=>{
     const btn=document.createElement('button'); btn.className='choice-btn';
     btn.innerHTML=o.l+(o.d?'<span class="sub-line">'+o.d+'</span>':'');
-    btn.addEventListener('click',()=>{state.insurance=o.v; renderBoroughMap(); goTo('screen-borough');});
+    btn.addEventListener('click',()=>{state.insurance=o.v; renderBoroughList(); goTo('screen-borough');});
     list.appendChild(btn);
   });
 }
@@ -1289,7 +1139,7 @@ document.getElementById('langEsBtn').addEventListener('click',()=>{
 
 /* Init */
 applyLang();
-renderBoroughMap();
+renderBoroughList();
 goTo('screen-staff');
 </script>
 </body>
