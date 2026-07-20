@@ -1,0 +1,1422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Pathway">
+<title>Pathway — Bellevue CATCH-ED Leads · SBIRT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+  :root{
+    --ink:#1C2B2D; --paper:#F6F4EE; --card:#FFFFFF;
+    --path:#2F6F5E; --path-light:#E4EEE9;
+    --sun:#E0862F; --line:#D8D3C4; --muted:#6B6459;
+    --danger:#B5482A; --danger-light:#FAF0ED;
+    --success:#2a6b2a; --success-light:#e8f4e8;
+    --safe-left:env(safe-area-inset-left,0px);
+    --safe-right:env(safe-area-inset-right,0px);
+    --safe-bottom:env(safe-area-inset-bottom,0px);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:rgba(47,111,94,0.12);}
+  html{-webkit-text-size-adjust:100%;}
+  html,body{margin:0;padding:0;}
+  body{background:var(--paper);color:var(--ink);font-family:'Source Sans 3',sans-serif;min-height:100vh;-webkit-font-smoothing:antialiased;touch-action:manipulation;}
+  h1,h2,h3{font-family:'Fraunces',serif;font-weight:600;margin:0;}
+  .app{max-width:740px;margin:0 auto;padding:28px calc(22px + var(--safe-left)) calc(100px + var(--safe-bottom)) calc(22px + var(--safe-right));}
+
+  /* topbar */
+  .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--line);gap:12px;flex-wrap:wrap;}
+  .brand{display:flex;align-items:baseline;gap:9px;}
+  .brand-mark{width:13px;height:13px;border-radius:50%;background:var(--path);display:inline-block;position:relative;top:1px;}
+  .brand h1{font-size:1.55rem;letter-spacing:-0.01em;}
+  .brand-sub{font-size:0.75rem;color:var(--muted);font-family:'Source Sans 3',sans-serif;font-weight:400;margin-left:2px;}
+  .topbar-right{display:flex;align-items:center;gap:10px;}
+  .mode-badge{font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);border:1px solid var(--line);padding:6px 12px;border-radius:20px;white-space:nowrap;}
+  .lang-toggle{display:flex;border:1.5px solid var(--line);border-radius:22px;overflow:hidden;}
+  .lang-btn{background:#fff;border:none;padding:8px 18px;font-family:inherit;font-weight:700;font-size:0.85rem;cursor:pointer;color:var(--muted);min-height:44px;min-width:54px;}
+  .lang-btn.active{background:var(--path);color:#fff;}
+
+  /* screens */
+  .screen{display:none;}
+  .screen.active{display:block;animation:rise .28s ease both;}
+  @keyframes rise{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:translateY(0);}}
+
+  /* prompt */
+  .prompt-eyebrow{font-size:0.78rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--path);font-weight:600;margin-bottom:6px;}
+  .prompt h2{font-size:1.75rem;line-height:1.2;margin-bottom:4px;}
+  .prompt p.sub{color:var(--muted);margin:6px 0 24px;font-size:1rem;line-height:1.55;}
+
+  /* check cards */
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:26px;}
+  @media(max-width:500px){.grid{grid-template-columns:1fr;}}
+  .check-card{display:flex;align-items:flex-start;gap:13px;background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:16px 17px;cursor:pointer;transition:border-color .15s,background .15s;user-select:none;-webkit-user-select:none;min-height:72px;}
+  .check-card:active{background:var(--path-light);border-color:var(--path);}
+  .check-card.selected{border-color:var(--path);background:var(--path-light);}
+  .check-card input{display:none;}
+  .check-box{width:26px;height:26px;border-radius:7px;border:2px solid var(--line);flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;background:#fff;transition:background .15s,border-color .15s;}
+  .check-card.selected .check-box{background:var(--path);border-color:var(--path);}
+  .check-box svg{width:14px;height:14px;opacity:0;stroke:white;stroke-width:3;}
+  .check-card.selected .check-box svg{opacity:1;}
+  .check-label{font-size:1rem;font-weight:600;line-height:1.35;}
+  .check-desc{font-size:0.83rem;color:var(--muted);margin-top:3px;line-height:1.4;}
+
+  /* choice buttons */
+  .choice-list{display:flex;flex-direction:column;gap:11px;margin-bottom:26px;}
+  .choice-list.row{flex-direction:row;flex-wrap:wrap;}
+  .choice-btn{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:18px 20px;font-family:inherit;font-size:1.05rem;font-weight:600;text-align:left;cursor:pointer;color:var(--ink);transition:border-color .15s,background .12s;flex:1 1 200px;min-height:56px;-webkit-user-select:none;}
+  .choice-btn:active{background:var(--path-light);border-color:var(--path);}
+  .choice-btn.compact{flex:1 1 130px;text-align:center;padding:16px;}
+  .choice-btn .sub-line{display:block;font-weight:400;font-size:0.83rem;color:var(--muted);margin-top:4px;}
+
+  /* buttons */
+  .btn-row{display:flex;gap:12px;margin-top:10px;flex-wrap:wrap;}
+  .btn{font-family:inherit;font-weight:700;font-size:1rem;padding:15px 26px;border-radius:12px;border:none;cursor:pointer;transition:opacity .15s,transform .1s;min-height:52px;-webkit-user-select:none;}
+  .btn:active{transform:scale(0.97);}
+  .btn-primary{background:var(--sun);color:#fff;}
+  .btn-primary:disabled{opacity:0.35;cursor:not-allowed;}
+  .btn-ghost{background:transparent;color:var(--muted);border:1.5px solid var(--line);}
+  .btn-ghost:active{border-color:var(--path);color:var(--path);}
+  @media(max-width:500px){.btn-primary{width:100%;}}
+  .link-btn{background:none;border:none;color:var(--muted);font-family:inherit;font-size:0.9rem;text-decoration:underline;cursor:pointer;padding:8px 0;min-height:44px;display:inline-flex;align-items:center;}
+
+  /* zone map */
+  .zone-map{position:relative;padding-left:28px;margin-bottom:26px;}
+  .zone-map::before{content:'';position:absolute;left:9px;top:14px;bottom:14px;width:3px;background:var(--path-light);border-radius:2px;}
+  .zone-item{position:relative;margin-bottom:11px;}
+  .zone-item::before{content:'';position:absolute;left:-28px;top:19px;width:13px;height:13px;border-radius:50%;background:var(--path);border:3px solid var(--paper);}
+  .zone-item .choice-btn{width:100%;}
+
+  /* fields */
+  .field-label{font-size:0.9rem;font-weight:700;margin-bottom:6px;display:block;color:var(--ink);}
+  .field-input{width:100%;padding:13px 15px;border:1.5px solid var(--line);border-radius:12px;font-family:inherit;font-size:16px;margin-bottom:16px;color:var(--ink);background:#fff;-webkit-appearance:none;appearance:none;}
+  .field-input:focus{outline:2px solid var(--path);outline-offset:1px;border-color:var(--path);}
+  select.field-input{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236B6459' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;}
+  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  @media(max-width:500px){.field-row{grid-template-columns:1fr;}}
+  .consent-row{display:flex;align-items:flex-start;gap:14px;background:var(--path-light);border-radius:12px;padding:16px;margin:0 0 16px;font-size:0.95rem;line-height:1.55;}
+  .consent-row input[type=checkbox]{margin-top:2px;width:22px;height:22px;flex-shrink:0;accent-color:var(--path);cursor:pointer;}
+
+  /* insurance tags */
+  .insurance-tag{display:inline-flex;align-items:center;gap:4px;font-size:0.75rem;font-weight:700;letter-spacing:0.04em;padding:4px 10px;border-radius:6px;margin-bottom:8px;}
+  .ins-none-required{background:var(--success-light);color:var(--success);}
+  .ins-commercial{background:#f3f4f6;color:#374151;}
+
+  /* ── PRINT SHEET ── */
+  .sheet-wrap{background:#DEDACD;border-radius:18px;padding:24px;margin-bottom:24px;}
+  .sheet{background:#fff;border-radius:4px;box-shadow:0 10px 32px rgba(28,43,45,0.14);padding:36px 32px;max-width:640px;margin:0 auto;}
+  .sheet-eyebrow{font-size:0.73rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--path);font-weight:700;margin-bottom:9px;}
+  .sheet h1.headline{font-size:2rem;line-height:1.15;margin-bottom:9px;}
+  .sheet .sheet-sub{color:var(--muted);font-size:0.97rem;margin-bottom:5px;}
+  .sheet .sheet-date{color:var(--muted);font-size:0.83rem;margin-bottom:22px;padding-bottom:18px;border-bottom:2px solid var(--ink);}
+
+  /* ── Handwritten appointment box ── */
+  .appt-write-box{border:2px dashed var(--path);border-radius:14px;padding:20px 22px;margin-bottom:24px;background:#FAFDF9;}
+  .appt-write-box .awb-label{font-size:0.72rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--path);font-weight:700;margin-bottom:14px;}
+  .awb-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:12px;}
+  @media(max-width:500px){.awb-row{grid-template-columns:1fr;}}
+  .awb-field{display:flex;flex-direction:column;gap:6px;}
+  .awb-field label{font-size:0.8rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;}
+  /* writeable line — shows in print */
+  .awb-line{border:none;border-bottom:1.5px solid var(--ink);width:100%;padding:6px 4px;font-size:1.05rem;font-family:'Source Sans 3',sans-serif;background:transparent;color:var(--ink);}
+  .awb-line:focus{outline:none;border-bottom-color:var(--path);}
+  .awb-line::placeholder{color:#C8C3B6;font-weight:400;font-style:italic;}
+
+  /* ── 2-week calendar ── */
+  .cal-wrap{margin-top:4px;}
+  .cal-label{font-size:0.72rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);font-weight:700;margin-bottom:8px;}
+  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;}
+  .cal-head{font-size:0.68rem;font-weight:700;text-align:center;color:var(--muted);text-transform:uppercase;padding-bottom:3px;}
+  .cal-day{
+    position:relative;border:1.5px solid var(--line);border-radius:8px;
+    aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    cursor:pointer;background:#fff;transition:background .12s,border-color .12s;
+    font-size:0.88rem;font-weight:600;color:var(--ink);
+    -webkit-user-select:none;user-select:none;
+    min-height:38px;
+  }
+  .cal-day:active{background:var(--path-light);}
+  .cal-day.today{border-color:var(--sun);background:#FFF8F2;}
+  .cal-day.today .cal-day-num{color:var(--sun);}
+  .cal-day.marked-today{background:var(--sun);border-color:var(--sun);}
+  .cal-day.marked-today .cal-day-num{color:#fff;}
+  .cal-day.marked-appt{background:var(--path);border-color:var(--path);}
+  .cal-day.marked-appt .cal-day-num{color:#fff;}
+  .cal-day.marked-today.marked-appt{background:var(--path);border-color:var(--path);}
+  .cal-day-num{font-size:0.9rem;font-weight:700;line-height:1;}
+  .cal-day-mo{font-size:0.58rem;color:var(--muted);margin-top:1px;line-height:1;}
+  .cal-day.marked-today .cal-day-mo,.cal-day.marked-appt .cal-day-mo{color:rgba(255,255,255,0.75);}
+  .cal-day.empty{border:none;background:transparent;cursor:default;}
+  .cal-legend{display:flex;gap:14px;margin-top:8px;flex-wrap:wrap;}
+  .cal-legend-item{display:flex;align-items:center;gap:5px;font-size:0.75rem;color:var(--muted);}
+  .cal-legend-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0;}
+
+  /* result cards */
+  .result-card{border-bottom:1px solid var(--line);padding:20px 0;margin:0;}
+  .result-card:last-child{border-bottom:none;}
+  .result-card h3{font-size:1.22rem;margin-bottom:6px;display:flex;align-items:center;gap:8px;}
+  .cat-dot{width:8px;height:8px;border-radius:50%;background:var(--path);flex-shrink:0;}
+  .result-card .addr{font-size:1.1rem;font-weight:700;margin:5px 0 3px;}
+  .result-card .meta{color:var(--muted);font-size:0.97rem;line-height:1.65;}
+  .result-card .note-box{margin-top:10px;font-size:0.93rem;background:var(--path-light);padding:12px 15px;border-radius:10px;color:#20463A;line-height:1.55;}
+  .result-card .warning-box{margin-top:10px;font-size:0.9rem;background:var(--danger-light);padding:12px 15px;border-radius:10px;color:#7a1a00;line-height:1.55;}
+  .directions-link{display:inline-flex;align-items:center;gap:6px;margin-top:10px;font-size:0.95rem;font-weight:700;color:var(--path);text-decoration:none;padding:6px 0;min-height:44px;}
+
+  /* transit card */
+  .transit-card{margin-top:12px;background:#FCFBF8;border:1px solid var(--line);border-radius:12px;padding:16px 17px 14px;}
+  .transit-flag{font-size:0.68rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--danger);margin-bottom:11px;display:block;}
+  .transit-row{display:grid;grid-template-columns:50px 28px 1fr;align-items:start;}
+  .t-time{font-size:0.85rem;font-weight:700;color:var(--muted);padding-top:1px;}
+  .t-rail{display:flex;flex-direction:column;align-items:center;}
+  .t-dot{width:10px;height:10px;border-radius:50%;border:2px solid var(--muted);background:#fff;flex-shrink:0;}
+  .t-dot.end{background:var(--ink);border-color:var(--ink);}
+  .t-bar{width:3px;flex:1;min-height:24px;background:repeating-linear-gradient(to bottom,var(--path) 0 4px,transparent 4px 7px);}
+  .t-bar.solid{background:var(--sun);background-image:none;}
+  .t-content{padding:0 0 16px 12px;}
+  .t-content:last-child{padding-bottom:0;}
+  .t-label{font-weight:700;font-size:0.97rem;}
+  .t-badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:var(--sun);color:#fff;font-size:0.7rem;font-weight:800;flex-shrink:0;margin-right:5px;}
+  .t-sub{color:var(--muted);font-size:0.85rem;margin-top:2px;}
+  .transit-cost{font-size:0.85rem;color:var(--muted);margin-top:12px;padding-top:12px;border-top:1px solid var(--line);}
+
+  /* call script */
+  .call-toggle{background:none;border:1.5px dashed var(--path);color:var(--path);font-family:inherit;font-weight:700;font-size:0.88rem;padding:10px 16px;border-radius:10px;cursor:pointer;margin-top:10px;min-height:44px;display:inline-flex;align-items:center;}
+  .call-panel{display:none;margin-top:10px;background:var(--path-light);border-radius:12px;padding:14px 18px;}
+  .call-panel.open{display:block;}
+  .call-panel ol{margin:0;padding-left:20px;}
+  .call-panel li{margin-bottom:8px;font-size:0.93rem;line-height:1.6;}
+  .call-panel .say-line{font-style:italic;display:block;margin-top:3px;color:#20463A;}
+
+  /* chat preview */
+  .chat-thread{background:var(--card);border:1.5px solid var(--line);border-radius:16px;padding:18px;margin-bottom:18px;}
+  .chat-thread h3{font-size:1.05rem;margin-bottom:14px;}
+  .bubble-row{display:flex;margin-bottom:10px;}
+  .bubble-row.out{justify-content:flex-end;}
+  .bubble{max-width:80%;padding:11px 15px;border-radius:17px;font-size:0.95rem;line-height:1.5;}
+  .bubble-row.in .bubble{background:#EDEBE3;color:var(--ink);border-bottom-left-radius:4px;}
+  .bubble-row.out .bubble{background:var(--path);color:#fff;border-bottom-right-radius:4px;}
+
+  /* QR block */
+  .footer-actions{display:flex;gap:12px;align-items:center;margin-top:12px;flex-wrap:wrap;}
+  @media(max-width:780px){.footer-actions{flex-direction:column;align-items:stretch;}.footer-actions .btn{text-align:center;width:100%;}}
+  .qr-block{display:flex;align-items:center;gap:18px;background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:18px;margin-top:16px;}
+  #qrcode canvas,#qrcode img{display:block;}
+  .qr-copy h3{font-size:1rem;margin-bottom:4px;}
+  .qr-copy p{font-size:0.88rem;color:var(--muted);margin:0;line-height:1.45;}
+  .qr-sms-note{font-size:0.78rem;color:var(--path);font-weight:600;margin-top:6px;}
+
+  /* status banners */
+  .status-banner{border-radius:12px;padding:12px 15px;margin-bottom:20px;font-size:0.9rem;line-height:1.45;}
+  .status-info{background:#EFF6FF;border:1px solid #BFDBFE;color:#1e40af;}
+  .status-closed{background:var(--danger-light);border:1px solid #f5cfc4;color:#7a1a00;}
+
+  /* step tracker */
+  .step-tracker{background:var(--card);border:1.5px solid var(--line);border-radius:16px;padding:18px;margin-bottom:22px;}
+  .step-tracker h3{font-size:0.88rem;color:var(--muted);font-weight:600;font-family:'Source Sans 3',sans-serif;margin-bottom:14px;text-transform:uppercase;letter-spacing:0.06em;}
+  .step-item{display:flex;align-items:center;gap:12px;padding:8px 0;}
+  .step-item+.step-item{border-top:1px solid var(--line);}
+  .step-num{width:28px;height:28px;border-radius:50%;background:var(--path);color:#fff;font-size:0.78rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .step-text{font-size:0.95rem;font-weight:600;}
+
+  /* section divider label */
+  .section-div{font-size:0.72rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--path);font-weight:700;margin:18px 0 10px;padding-top:16px;border-top:1px solid var(--line);}
+
+  @media print{
+    body{background:#fff;}
+    .topbar,.footer-actions,.qr-block,.no-print,.step-tracker,.call-toggle{display:none!important;}
+    .app{max-width:100%;padding:0;}
+    .sheet-wrap{background:none;padding:0;}
+    .sheet{box-shadow:none;max-width:100%;padding:20px 0;}
+    .call-panel{display:block!important;}
+    /* keep calendar interactive look in print */
+    .cal-day{border:1px solid #ccc;}
+    .awb-line{border-bottom:1px solid #999;}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="topbar no-print">
+    <div class="brand">
+      <span class="brand-mark"></span>
+      <h1 id="brandName">Pathway</h1>
+      <span class="brand-sub" id="brandSub">Bellevue CATCH-ED Leads · SBIRT</span>
+    </div>
+    <div class="topbar-right">
+      <div class="lang-toggle">
+        <button class="lang-btn active" id="langEnBtn">EN</button>
+        <button class="lang-btn" id="langEsBtn">ES</button>
+      </div>
+      <span class="mode-badge" id="modeBadge">Staff setup</span>
+    </div>
+  </div>
+
+  <!-- SCREEN: Staff checklist -->
+  <section class="screen active" id="screen-staff">
+    <div class="prompt">
+      <div class="prompt-eyebrow" id="s_staffEyebrow">Step 1 of 5 · Staff</div>
+      <h2 id="s_staffH">What resources does this patient need?</h2>
+      <p class="sub" id="s_staffSub">Select everything relevant. The patient will only see what you choose here.</p>
+    </div>
+    <div class="grid" id="staffGrid"></div>
+    <div class="btn-row">
+      <button class="btn btn-primary" id="startBtn" disabled id="s_startBtn">Hand tablet to patient →</button>
+    </div>
+  </section>
+
+  <!-- SCREEN: Appointment entry (staff) -->
+  <section class="screen" id="screen-appt">
+    <div class="prompt">
+      <div class="prompt-eyebrow" id="s_apptEyebrow">Step 1 of 5 · Staff</div>
+      <h2 id="s_apptH">Does this patient have an appointment already scheduled?</h2>
+      <p class="sub" id="s_apptSub">If you booked something, add it here — it appears at the top of their printed plan.</p>
+    </div>
+    <div class="consent-row">
+      <input type="checkbox" id="apptHasCheck">
+      <label for="apptHasCheck" id="s_apptHasLabel">Yes, add an upcoming appointment</label>
+    </div>
+    <div id="apptFields" style="display:none;">
+      <label class="field-label" for="apptCatSelect" id="s_apptCatLabel">What kind of appointment?</label>
+      <select class="field-input" id="apptCatSelect"></select>
+      <label class="field-label" for="apptLocInput" id="s_apptLocLabel">Location / provider name</label>
+      <input class="field-input" id="apptLocInput" type="text">
+      <div class="field-row">
+        <div><label class="field-label" for="apptDateInput" id="s_apptDateLabel">Date</label><input class="field-input" id="apptDateInput" type="date"></div>
+        <div><label class="field-label" for="apptTimeInput" id="s_apptTimeLabel">Time</label><input class="field-input" id="apptTimeInput" type="time"></div>
+      </div>
+    </div>
+    <div class="btn-row"><button class="btn btn-primary" id="apptContinueBtn">Continue →</button></div>
+  </section>
+
+  <!-- SCREEN: Insurance -->
+  <section class="screen" id="screen-insurance">
+    <div class="prompt">
+      <div class="prompt-eyebrow" id="s_insEyebrow">Step 2 of 5</div>
+      <h2 id="s_insH">Do you have health insurance?</h2>
+      <p class="sub" id="s_insSub">This helps us show the most relevant resources — many are available regardless.</p>
+    </div>
+    <div class="choice-list" id="insuranceList"></div>
+  </section>
+
+  <!-- SCREEN: Borough -->
+  <section class="screen" id="screen-borough">
+    <div class="prompt">
+      <div class="prompt-eyebrow" id="s_boroughEyebrow">Step 3 of 5</div>
+      <h2 id="s_boroughH">Where in NYC are you staying or spending most of your time?</h2>
+      <p class="sub" id="s_boroughSub">Pick your borough first.</p>
+    </div>
+    <div class="choice-list row" id="boroughList"></div>
+  </section>
+
+  <!-- SCREEN: Zone -->
+  <section class="screen" id="screen-zone">
+    <div class="prompt">
+      <div class="prompt-eyebrow" id="s_zoneEyebrow">Step 3 of 5</div>
+      <h2 id="s_zoneH">Which part of <span id="zoneBorough"></span> is closest to you?</h2>
+      <p class="sub" id="s_zoneSub">This makes transit directions more accurate.</p>
+    </div>
+    <div class="zone-map" id="zoneMap"></div>
+  </section>
+
+  <!-- SCREEN: SHOW area -->
+  <section class="screen" id="screen-show-area">
+    <div class="prompt">
+      <div class="prompt-eyebrow" id="s_showEyebrow">S.H.O.W. Mobile Van</div>
+      <h2 id="s_showH">Which part of the borough is closest to you?</h2>
+      <p class="sub" id="s_showSub">The van visits different spots on different days.</p>
+    </div>
+    <div class="choice-list" id="showAreaList"></div>
+  </section>
+
+  <!-- SCREEN: Directions pref -->
+  <section class="screen" id="screen-dir-pref">
+    <div class="prompt">
+      <div class="prompt-eyebrow" id="s_dirEyebrow">One more thing</div>
+      <h2 id="s_dirH">Want transit directions included?</h2>
+      <p class="sub" id="s_dirSub">We can add an estimated route and subway info to each resource.</p>
+    </div>
+    <div class="choice-list" id="dirList"></div>
+  </section>
+
+  <!-- SCREEN: Support contacts -->
+  <section class="screen" id="screen-buddy">
+    <div class="prompt">
+      <div class="prompt-eyebrow" id="s_buddyEyebrow">Step 4 of 5</div>
+      <h2 id="s_buddyH">Want to loop in someone who can support you?</h2>
+      <p class="sub" id="s_buddySub">They can receive a copy of this plan. Completely optional — you can add up to 2 people.</p>
+    </div>
+    <label class="field-label" for="patientNameInput" id="s_yourNameLabel">Your first name (optional)</label>
+    <input class="field-input" id="patientNameInput" type="text">
+    <label class="field-label" for="phoneInput" id="s_yourPhoneLabel">Your cell number (to text you a copy)</label>
+    <input class="field-input" id="phoneInput" type="tel" placeholder="(555) 000-0000">
+
+    <div id="buddy1Block">
+      <div class="section-div" id="s_buddy1Title">Support person 1</div>
+      <label class="field-label" for="buddy1Name" id="s_buddy1Name">Their name</label>
+      <input class="field-input" id="buddy1Name" type="text">
+      <label class="field-label" for="buddy1Phone" id="s_buddy1Phone">Their phone number</label>
+      <input class="field-input" id="buddy1Phone" type="tel">
+      <div class="consent-row">
+        <input type="checkbox" id="buddy1Consent">
+        <label for="buddy1Consent" id="s_buddy1Consent">I want this person to get a copy of my plan and a check-in reminder.</label>
+      </div>
+    </div>
+
+    <div id="buddy2Block" style="display:none;">
+      <div class="section-div" id="s_buddy2Title">Support person 2</div>
+      <label class="field-label" for="buddy2Name" id="s_buddy2Name">Their name</label>
+      <input class="field-input" id="buddy2Name" type="text">
+      <label class="field-label" for="buddy2Phone" id="s_buddy2Phone">Their phone number</label>
+      <input class="field-input" id="buddy2Phone" type="tel">
+      <div class="consent-row">
+        <input type="checkbox" id="buddy2Consent">
+        <label for="buddy2Consent" id="s_buddy2Consent">I want this person to get a copy of my plan and a check-in reminder.</label>
+      </div>
+    </div>
+
+    <button class="link-btn no-print" id="addBuddy2Btn" style="margin-bottom:14px;">+ Add a second support person</button>
+    <div class="btn-row">
+      <button class="btn btn-primary" id="buddyContinueBtn">Continue →</button>
+      <button class="btn btn-ghost" id="buddySkipBtn">Skip this step</button>
+    </div>
+  </section>
+
+  <!-- SCREEN: Clarifier -->
+  <section class="screen" id="screen-clarify">
+    <div class="prompt">
+      <div class="prompt-eyebrow" id="clarifyEyebrow"></div>
+      <h2 id="clarifyQ"></h2>
+      <p class="sub" id="clarifySub"></p>
+    </div>
+    <div class="choice-list" id="clarifyChoices"></div>
+    <button class="link-btn no-print" id="skipClarify">Skip this question →</button>
+  </section>
+
+  <!-- SCREEN: Additional -->
+  <section class="screen" id="screen-additional">
+    <div class="prompt">
+      <div class="prompt-eyebrow" id="s_addlEyebrow">Before we finish</div>
+      <h2 id="s_addlH">Anything else you'd like to know about?</h2>
+      <p class="sub" id="s_addlSub">Completely optional.</p>
+    </div>
+    <div class="grid" id="additionalGrid"></div>
+    <div class="btn-row">
+      <button class="btn btn-primary" id="addMoreBtn">Add to my plan</button>
+      <button class="btn btn-ghost" id="additionalDoneBtn">No thanks, I'm done</button>
+    </div>
+  </section>
+
+  <!-- SCREEN: Results -->
+  <section class="screen" id="screen-results">
+    <div class="prompt no-print">
+      <div class="prompt-eyebrow" id="s_resultsEyebrow">Step 5 of 5</div>
+      <h2 id="s_resultsH">Here's the printable plan</h2>
+      <p class="sub" id="s_resultsSub">Print this and hand it to the patient. The QR code below lets them scan to save a copy on their phone.</p>
+    </div>
+    <div class="step-tracker no-print" id="stepTracker" style="display:none;"></div>
+    <div class="sheet-wrap">
+      <div class="sheet" id="sheet">
+        <div class="sheet-eyebrow">Bellevue CATCH-ED Leads · SBIRT · Patient Resource Guide</div>
+        <h1 class="headline" id="s_headline">Your plan forward</h1>
+        <div class="sheet-sub" id="sheetPatientName"></div>
+        <div class="sheet-date" id="printDate"></div>
+
+        <!-- Handwritten appointment box -->
+        <div class="appt-write-box" id="apptWriteBox">
+          <div class="awb-label" id="s_awbLabel">My next appointment</div>
+          <div class="awb-row">
+            <div class="awb-field">
+              <label id="s_awbWhere">Where</label>
+              <input class="awb-line" id="awbWhere" type="text" placeholder="Location / provider name">
+            </div>
+            <div class="awb-field">
+              <label id="s_awbDate">Date &amp; Time</label>
+              <input class="awb-line" id="awbDate" type="text" placeholder="e.g. Tuesday July 29, 2pm">
+            </div>
+          </div>
+          <!-- 2-week calendar -->
+          <div class="cal-wrap">
+            <div class="cal-label" id="s_calLabel">Mark today and your appointment day</div>
+            <div class="cal-grid" id="calGrid"></div>
+            <div class="cal-legend">
+              <div class="cal-legend-item"><div class="cal-legend-dot" style="background:var(--sun);"></div><span id="s_calLegendToday">Today</span></div>
+              <div class="cal-legend-item"><div class="cal-legend-dot" style="background:var(--path);"></div><span id="s_calLegendAppt">Appointment</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div id="resultsContainer"></div>
+      </div>
+    </div>
+    <div class="footer-actions no-print">
+      <button class="btn btn-primary" onclick="window.print()" id="s_printBtn">Print this page</button>
+      <button class="btn btn-ghost" id="previewTextsBtn" id="s_previewBtn">Preview follow-up texts →</button>
+      <button class="btn btn-ghost" id="restartBtn">New session</button>
+    </div>
+    <div class="qr-block no-print">
+      <div id="qrcode"></div>
+      <div class="qr-copy">
+        <h3 id="s_qrH">Scan to save this plan</h3>
+        <p id="s_qrP">Patient scans with their phone camera — opens a text with today's resource list ready to send to themselves.</p>
+        <div class="qr-sms-note" id="s_qrNote">Works on any iPhone or Android — no app needed</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCREEN: Conversation preview -->
+  <section class="screen" id="screen-convo">
+    <div class="prompt no-print">
+      <div class="prompt-eyebrow" id="s_convoEyebrow">Preview</div>
+      <h2 id="s_convoH">What gets sent</h2>
+      <p class="sub" id="s_convoSub">A preview of the messages this plan puts in motion.</p>
+    </div>
+    <div id="convoContainer"></div>
+    <div class="btn-row no-print">
+      <button class="btn btn-ghost" id="backToResultsBtn">← Back to results</button>
+    </div>
+  </section>
+
+</div><!-- /.app -->
+
+<script>
+/* ============================================================
+   i18n — English + Spanish
+============================================================ */
+const LANG = {
+  en:{
+    staffBadge:'Staff setup', patientBadge:'Patient view',
+    staffEyebrow:'Step 1 of 5 · Staff', staffH:'What resources does this patient need?',
+    staffSub:'Select everything relevant. The patient will only see what you choose here.',
+    startBtn:'Hand tablet to patient →',
+    apptEyebrow:'Step 1 of 5 · Staff', apptH:'Does this patient have an appointment already scheduled?',
+    apptSub:'If you booked something, add it here — it appears at the top of their printed plan.',
+    apptHasLabel:'Yes, add an upcoming appointment',
+    apptCatLabel:'What kind of appointment?', apptLocLabel:'Location / provider name',
+    apptDateLabel:'Date', apptTimeLabel:'Time',
+    insEyebrow:'Step 2 of 5', insH:'Do you have health insurance?',
+    insSub:'This helps us show the most relevant resources — many are available regardless.',
+    insOpts:[
+      {v:'medicaid',l:'Medicaid',d:'State health coverage for low income'},
+      {v:'medicare',l:'Medicare',d:'Federal program, age 65+ or disability'},
+      {v:'commercial',l:'Private / employer insurance',d:'Through a job or marketplace'},
+      {v:'none',l:'No insurance',d:"I don't have insurance right now"},
+      {v:'unknown',l:"I'm not sure",d:''},
+    ],
+    boroughEyebrow:'Step 3 of 5', boroughH:'Where in NYC are you staying or spending most of your time?',
+    boroughSub:'Pick your borough first.',
+    notSure:"Not sure",
+    zoneEyebrow:'Step 3 of 5', zoneSub:'This makes transit directions more accurate.',
+    showEyebrow:'S.H.O.W. Mobile Van', showH:'Which part of the borough is closest to you?',
+    showSub:'The van visits different spots on different days.',
+    dirEyebrow:'One more thing', dirH:'Want transit directions included?',
+    dirSub:'We can add an estimated route and subway info to each resource.',
+    dirYes:'Yes — show me transit directions', dirNo:'No thanks, just the list',
+    buddyEyebrow:'Step 4 of 5', buddyH:'Want to loop in someone who can support you?',
+    buddySub:'They can receive a copy of this plan. Completely optional — up to 2 people.',
+    yourNameLabel:'Your first name (optional)',
+    yourPhoneLabel:'Your cell number (to text you a copy)',
+    buddy1Title:'Support person 1', buddy2Title:'Support person 2',
+    buddyNameLabel:'Their name', buddyPhoneLabel:'Their phone number',
+    buddy1Consent:'I want this person to get a copy of my plan and a check-in reminder.',
+    buddy2Consent:'I want this person to get a copy of my plan and a check-in reminder.',
+    addBuddy2:'+ Add a second support person',
+    buddyContinue:'Continue →', buddySkip:'Skip this step',
+    addlEyebrow:'Before we finish', addlH:'Anything else you\'d like to know about?',
+    addlSub:'Completely optional.',
+    addMore:'Add to my plan', addlDone:'No thanks, I\'m done',
+    resultsEyebrow:'Step 5 of 5', resultsH:'Here\'s the printable plan',
+    resultsSub:'Print this and hand it to the patient. The QR code below lets them scan to save a copy.',
+    headline:'Your plan forward',
+    printBtn:'Print this page', previewBtn:'Preview follow-up texts →',
+    qrH:'Scan to save this plan',
+    qrP:'Patient scans with their phone camera — opens a text with today\'s resource list ready to send to themselves.',
+    qrNote:'Works on any iPhone or Android — no app needed',
+    awbLabel:'My next appointment', awbWhere:'Where', awbDate:'Date & Time',
+    calLabel:'Mark today and your appointment day',
+    calLegendToday:'Today (tap to mark)', calLegendAppt:'Appointment (tap to mark)',
+    convoEyebrow:'Preview', convoH:'What gets sent', convoSub:'A preview of the messages this plan sets in motion.',
+    skipQ:'Skip this question →',
+    noInsNote:'Resources marked <em>No insurance required</em> accept patients regardless of coverage. <a href="https://access.nyc.gov/" target="_blank" style="color:inherit;font-weight:700;">access.nyc.gov</a> can help you enroll in Medicaid.',
+    categories:{
+      detox:{label:'Inpatient detox / treatment',desc:'Bed-based detoxification programs'},
+      show:{label:'S.H.O.W. Mobile Van',desc:'Street medicine: wound care, Narcan, SBIRT, hygiene kits'},
+      telehealth:{label:'24/7 Virtual ExpressCare',desc:'Talk to a provider today — opioids, withdrawal, urgent care'},
+      wellness:{label:'Wellness centers / mutual aid',desc:'The Pillars, 46th St Club House, peer support'},
+      narcan:{label:'Narcan (naloxone) training',desc:'Overdose reversal — kit and/or hands-on training'},
+      mentalhealth:{label:'Mental health / crisis support',desc:'Counseling, crisis line, walk-in care'},
+      shelter:{label:'Shelter / housing',desc:'Emergency beds, transitional housing'},
+      benefits:{label:'Benefits & Medicaid',desc:'Insurance enrollment, income support, access.nyc.gov'},
+      mat:{label:'MAT (methadone / buprenorphine)',desc:'Medication for opioid use disorder'},
+      pcp:{label:'Primary care follow-up',desc:'General health, not urgent'},
+    },
+  },
+  es:{
+    staffBadge:'Configuración del personal', patientBadge:'Vista del paciente',
+    staffEyebrow:'Paso 1 de 5 · Personal', staffH:'¿Qué recursos necesita este paciente?',
+    staffSub:'Seleccione todo lo relevante. El paciente solo verá lo que marque aquí.',
+    startBtn:'Entregar la tableta al paciente →',
+    apptEyebrow:'Paso 1 de 5 · Personal', apptH:'¿Este paciente ya tiene una cita programada?',
+    apptSub:'Si ya la programó, agréguelo aquí — aparecerá al inicio de su plan impreso.',
+    apptHasLabel:'Sí, agregar una próxima cita',
+    apptCatLabel:'¿Qué tipo de cita?', apptLocLabel:'Lugar / nombre del proveedor',
+    apptDateLabel:'Fecha', apptTimeLabel:'Hora',
+    insEyebrow:'Paso 2 de 5', insH:'¿Tiene seguro médico?',
+    insSub:'Esto nos ayuda a mostrar los recursos más relevantes — muchos están disponibles de todas formas.',
+    insOpts:[
+      {v:'medicaid',l:'Medicaid',d:'Cobertura estatal para ingresos bajos'},
+      {v:'medicare',l:'Medicare',d:'Programa federal, 65+ o discapacidad'},
+      {v:'commercial',l:'Seguro privado / del empleador',d:'A través de un trabajo o mercado'},
+      {v:'none',l:'No tengo seguro',d:'No tengo seguro ahora mismo'},
+      {v:'unknown',l:'No estoy seguro/a',d:''},
+    ],
+    boroughEyebrow:'Paso 3 de 5', boroughH:'¿En qué parte de NYC se hospeda o pasa más tiempo?',
+    boroughSub:'Primero elija su condado (borough).',
+    notSure:'No estoy seguro/a',
+    zoneEyebrow:'Paso 3 de 5', zoneSub:'Esto hace que las indicaciones de tránsito sean más precisas.',
+    showEyebrow:'Van móvil S.H.O.W.', showH:'¿Qué parte del condado está más cerca de usted?',
+    showSub:'La van visita distintos lugares en distintos días.',
+    dirEyebrow:'Una cosa más', dirH:'¿Desea incluir indicaciones de tránsito?',
+    dirSub:'Podemos agregar una ruta estimada e información del metro a cada recurso.',
+    dirYes:'Sí — muéstrame la ruta en metro', dirNo:'No, gracias, solo la lista',
+    buddyEyebrow:'Paso 4 de 5', buddyH:'¿Desea incluir a alguien que pueda apoyarle?',
+    buddySub:'Puede recibir una copia de este plan. Totalmente opcional — hasta 2 personas.',
+    yourNameLabel:'Su primer nombre (opcional)',
+    yourPhoneLabel:'Su número de celular (para enviarle una copia)',
+    buddy1Title:'Persona de apoyo 1', buddy2Title:'Persona de apoyo 2',
+    buddyNameLabel:'Su nombre', buddyPhoneLabel:'Su número de teléfono',
+    buddy1Consent:'Quiero que esta persona reciba una copia de mi plan y un recordatorio para consultarme.',
+    buddy2Consent:'Quiero que esta persona reciba una copia de mi plan y un recordatorio para consultarme.',
+    addBuddy2:'+ Agregar una segunda persona de apoyo',
+    buddyContinue:'Continuar →', buddySkip:'Omitir este paso',
+    addlEyebrow:'Antes de terminar', addlH:'¿Le gustaría saber sobre algo más?',
+    addlSub:'Totalmente opcional.',
+    addMore:'Agregar a mi plan', addlDone:'No, gracias, ya terminé',
+    resultsEyebrow:'Paso 5 de 5', resultsH:'Aquí está el plan para imprimir',
+    resultsSub:'Imprima esto y entréguelo al paciente. El código QR permite guardar una copia en su teléfono.',
+    headline:'Su plan a seguir',
+    printBtn:'Imprimir esta página', previewBtn:'Ver mensajes de seguimiento →',
+    qrH:'Escanear para guardar este plan',
+    qrP:'El paciente escanea con la cámara de su teléfono — abre un mensaje con la lista de recursos lista para enviarse.',
+    qrNote:'Funciona en cualquier iPhone o Android — sin necesidad de aplicación',
+    awbLabel:'Mi próxima cita', awbWhere:'Dónde', awbDate:'Fecha y hora',
+    calLabel:'Marque hoy y el día de su cita',
+    calLegendToday:'Hoy (toque para marcar)', calLegendAppt:'Cita (toque para marcar)',
+    convoEyebrow:'Vista previa', convoH:'Qué se envía', convoSub:'Una vista previa de los mensajes que pone en marcha este plan.',
+    skipQ:'Omitir esta pregunta →',
+    noInsNote:'Los recursos marcados <em>Sin seguro requerido</em> aceptan pacientes sin importar cobertura. <a href="https://access.nyc.gov/" target="_blank" style="color:inherit;font-weight:700;">access.nyc.gov</a> puede ayudarle a inscribirse en Medicaid.',
+    categories:{
+      detox:{label:'Desintoxicación hospitalaria / tratamiento',desc:'Programas de desintoxicación con cama'},
+      show:{label:'Van móvil S.H.O.W.',desc:'Medicina callejera: cuidado de heridas, Narcan, SBIRT, kits de higiene'},
+      telehealth:{label:'ExpressCare virtual 24/7',desc:'Hable con un proveedor hoy — opioides, abstinencia, urgencias'},
+      wellness:{label:'Centros de bienestar / ayuda mutua',desc:'The Pillars, 46th St Club House, apoyo entre pares'},
+      narcan:{label:'Entrenamiento Narcan (naloxona)',desc:'Reversión de sobredosis — kit y/o entrenamiento práctico'},
+      mentalhealth:{label:'Salud mental / apoyo en crisis',desc:'Consejería, línea de crisis, atención sin cita'},
+      shelter:{label:'Refugio / vivienda',desc:'Camas de emergencia, vivienda transitoria'},
+      benefits:{label:'Beneficios y Medicaid',desc:'Inscripción de seguro, apoyo de ingresos, access.nyc.gov'},
+      mat:{label:'MAT (metadona / buprenorfina)',desc:'Medicación para trastorno por uso de opioides'},
+      pcp:{label:'Seguimiento de atención primaria',desc:'Salud general, no urgente'},
+    },
+  }
+};
+let lang='en';
+function t(){return LANG[lang];}
+function applyLang(){
+  const s=t();
+  // staff screen
+  document.getElementById('s_staffEyebrow').textContent=s.staffEyebrow;
+  document.getElementById('s_staffH').textContent=s.staffH;
+  document.getElementById('s_staffSub').textContent=s.staffSub;
+  document.getElementById('startBtn').textContent=s.startBtn;
+  // appt screen
+  document.getElementById('s_apptEyebrow').textContent=s.apptEyebrow;
+  document.getElementById('s_apptH').textContent=s.apptH;
+  document.getElementById('s_apptSub').textContent=s.apptSub;
+  document.getElementById('s_apptHasLabel').textContent=s.apptHasLabel;
+  document.getElementById('s_apptCatLabel').textContent=s.apptCatLabel;
+  document.getElementById('s_apptLocLabel').textContent=s.apptLocLabel;
+  document.getElementById('s_apptDateLabel').textContent=s.apptDateLabel;
+  document.getElementById('s_apptTimeLabel').textContent=s.apptTimeLabel;
+  // insurance
+  document.getElementById('s_insEyebrow').textContent=s.insEyebrow;
+  document.getElementById('s_insH').textContent=s.insH;
+  document.getElementById('s_insSub').textContent=s.insSub;
+  // borough
+  document.getElementById('s_boroughEyebrow').textContent=s.boroughEyebrow;
+  document.getElementById('s_boroughH').textContent=s.boroughH;
+  document.getElementById('s_boroughSub').textContent=s.boroughSub;
+  // zone
+  document.getElementById('s_zoneEyebrow').textContent=s.zoneEyebrow;
+  document.getElementById('s_zoneSub').textContent=s.zoneSub;
+  // show
+  document.getElementById('s_showEyebrow').textContent=s.showEyebrow;
+  document.getElementById('s_showH').textContent=s.showH;
+  document.getElementById('s_showSub').textContent=s.showSub;
+  // dir
+  document.getElementById('s_dirEyebrow').textContent=s.dirEyebrow;
+  document.getElementById('s_dirH').textContent=s.dirH;
+  document.getElementById('s_dirSub').textContent=s.dirSub;
+  // buddy
+  document.getElementById('s_buddyEyebrow').textContent=s.buddyEyebrow;
+  document.getElementById('s_buddyH').textContent=s.buddyH;
+  document.getElementById('s_buddySub').textContent=s.buddySub;
+  document.getElementById('s_yourNameLabel').textContent=s.yourNameLabel;
+  document.getElementById('s_yourPhoneLabel').textContent=s.yourPhoneLabel;
+  document.getElementById('s_buddy1Title').textContent=s.buddy1Title;
+  document.getElementById('s_buddy2Title').textContent=s.buddy2Title;
+  document.getElementById('s_buddy1Name').textContent=s.buddyNameLabel;
+  document.getElementById('s_buddy2Name').textContent=s.buddyNameLabel;
+  document.getElementById('s_buddy1Phone').textContent=s.buddyPhoneLabel;
+  document.getElementById('s_buddy2Phone').textContent=s.buddyPhoneLabel;
+  document.getElementById('s_buddy1Consent').textContent=s.buddy1Consent;
+  document.getElementById('s_buddy2Consent').textContent=s.buddy2Consent;
+  document.getElementById('addBuddy2Btn').textContent=s.addBuddy2;
+  document.getElementById('buddyContinueBtn').textContent=s.buddyContinue;
+  document.getElementById('buddySkipBtn').textContent=s.buddySkip;
+  // additional
+  document.getElementById('s_addlEyebrow').textContent=s.addlEyebrow;
+  document.getElementById('s_addlH').textContent=s.addlH;
+  document.getElementById('s_addlSub').textContent=s.addlSub;
+  document.getElementById('addMoreBtn').textContent=s.addMore;
+  document.getElementById('additionalDoneBtn').textContent=s.addlDone;
+  // results
+  document.getElementById('s_resultsEyebrow').textContent=s.resultsEyebrow;
+  document.getElementById('s_resultsH').textContent=s.resultsH;
+  document.getElementById('s_resultsSub').textContent=s.resultsSub;
+  document.getElementById('s_headline').textContent=s.headline;
+  document.getElementById('s_printBtn').textContent=s.printBtn;
+  document.getElementById('previewTextsBtn').textContent=s.previewBtn;
+  document.getElementById('s_qrH').textContent=s.qrH;
+  document.getElementById('s_qrP').textContent=s.qrP;
+  document.getElementById('s_qrNote').textContent=s.qrNote;
+  document.getElementById('s_awbLabel').textContent=s.awbLabel;
+  document.getElementById('s_awbWhere').textContent=s.awbWhere;
+  document.getElementById('s_awbDate').textContent=s.awbDate;
+  document.getElementById('s_calLabel').textContent=s.calLabel;
+  document.getElementById('s_calLegendToday').textContent=s.calLegendToday;
+  document.getElementById('s_calLegendAppt').textContent=s.calLegendAppt;
+  // convo
+  document.getElementById('s_convoEyebrow').textContent=s.convoEyebrow;
+  document.getElementById('s_convoH').textContent=s.convoH;
+  document.getElementById('s_convoSub').textContent=s.convoSub;
+  document.getElementById('skipClarify').textContent=s.skipQ;
+  // mode badge
+  const isStaff=currentScreen==='screen-staff'||currentScreen==='screen-appt';
+  document.getElementById('modeBadge').textContent=isStaff?s.staffBadge:s.patientBadge;
+  // re-render dynamic lists
+  renderStaffGrid(); renderBoroughList(); renderInsuranceScreen(); renderDirPref();
+}
+
+/* ============================================================
+   RESOURCE DATA
+============================================================ */
+const RESOURCES = {
+  detox:{
+    Manhattan:[
+      {name:'Mt. Sinai Behavioral Health Center — Rivington Campus',addr:'45 Rivington Street, New York, NY 10002',noInsOk:false},
+      {name:'Project Renewal (Male Beds Only)',addr:'8 East 3rd St, New York, NY 10003',noInsOk:true},
+      {name:'Elev8 Wellness Center',addr:'151 W. 136th Street, New York, NY 10030',noInsOk:false},
+      {name:'Mt. Sinai West — Addictions Institute Hospital',addr:'1000 10th Avenue, New York, NY 10019',noInsOk:false},
+    ],
+    Brooklyn:[
+      {name:'ACI — Addiction Care Interventions',addr:'589 Rockaway Avenue, Brooklyn, NY 11212',noInsOk:false},
+      {name:'Urban Recovery',addr:'411 Van Brunt St, Brooklyn, NY 11231',noInsOk:false},
+      {name:'Surfpoint Recovery',addr:'2316 Surf Ave, Brooklyn, NY 11224',noInsOk:false},
+      {name:'Brooklyn Hospital',addr:'121 DeKalb Avenue, Brooklyn, NY 11201',noInsOk:false},
+      {name:'Genesis Beacon of Hope',addr:'449 39th St, 3rd Floor, Brooklyn, NY 11232',noInsOk:false},
+      {name:'Interfaith Medical Center Hospital',addr:'1545 Atlantic Avenue, Brooklyn, NY 11213',noInsOk:false},
+      {name:'Kingsboro ATC',addr:'754 Lexington Avenue, Brooklyn, NY 11221',noInsOk:true},
+    ],
+    Queens:[
+      {name:'Cornerstone of the Medical Arts',addr:'159-05 Union Turnpike, Fresh Meadows, NY 11366',noInsOk:false},
+      {name:'Argus Community Faith Mission Crisis Center',addr:'114-40 Van Wyck Expressway, South Ozone Park, NY 11420',noInsOk:true},
+      {name:'Flushing Hospital',addr:'4500 Parsons Blvd, Flushing, NY 11355',noInsOk:true},
+    ],
+    Bronx:[
+      {name:'BronxCare Hospital',addr:'1285 Fulton Ave, Bronx, NY 10456',noInsOk:false},
+      {name:'Acacia: Promesa Inc.',addr:'1776 Clay Avenue, Bronx, NY 10457',noInsOk:false},
+      {name:'St. Barnabas Hospital',addr:'4422 3rd Ave., Bronx, NY 10457',noInsOk:false},
+    ],
+    'Staten Island':[
+      {name:'Staten Island University (Northwell Medical Hospital)',addr:'392 Seguine Avenue, Staten Island, NY 10309',noInsOk:false,closed:true},
+    ],
+    'Outside NYC':[
+      {name:'Arms Acres',addr:'75 Seminary Hill Road, Carmel, NY 10517',noInsOk:false},
+      {name:"St. John's Riverside Hospital",addr:'2 Park Avenue, Yonkers, NY 10713',noInsOk:false},
+      {name:'CarePoint Health Christ Hospital',addr:'176 Palisade Ave, Jersey City, NJ 07306',noInsOk:false},
+      {name:'Talbot House',addr:'30 C Carlough Road, Bohemia, NY 11716',noInsOk:true},
+      {name:'Seafield Center',addr:'7 Seafield Lane, Westhampton Beach, NY 11978',noInsOk:false},
+      {name:'St. Charles Hospital',addr:'900 Belle Terre Rd, Port Jefferson, NY 11777',noInsOk:false,note:'No opioid detox'},
+    ],
+  },
+  commercial:[
+    {name:'Ascendant Detox',addr:'113 E 60th St, New York, NY 10022',noInsOk:false},
+    {name:'Pocono Mountain Recovery Centers',addr:'3437 PA-715, Henryville, PA 18332',noInsOk:false},
+    {name:'Recovery Centers of America',addr:'901 Ernston Rd, South Amboy, NJ 08879',noInsOk:false},
+    {name:'BOCA Recovery Centers',addr:'30 W Jimmie Leeds Rd, Galloway, NJ 08205',noInsOk:false},
+    {name:"St. Joseph's Institute",addr:'159 Glenwood Drive, Saranac Lake, NY 12983',noInsOk:false},
+    {name:'Wellbridge Addiction Treatment and Research',addr:'525 Jan Way, Calverton, NY 11933',noInsOk:false},
+    {name:'Sunrise Detox Long Island',addr:'141 8th St, Brentwood, NY 11717',noInsOk:false},
+  ],
+  wellness:[
+    {name:'The Pillars Wellness Center',addr:'289 Saint Nicholas Ave (btw 124th & 125th St), New York, NY 10027',noInsOk:true},
+    {name:'46th Street Club House',addr:'252 W 46th St, 2nd floor, New York, NY 10036',hours:'10AM–11:30PM daily',noInsOk:true},
+  ],
+};
+
+const SHOW_STOPS=[
+  {borough:'Queens',area:'Elmhurst/Corona',name:'Park of the Americas',cross:'41st Ave and 103rd Street',day:'Monday',hours:'9:30am–4:30pm',subway:'103rd St (7 train)'},
+  {borough:'Queens',area:'Elmhurst',name:'Moore Homestead Playground',cross:'Broadway and 45th Ave',day:'Tuesday',hours:'9am–5pm',subway:'Elmhurst Ave (M,R) · Jackson Hts/Roosevelt Ave (E,F,R,7)'},
+  {borough:'Queens',area:'Elmhurst',name:'Elmhurst Hospital – Hope Pavilion',cross:'41st Ave btw 79th and 80th St',day:'Friday',hours:'9:30am–4:30pm',subway:'Elmhurst Ave (M,R) · Jackson Hts/Roosevelt Ave (E,F,R,7)'},
+  {borough:'Queens',area:'Jamaica',name:'Union Hall Safe Haven',cross:'Between 160th St and Union Hall St',day:'Thursday',hours:'9am–5pm',subway:'Jamaica Center–Parsons/Archer (E,J,Z)'},
+  {borough:'Bronx',area:'South Bronx (Willis Ave)',name:'147th Street and Willis Ave',cross:'',day:'Tuesday, Thursday, Friday',hours:'9:30am–4:30pm',subway:'East 149th St & Third Ave (2,5)'},
+  {borough:'Bronx',area:'South Bronx (BOOM! Health)',name:'226 E 144th Street (outside BOOM! Health)',cross:'',day:'Wednesday',hours:'9:30am–4:30pm',subway:'149th St Grand Concourse (2,4,5)'},
+  {borough:'Bronx',area:'East Tremont',name:'East Tremont Transitional Housing Program',cross:'',day:'Wednesday',hours:'9:30am–4:30pm',subway:'Tremont Ave (B,D)'},
+  {borough:'Bronx',area:'Tremont',name:'Park Overlook Shelter',cross:'1938 Webster Ave',day:'Thursday',hours:'9:30am–4:30pm',subway:'Tremont Ave (B,D)'},
+  {borough:'Brooklyn',area:'Williamsburg',name:'Beaver Street',cross:'between Fayette St and Ellery St',day:'Wednesday',hours:'8:30am–3:30pm',subway:'Flushing Ave (M)'},
+  {borough:'Brooklyn',area:'Williamsburg',name:'Havemeyer St',cross:'between South 5th St and Broadway',day:'Friday',hours:'8:30am–3:30pm',subway:'Marcy Ave (M,J,Z)'},
+  {borough:'Brooklyn',area:'Bedstuy',name:'Hart Street',cross:'between Broadway and Stuyvesant Ave',day:'Tuesday, Thursday',hours:'8:30am–3:30pm',subway:'Myrtle Ave (M,J,Z)'},
+  {borough:'Brooklyn',area:'Bedstuy',name:'Samaritan Village Shelter',cross:'988 Myrtle Ave',day:'Monday',hours:'9am–4pm',subway:'Myrtle Ave (M,J,Z)'},
+  {borough:'Manhattan',area:'Lower East Side',name:'Delancey Street',cross:'between Forsyth St and Chrystie St',day:'Monday–Friday',hours:'9:30am–4:30pm',subway:'Grand Street (B,D)'},
+  {borough:'Manhattan',area:'Chelsea',name:'28th Street',cross:'between 9th and 10th Avenue',day:'Wednesday',hours:'9am–4pm',subway:'23rd Street (C,E)'},
+  {borough:'Manhattan',area:'Harlem',name:'Mount Morris Park West',cross:'between W 122nd St and Mt Morris Park W',day:'Monday, Tuesday, Thursday, Friday',hours:'9:30am–4:30pm',subway:'125th Street (4,5,6)'},
+];
+
+const TELEHEALTH={name:'Virtual ExpressCare (NYC Health + Hospitals)',url:'https://www.expresscare.nyc/',note:'Available 24/7. Opioid use, withdrawal, and urgent care.'};
+const ACCESS_NYC='https://access.nyc.gov/';
+const BOROUGHS=['Manhattan','Brooklyn','Queens','Bronx','Staten Island'];
+
+const CATEGORY_IDS=['detox','show','telehealth','wellness','narcan','mentalhealth','shelter','benefits','mat','pcp'];
+
+const ZONES={
+  Manhattan:[
+    {id:'inwood',label:'Inwood / Washington Heights',addr:'181st St & Broadway, Manhattan, NY'},
+    {id:'harlem',label:'Harlem',addr:'125th St & Malcolm X Blvd, Manhattan, NY'},
+    {id:'uws',label:'Upper West Side',addr:'79th St & Broadway, Manhattan, NY'},
+    {id:'ues',label:'Upper East Side',addr:'79th St & Lexington Ave, Manhattan, NY'},
+    {id:'midtown',label:'Midtown',addr:'42nd St & 6th Ave, Manhattan, NY'},
+    {id:'chelsea',label:'Chelsea / West Village',addr:'23rd St & 8th Ave, Manhattan, NY'},
+    {id:'les',label:'East Village / Lower East Side',addr:'Houston St & Ave A, Manhattan, NY'},
+    {id:'fidi',label:'Financial District',addr:'Wall St & Broadway, Manhattan, NY'},
+  ],
+  Brooklyn:[
+    {id:'wburg',label:'Williamsburg / Greenpoint',addr:'Bedford Ave & N 7th St, Brooklyn, NY'},
+    {id:'bedstuy',label:'Bedstuy / Bushwick',addr:'Broadway & Myrtle Ave, Brooklyn, NY'},
+    {id:'dtbk',label:'Downtown Brooklyn / Fort Greene',addr:'Flatbush Ave & Fulton St, Brooklyn, NY'},
+    {id:'sunset',label:'Sunset Park / Bay Ridge',addr:'5th Ave & 45th St, Brooklyn, NY'},
+    {id:'flatbush',label:'Flatbush / East Flatbush',addr:'Church Ave & Flatbush Ave, Brooklyn, NY'},
+  ],
+  Queens:[
+    {id:'astoria',label:'Astoria / Long Island City',addr:'31st St & Broadway, Queens, NY'},
+    {id:'jhelm',label:'Jackson Heights / Elmhurst',addr:'Roosevelt Ave & 82nd St, Queens, NY'},
+    {id:'flushing',label:'Flushing',addr:'Main St & Roosevelt Ave, Queens, NY'},
+    {id:'jamaica',label:'Jamaica',addr:'Jamaica Ave & 165th St, Queens, NY'},
+  ],
+  Bronx:[
+    {id:'motthaven',label:'Mott Haven / South Bronx',addr:'3rd Ave & 149th St, Bronx, NY'},
+    {id:'tremont',label:'Tremont / Fordham',addr:'Tremont Ave & Grand Concourse, Bronx, NY'},
+    {id:'morrisania',label:'Morrisania / Melrose',addr:'Melrose Ave & 161st St, Bronx, NY'},
+    {id:'pelham',label:'Pelham / Co-op City',addr:'Baychester Ave & Co-op City Blvd, Bronx, NY'},
+  ],
+  'Staten Island':[
+    {id:'stgeorge',label:'St. George / North Shore',addr:'Richmond Terrace & Victory Blvd, Staten Island, NY'},
+    {id:'midisland',label:'Mid-Island',addr:'Richmond Ave & Forest Ave, Staten Island, NY'},
+  ],
+};
+
+/* ============================================================
+   STATE
+============================================================ */
+let state={
+  selectedCats:[],borough:null,zone:null,showArea:null,
+  insurance:null,includeDirections:false,
+  patientName:'',patientPhone:'',buddies:[],
+  appointment:null,
+  clarifyAnswers:{},clarifyQueue:[],currentClarifyId:null,
+  additionalOffered:false,
+  calMarks:{today:null,appt:null}, // date strings 'YYYY-MM-DD'
+};
+let pendingShowCb=null;
+let currentScreen='screen-staff';
+
+/* ============================================================
+   HELPERS
+============================================================ */
+function mapsLink(dest){return 'https://www.google.com/maps/dir/?api=1&destination='+encodeURIComponent(dest);}
+function seededInt(str,min,max){let h=0;for(let i=0;i<str.length;i++){h=(h*31+str.charCodeAt(i))>>>0;}return min+(h%(max-min+1));}
+function fmtTime(d){return d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});}
+function addMins(d,m){return new Date(d.getTime()+m*60000);}
+
+function insTag(noInsOk,commercial){
+  if(noInsOk) return '<span class="insurance-tag ins-none-required">✓ No insurance required</span>';
+  if(commercial) return '<span class="insurance-tag ins-commercial">Commercial insurance accepted</span>';
+  return '';
+}
+
+function buildTransitCard(originLabel,destName){
+  const seed=originLabel+'|'+destName;
+  const w1=seededInt(seed+'w1',4,12),d1=(seededInt(seed+'d1',2,6)/10).toFixed(1);
+  const t1=seededInt(seed+'t',6,22),stops=seededInt(seed+'s',2,6);
+  const w2=seededInt(seed+'w2',1,6),d2=seededInt(seed+'d2',200,900);
+  const now=new Date(),ta=addMins(now,w1),tb=addMins(ta,t1),tc=addMins(tb,w2);
+  return '<div class="transit-card"><span class="transit-flag">Estimated route — verify before traveling</span>'
+    +'<div class="transit-row"><div class="t-time" style="color:var(--muted)">'+fmtTime(now)+'</div><div class="t-rail"><div class="t-dot"></div><div class="t-bar"></div></div><div class="t-content"><div class="t-label">📍 '+originLabel+'</div></div></div>'
+    +'<div class="transit-row"><div class="t-time"></div><div class="t-rail"><div class="t-bar"></div></div><div class="t-content"><div class="t-label">🚶 Walk</div><div class="t-sub">~'+w1+' min · '+d1+' mi</div></div></div>'
+    +'<div class="transit-row"><div class="t-time">'+fmtTime(ta)+'</div><div class="t-rail"><div class="t-dot"></div><div class="t-bar solid"></div></div><div class="t-content"><div class="t-label"><span class="t-badge">T</span>Transit</div><div class="t-sub">~'+t1+' min ('+stops+' stops)</div></div></div>'
+    +'<div class="transit-row"><div class="t-time"></div><div class="t-rail"><div class="t-bar"></div></div><div class="t-content"><div class="t-label">🚶 Walk</div><div class="t-sub">~'+w2+' min · '+d2+' ft</div></div></div>'
+    +'<div class="transit-row"><div class="t-time">'+fmtTime(tc)+'</div><div class="t-rail"><div class="t-dot end"></div></div><div class="t-content"><div class="t-label">✅ Arrive: '+destName+'</div></div></div>'
+    +'<div class="transit-cost">Estimated fare: $2.90 (MetroCard/OMNY)</div></div>';
+}
+
+function callScriptHTML(id,noPhone){
+  const scripts={
+    detox:{steps:[{l:'Call ahead',d:()=>'Call the location directly to check bed availability before going.'},{l:'Say',d:()=>'"Hi, I was referred by the ED Leads team at Bellevue. I need an intake for detox as soon as possible."'},{l:'Have ready',d:()=>'Your name, date of birth, and whether you have insurance.'}]},
+    mat:{steps:[{l:'Call',d:()=>'Call the location or the NY State HOPEline: 1-800-522-5353.'},{l:'Say',d:()=>'"I was referred by the ED Leads team. I need methadone or buprenorphine treatment."'},{l:'Have ready',d:()=>'Your name, date of birth, and insurance status.'}]},
+    shelter:{steps:[{l:'Call or walk in',d:()=>'Call 311 or go directly to a shelter intake site.'},{l:'Say',d:()=>'"I was referred by the ED Leads team at Bellevue. I need emergency shelter."'},{l:'Have ready',d:()=>'Your name and ID if you have it.'}]},
+    mentalhealth:{steps:[{l:'Call or text',d:()=>'Call or text 988 — available 24/7, free and confidential.'},{l:'Say',d:()=>'"I was referred by the ED Leads team and I need to talk to someone."'},{l:'In Spanish',d:()=>'Press 2 for Spanish. Interpretation available in 150+ languages.'}]},
+    pcp:{steps:[{l:'Call',d:()=>'Call NYC Health + Hospitals: 1-844-NYC-4NYC.'},{l:'Say',d:()=>'"I was seen at Bellevue ED and need a primary care follow-up visit."'},{l:'Have ready',d:()=>'Your name, date of birth, and insurance info if you have it.'}]},
+  };
+  const cs=scripts[id]; if(!cs) return '';
+  const steps=cs.steps.map(s=>'<li><strong>'+s.l+':</strong><span class="say-line">'+s.d()+'</span></li>').join('');
+  const panelId='cs-'+id+'-'+Math.random().toString(36).slice(2);
+  return '<button type="button" class="call-toggle no-print" data-panel="'+panelId+'">How to make this call — step by step ▾</button>'
+    +'<div class="call-panel" id="'+panelId+'"><ol>'+steps+'</ol></div>';
+}
+
+/* ============================================================
+   NAVIGATION
+============================================================ */
+function goTo(id){
+  currentScreen=id;
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const isStaff=id==='screen-staff'||id==='screen-appt';
+  document.getElementById('modeBadge').textContent=isStaff?t().staffBadge:t().patientBadge;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ============================================================
+   SCREEN: STAFF CHECKLIST
+============================================================ */
+function renderStaffGrid(){
+  const g=document.getElementById('staffGrid'); g.innerHTML='';
+  const cats=t().categories;
+  CATEGORY_IDS.forEach(id=>{
+    const cat=cats[id];
+    const card=document.createElement('label'); card.className='check-card'+(state.selectedCats.includes(id)?' selected':'');
+    card.innerHTML='<input type="checkbox" value="'+id+'" '+(state.selectedCats.includes(id)?'checked':'')+'><span class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M4 12l6 6L20 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><div class="check-label">'+cat.label+'</div><div class="check-desc">'+cat.desc+'</div></span>';
+    card.addEventListener('click',e=>{
+      e.preventDefault(); const on=card.classList.toggle('selected'); card.querySelector('input').checked=on;
+      if(on){state.selectedCats.push(id);}else{state.selectedCats=state.selectedCats.filter(x=>x!==id);}
+      document.getElementById('startBtn').disabled=state.selectedCats.length===0;
+    });
+    g.appendChild(card);
+  });
+  document.getElementById('startBtn').disabled=state.selectedCats.length===0;
+}
+document.getElementById('startBtn').addEventListener('click',()=>{renderApptScreen();goTo('screen-appt');});
+
+/* ============================================================
+   SCREEN: APPOINTMENT
+============================================================ */
+function renderApptScreen(){
+  const sel=document.getElementById('apptCatSelect'); sel.innerHTML='';
+  const cats=t().categories;
+  CATEGORY_IDS.filter(id=>id!=='telehealth').forEach(id=>{
+    const o=document.createElement('option'); o.value=id; o.textContent=cats[id].label; sel.appendChild(o);
+  });
+  const hc=document.getElementById('apptHasCheck'),fields=document.getElementById('apptFields');
+  hc.checked=!!state.appointment; fields.style.display=hc.checked?'block':'none';
+  if(state.appointment){
+    sel.value=state.appointment.category;
+    document.getElementById('apptLocInput').value=state.appointment.location;
+    document.getElementById('apptDateInput').value=state.appointment.date;
+    document.getElementById('apptTimeInput').value=state.appointment.time;
+  }
+  document.getElementById('apptContinueBtn').onclick=()=>{
+    if(hc.checked){
+      state.appointment={
+        category:sel.value, catLabel:cats[sel.value].label,
+        location:document.getElementById('apptLocInput').value.trim(),
+        date:document.getElementById('apptDateInput').value,
+        time:document.getElementById('apptTimeInput').value,
+      };
+    }else{state.appointment=null;}
+    goTo('screen-insurance');
+  };
+}
+document.getElementById('apptHasCheck').addEventListener('change',function(){document.getElementById('apptFields').style.display=this.checked?'block':'none';});
+
+/* ============================================================
+   SCREEN: INSURANCE
+============================================================ */
+function renderInsuranceScreen(){
+  const list=document.getElementById('insuranceList'); list.innerHTML='';
+  t().insOpts.forEach(o=>{
+    const btn=document.createElement('button'); btn.className='choice-btn';
+    btn.innerHTML=o.l+(o.d?'<span class="sub-line">'+o.d+'</span>':'');
+    btn.addEventListener('click',()=>{state.insurance=o.v;renderBoroughList();goTo('screen-borough');});
+    list.appendChild(btn);
+  });
+}
+
+/* ============================================================
+   SCREEN: BOROUGH & ZONE
+============================================================ */
+function renderBoroughList(){
+  const wrap=document.getElementById('boroughList'); wrap.innerHTML='';
+  BOROUGHS.forEach(b=>{
+    const btn=document.createElement('button'); btn.className='choice-btn compact'; btn.textContent=b;
+    btn.addEventListener('click',()=>{state.borough=b;renderZoneMap();goTo('screen-zone');}); wrap.appendChild(btn);
+  });
+  const ns=document.createElement('button'); ns.className='choice-btn compact'; ns.textContent=t().notSure;
+  ns.addEventListener('click',()=>{state.borough='Manhattan';state.zone={id:'midtown',label:'Midtown Manhattan',addr:'42nd St & 6th Ave, Manhattan, NY'};afterZone();});
+  wrap.appendChild(ns);
+}
+
+function renderZoneMap(){
+  document.getElementById('zoneBorough').textContent=state.borough;
+  const wrap=document.getElementById('zoneMap'); wrap.innerHTML='';
+  (ZONES[state.borough]||[]).forEach(z=>{
+    const item=document.createElement('div'); item.className='zone-item';
+    const btn=document.createElement('button'); btn.className='choice-btn'; btn.textContent=z.label;
+    btn.addEventListener('click',()=>{state.zone=z;afterZone();}); item.appendChild(btn); wrap.appendChild(item);
+  });
+}
+
+function afterZone(){
+  if(state.selectedCats.includes('show')&&!state.showArea){
+    const areas=[...new Set(SHOW_STOPS.filter(s=>s.borough===state.borough).map(s=>s.area))];
+    if(areas.length>0){pendingShowCb=()=>goTo('screen-dir-pref');renderShowAreas(areas);goTo('screen-show-area');return;}
+  }
+  goTo('screen-dir-pref');
+}
+
+function renderShowAreas(areas){
+  const wrap=document.getElementById('showAreaList'); wrap.innerHTML='';
+  areas.forEach(area=>{
+    const stops=SHOW_STOPS.filter(s=>s.borough===state.borough&&s.area===area);
+    const days=[...new Set(stops.map(s=>s.day))].join(' · ');
+    const btn=document.createElement('button'); btn.className='choice-btn';
+    btn.innerHTML=area+'<span class="sub-line">'+days+'</span>';
+    btn.addEventListener('click',()=>{state.showArea=area;(pendingShowCb||function(){goTo('screen-dir-pref');})();});
+    wrap.appendChild(btn);
+  });
+}
+
+function renderDirPref(){
+  const wrap=document.getElementById('dirList'); wrap.innerHTML='';
+  [{v:true,l:t().dirYes,d:''},{v:false,l:t().dirNo,d:''}].forEach(o=>{
+    const btn=document.createElement('button'); btn.className='choice-btn';
+    btn.textContent=o.l;
+    btn.addEventListener('click',()=>{state.includeDirections=o.v;wireBuddyScreen();goTo('screen-buddy');});
+    wrap.appendChild(btn);
+  });
+}
+
+/* ============================================================
+   SCREEN: BUDDY
+============================================================ */
+function wireBuddyScreen(){
+  document.getElementById('patientNameInput').value=state.patientName;
+  document.getElementById('phoneInput').value=state.patientPhone;
+  document.getElementById('addBuddy2Btn').onclick=()=>{document.getElementById('buddy2Block').style.display='block';document.getElementById('addBuddy2Btn').style.display='none';};
+  document.getElementById('buddyContinueBtn').onclick=()=>{
+    state.patientName=document.getElementById('patientNameInput').value.trim();
+    state.patientPhone=document.getElementById('phoneInput').value.trim();
+    state.buddies=[];
+    if(document.getElementById('buddy1Consent').checked){state.buddies.push({name:document.getElementById('buddy1Name').value.trim(),phone:document.getElementById('buddy1Phone').value.trim(),consent:true});}
+    if(document.getElementById('buddy2Consent').checked){state.buddies.push({name:document.getElementById('buddy2Name').value.trim(),phone:document.getElementById('buddy2Phone').value.trim(),consent:true});}
+    startClarify();
+  };
+  document.getElementById('buddySkipBtn').onclick=()=>{state.buddies=[];startClarify();};
+}
+
+/* ============================================================
+   CLARIFIERS
+============================================================ */
+const CLARIFIERS={
+  shelter:{eyebrow:{en:'Shelter / housing',es:'Refugio / vivienda'},q:{en:'Are you looking for tonight, or longer-term?',es:'¿Busca algo para esta noche o a largo plazo?'},sub:{en:'This changes which resources are most useful.',es:'Esto cambia qué recursos son más útiles.'},
+    choices:[{l:{en:'Tonight / emergency',es:'Esta noche / emergencia'},v:'emergency'},{l:{en:'Longer-term / transitional',es:'Más a largo plazo / transitorio'},v:'transitional'}]},
+  mat:{eyebrow:{en:'MAT programs',es:'Programas MAT'},q:{en:'Which medication are you asking about?',es:'¿Sobre qué medicamento pregunta?'},sub:{en:'Both are effective — this helps narrow the options.',es:'Ambos son efectivos — esto ayuda a mostrar las opciones más relevantes.'},
+    choices:[{l:{en:'Methadone',es:'Metadona'},v:'methadone'},{l:{en:'Buprenorphine (Suboxone)',es:'Buprenorfina (Suboxone)'},v:'bupe'},{l:{en:'Not sure / either',es:'No estoy seguro/a / cualquiera'},v:'either'}]},
+};
+
+function startClarify(){state.clarifyQueue=state.selectedCats.filter(id=>CLARIFIERS[id]);advanceClarify();}
+function advanceClarify(){
+  if(state.clarifyQueue.length===0){
+    if(!state.additionalOffered){
+      state.additionalOffered=true;
+      const remaining=CATEGORY_IDS.filter(id=>!state.selectedCats.includes(id));
+      if(remaining.length>0){renderAdditionalScreen(remaining);goTo('screen-additional');return;}
+    }
+    buildResults();goTo('screen-results');return;
+  }
+  const id=state.clarifyQueue.shift(); state.currentClarifyId=id; renderClarify(id); goTo('screen-clarify');
+}
+function renderClarify(id){
+  const c=CLARIFIERS[id];
+  document.getElementById('clarifyEyebrow').textContent=c.eyebrow[lang];
+  document.getElementById('clarifyQ').textContent=c.q[lang];
+  document.getElementById('clarifySub').textContent=c.sub[lang];
+  const wrap=document.getElementById('clarifyChoices'); wrap.innerHTML='';
+  c.choices.forEach(ch=>{
+    const btn=document.createElement('button'); btn.className='choice-btn'; btn.textContent=ch.l[lang];
+    btn.addEventListener('click',()=>{state.clarifyAnswers[id]=ch.v;advanceClarify();}); wrap.appendChild(btn);
+  });
+  document.getElementById('skipClarify').onclick=()=>advanceClarify();
+}
+
+/* ============================================================
+   ADDITIONAL
+============================================================ */
+let _addlSel=[];
+function renderAdditionalScreen(remaining){
+  _addlSel=[];
+  const g=document.getElementById('additionalGrid'); g.innerHTML='';
+  const cats=t().categories;
+  remaining.forEach(id=>{
+    const cat=cats[id];
+    const card=document.createElement('label'); card.className='check-card';
+    card.innerHTML='<input type="checkbox" value="'+id+'"><span class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M4 12l6 6L20 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><div class="check-label">'+cat.label+'</div><div class="check-desc">'+cat.desc+'</div></span>';
+    card.addEventListener('click',e=>{e.preventDefault();const on=card.classList.toggle('selected');card.querySelector('input').checked=on;if(on){_addlSel.push(id);}else{_addlSel=_addlSel.filter(x=>x!==id);}});
+    g.appendChild(card);
+  });
+  document.getElementById('addMoreBtn').onclick=()=>handleAdditional(_addlSel.slice());
+  document.getElementById('additionalDoneBtn').onclick=()=>handleAdditional([]);
+}
+function handleAdditional(extras){
+  extras.forEach(id=>{if(!state.selectedCats.includes(id))state.selectedCats.push(id);});
+  state.clarifyQueue=extras.filter(id=>CLARIFIERS[id]);
+  if(extras.includes('show')&&!state.showArea){
+    const areas=[...new Set(SHOW_STOPS.filter(st=>st.borough===state.borough).map(st=>st.area))];
+    if(areas.length>0){pendingShowCb=advanceClarify;renderShowAreas(areas);goTo('screen-show-area');return;}
+  }
+  advanceClarify();
+}
+
+/* ============================================================
+   2-WEEK CALENDAR
+============================================================ */
+function buildCalendar(){
+  const grid=document.getElementById('calGrid'); grid.innerHTML='';
+  const DAYS=lang==='en'
+    ?['Sun','Mon','Tue','Wed','Thu','Fri','Sat']
+    :['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+  DAYS.forEach(d=>{const h=document.createElement('div');h.className='cal-head';h.textContent=d;grid.appendChild(h);});
+
+  const today=new Date(); today.setHours(0,0,0,0);
+  // start on Sunday of this week
+  const startDay=new Date(today); startDay.setDate(today.getDate()-today.getDay());
+  const MONTHS=lang==='en'
+    ?['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+    :['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+
+  for(let i=0;i<14;i++){
+    const d=new Date(startDay); d.setDate(startDay.getDate()+i);
+    const ds=d.toISOString().slice(0,10);
+    const isToday=d.getTime()===today.getTime();
+    const cell=document.createElement('div');
+    cell.className='cal-day'+(isToday?' today':'');
+    if(state.calMarks.today===ds&&state.calMarks.appt===ds){cell.classList.add('marked-today','marked-appt');}
+    else if(state.calMarks.today===ds){cell.classList.add('marked-today');}
+    else if(state.calMarks.appt===ds){cell.classList.add('marked-appt');}
+    cell.innerHTML='<div class="cal-day-num">'+d.getDate()+'</div><div class="cal-day-mo">'+MONTHS[d.getMonth()]+'</div>';
+    cell.dataset.date=ds;
+    cell.addEventListener('click',()=>handleCalTap(ds,cell));
+    grid.appendChild(cell);
+  }
+}
+
+// Tap logic: first tap on unmarked = today; second tap = appt; third tap = clear
+function handleCalTap(ds,cell){
+  if(state.calMarks.today===ds&&state.calMarks.appt===ds){
+    // both — clear both
+    state.calMarks.today=null; state.calMarks.appt=null;
+  } else if(state.calMarks.appt===ds){
+    state.calMarks.appt=null;
+  } else if(state.calMarks.today===ds){
+    state.calMarks.appt=ds;
+  } else if(!state.calMarks.today){
+    state.calMarks.today=ds;
+  } else if(!state.calMarks.appt){
+    state.calMarks.appt=ds;
+  } else {
+    // both already set elsewhere — reassign appt to this cell
+    state.calMarks.appt=ds;
+  }
+  buildCalendar();
+}
+
+/* ============================================================
+   BUILD RESULTS
+============================================================ */
+function buildResults(){
+  const container=document.getElementById('resultsContainer'); container.innerHTML='';
+  document.getElementById('printDate').textContent=new Date().toLocaleDateString(lang==='en'?'en-US':'es-US',{weekday:'long',month:'long',day:'numeric'});
+  document.getElementById('sheetPatientName').textContent=state.patientName?(lang==='en'?'Prepared for: ':'Preparado para: ')+state.patientName:'';
+
+  // prefill appt box if staff entered one
+  if(state.appointment){
+    const loc=state.appointment.location||state.appointment.catLabel||'';
+    document.getElementById('awbWhere').value=loc;
+    let dateStr='';
+    if(state.appointment.date){
+      const d=new Date(state.appointment.date+'T00:00:00');
+      dateStr=d.toLocaleDateString(lang==='en'?'en-US':'es-US',{weekday:'long',month:'long',day:'numeric'});
+    }
+    if(state.appointment.time){
+      const [h,m]=state.appointment.time.split(':').map(Number);
+      const d2=new Date(); d2.setHours(h,m,0,0);
+      dateStr+=(dateStr?' · ':'')+fmtTime(d2);
+    }
+    document.getElementById('awbDate').value=dateStr;
+  }
+
+  buildCalendar();
+
+  // Insurance note
+  if(state.insurance==='none'||state.insurance==='unknown'){
+    const banner=document.createElement('div'); banner.className='status-banner status-info';
+    banner.innerHTML='<strong>Note:</strong> '+t().noInsNote;
+    container.appendChild(banner);
+  }
+
+  const cats=t().categories;
+  state.selectedCats.forEach(id=>{
+    const cat=cats[id];
+    const card=document.createElement('div'); card.className='result-card';
+
+    if(id==='show'){
+      const stops=SHOW_STOPS.filter(st=>st.borough===state.borough&&st.area===state.showArea);
+      if(!stops.length){card.innerHTML='<h3><span class="cat-dot"></span>'+cat.label+'</h3><div class="meta">No listed stop in this area yet — ask your ED Leads counselor for the current schedule.</div>';}
+      else{
+        const rows=stops.map(st=>'<div style="margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--line);">'
+          +'<div class="addr" style="font-size:1rem;">'+st.name+(st.cross?', '+st.cross:'')+'</div>'
+          +'<div class="meta">'+st.day+' · '+st.hours+'<br>🚇 '+st.subway+'</div>'
+          +'<a class="directions-link no-print" href="'+mapsLink(st.name+' '+st.cross+' '+state.borough+' NY')+'" target="_blank" rel="noopener">Get directions →</a>'
+          +(state.includeDirections?buildTransitCard(state.zone?state.zone.label:'your area',st.name):'')
+          +'</div>').join('');
+        card.innerHTML='<h3><span class="cat-dot"></span>'+cat.label+' — '+state.showArea+'</h3><div class="meta" style="margin-bottom:10px;">Wound care · SBIRT · Narcan · hygiene kits, snacks & water</div>'+rows;
+      }
+      container.appendChild(card); return;
+    }
+    if(id==='telehealth'){
+      card.innerHTML='<h3><span class="cat-dot"></span>'+cat.label+'</h3>'
+        +'<div class="addr">'+TELEHEALTH.name+'</div>'
+        +'<div class="meta">'+TELEHEALTH.note+'</div>'
+        +'<a class="directions-link no-print" href="'+TELEHEALTH.url+'" target="_blank" rel="noopener">Open expresscare.nyc →</a>';
+      container.appendChild(card); return;
+    }
+    if(id==='benefits'){
+      card.innerHTML='<h3><span class="cat-dot"></span>'+cat.label+'</h3>'
+        +'<div class="addr">ACCESS NYC — Benefits Eligibility & Enrollment</div>'
+        +'<div class="meta">'+(lang==='en'?'Check eligibility for Medicaid, SNAP, cash assistance, housing, and more. Available in multiple languages.':'Verifique elegibilidad para Medicaid, SNAP, asistencia en efectivo, vivienda y más. Disponible en múltiples idiomas.')+'</div>'
+        +'<div class="note-box">'+(lang==='en'?'If you don\'t have insurance, <strong>Medicaid</strong> may cover your treatment costs at no charge.':'Si no tiene seguro, <strong>Medicaid</strong> puede cubrir sus costos de tratamiento sin cargo.')+'</div>'
+        +'<a class="directions-link no-print" href="'+ACCESS_NYC+'" target="_blank" rel="noopener">Visit access.nyc.gov →</a>';
+      container.appendChild(card); return;
+    }
+    if(id==='narcan'){
+      card.innerHTML='<h3><span class="cat-dot"></span>'+cat.label+'</h3>'
+        +'<div class="addr">'+(lang==='en'?'Available here — ask your ED Leads counselor':'Disponible aquí — pregunte a su consejero de ED Leads')+'</div>'
+        +'<div class="meta">'+(lang==='en'?'Free naloxone kit available before you leave. Hands-on training takes about 10 minutes.':'Kit de naloxona gratuito antes de irse. El entrenamiento práctico toma unos 10 minutos.')+'</div>'
+        +'<div class="note-box"><strong>'+(lang==='en'?'How to use:':'Cómo usar:')+'</strong> '+(lang==='en'?'Call 911. Give rescue breaths. Spray naloxone in one nostril. Repeat after 2–3 minutes if no response. Recovery position.':'Llame al 911. Dé respiraciones de rescate. Rocíe naloxona en una fosa nasal. Repita después de 2–3 min si no hay respuesta. Posición de recuperación.')+'</div>';
+      container.appendChild(card); return;
+    }
+    if(id==='mentalhealth'){
+      card.innerHTML='<h3><span class="cat-dot"></span>'+cat.label+'</h3>'
+        +'<div class="addr">988 '+(lang==='en'?'Suicide & Crisis Lifeline':'Línea de Crisis y Suicidio')+'</div>'
+        +'<div class="meta">'+(lang==='en'?'Call or text <strong>988</strong> — 24/7, free and confidential. Press 2 for Spanish.':'Llame o envíe un mensaje a <strong>988</strong> — 24/7, gratis y confidencial. Presione 2 para español.')+'</div>'
+        +'<div class="note-box">'+(lang==='en'?"You don't have to be suicidal to call — it's for anyone in mental health or substance use crisis.":'No tiene que estar en crisis suicida para llamar — es para cualquier persona en crisis de salud mental o uso de sustancias.')+'</div>'
+        +callScriptHTML('mentalhealth');
+      container.appendChild(card); return;
+    }
+    if(id==='wellness'){
+      const rows=RESOURCES.wellness.map(r=>'<div style="margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--line);">'
+        +insTag(r.noInsOk,false)
+        +'<div class="addr" style="font-size:1rem;">'+r.name+'</div>'
+        +'<div class="meta">'+r.addr+(r.hours?'<br>'+r.hours:'')+'</div>'
+        +'<a class="directions-link no-print" href="'+mapsLink(r.addr)+'" target="_blank" rel="noopener">Get directions →</a>'
+        +(state.includeDirections?buildTransitCard(state.zone?state.zone.label:'your area',r.name):'')
+        +'</div>').join('');
+      card.innerHTML='<h3><span class="cat-dot"></span>'+cat.label+'</h3>'+rows;
+      container.appendChild(card); return;
+    }
+    if(id==='detox'){
+      const pool=state.insurance==='commercial'
+        ?[...(RESOURCES.detox[state.borough]||RESOURCES.detox.Manhattan),...RESOURCES.commercial]
+        :(RESOURCES.detox[state.borough]||RESOURCES.detox.Manhattan);
+      const rows=pool.map(r=>'<div style="margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--line);">'
+        +insTag(r.noInsOk,!r.noInsOk&&state.insurance==='commercial')
+        +(r.closed?'<div class="status-banner status-closed" style="margin:4px 0 6px;font-size:0.82rem;">⚠️ '+(lang==='en'?'Currently closed — call to confirm before going':'Actualmente cerrado — llame para confirmar antes de ir')+'</div>':'')
+        +'<div class="addr" style="font-size:1rem;">'+r.name+'</div>'
+        +'<div class="meta">'+r.addr+(r.note?'<br><em>'+r.note+'</em>':'')+'</div>'
+        +'<a class="directions-link no-print" href="'+mapsLink(r.addr)+'" target="_blank" rel="noopener">'+(lang==='en'?'Get directions →':'Cómo llegar →')+'</a>'
+        +callScriptHTML('detox')
+        +(state.includeDirections?buildTransitCard(state.zone?state.zone.label:'your area',r.name):'')
+        +'</div>').join('');
+      card.innerHTML='<h3><span class="cat-dot"></span>'+cat.label+(state.borough?' — '+state.borough:'')+'</h3><div class="meta" style="margin-bottom:10px;">'+(lang==='en'?'Call ahead — availability changes daily.':'Llame antes — la disponibilidad cambia diariamente.')+'</div>'+rows;
+      container.appendChild(card); return;
+    }
+    // mat, shelter, pcp generic
+    const generic={
+      mat:{en:{name:'NY State HOPEline / MAT Locator',meta:'Call 1-800-522-5353 to find MAT programs near you. Free, 24/7, confidential.'},es:{name:'HOPEline del Estado de NY / Localizador MAT',meta:'Llame al 1-800-522-5353 para encontrar programas MAT cerca. Gratis, 24/7, confidencial.'}},
+      shelter:{en:{name:'NYC DHS Shelter Access',meta:'Call 311 to reach shelter intake. Available 24/7. Say you need emergency shelter.'},es:{name:'Acceso a refugios NYC DHS',meta:'Llame al 311 para acceder a admisión de refugio. Disponible 24/7. Diga que necesita refugio de emergencia.'}},
+      pcp:{en:{name:'NYC Health + Hospitals — Primary Care',meta:'Call 1-844-NYC-4NYC for sliding-scale fees; Medicaid accepted. Same-day appointments often available.'},es:{name:'NYC Health + Hospitals — Atención Primaria',meta:'Llame al 1-844-NYC-4NYC. Tarifas según ingresos; se acepta Medicaid. Citas el mismo día a menudo disponibles.'}},
+    };
+    const g2=generic[id];
+    if(g2){
+      const gd=g2[lang]||g2.en;
+      card.innerHTML='<h3><span class="cat-dot"></span>'+cat.label+'</h3>'
+        +'<div class="addr">'+gd.name+'</div>'
+        +'<div class="meta">'+gd.meta+'</div>'
+        +callScriptHTML(id);
+    } else {
+      card.innerHTML='<h3><span class="cat-dot"></span>'+cat.label+'</h3>'
+        +'<div class="meta">'+(lang==='en'?'Ask your ED Leads counselor for a referral.':'Pida a su consejero de ED Leads una derivación.')+'</div>';
+    }
+    container.appendChild(card);
+  });
+
+  buildQR();
+  buildStepTracker();
+}
+
+function buildStepTracker(){
+  const tracker=document.getElementById('stepTracker');
+  if(!state.appointment){tracker.style.display='none';return;}
+  tracker.style.display='block';
+  const steps=lang==='en'
+    ?['You have a plan.','Your appointment is confirmed.','A reminder will be sent the day before.','Staff will check in with you after.']
+    :['Tiene un plan.','Su cita está confirmada.','Se enviará un recordatorio el día anterior.','El personal le hará seguimiento después.'];
+  tracker.innerHTML='<h3>'+(lang==='en'?'What happens next':'Qué sigue')+'</h3>'+steps.map((s,i)=>'<div class="step-item"><div class="step-num">'+(i+1)+'</div><div class="step-text">'+s+'</div></div>').join('');
+}
+
+/* ============================================================
+   QR CODE — live SMS link
+   The QR encodes an sms: URI. When patient scans with iPhone or
+   Android camera, it opens Messages with a pre-written text body
+   ready to send to themselves or anyone.
+============================================================ */
+function buildQR(){
+  // Build a readable summary for the SMS body
+  const cats=t().categories;
+  const lines=state.selectedCats.map(id=>{
+    if(id==='telehealth') return 'Virtual ExpressCare: expresscare.nyc';
+    if(id==='show'){
+      const stops=SHOW_STOPS.filter(st=>st.borough===state.borough&&st.area===state.showArea);
+      return 'SHOW Van ('+state.showArea+'): '+stops.map(st=>st.name+' '+st.day+' '+st.hours).join('; ');
+    }
+    if(id==='mentalhealth') return lang==='en'?'Crisis line: call or text 988':'Línea de crisis: llame o escriba al 988';
+    if(id==='benefits') return 'Benefits/Medicaid: access.nyc.gov';
+    if(id==='narcan') return lang==='en'?'Narcan kit: ask ED Leads counselor':'Kit Narcan: pida al consejero ED Leads';
+    if(id==='detox'){
+      const pool=RESOURCES.detox[state.borough]||RESOURCES.detox.Manhattan;
+      return 'Detox options ('+state.borough+'): '+pool.slice(0,3).map(r=>r.name+', '+r.addr).join(' | ');
+    }
+    return cats[id].label;
+  }).join('\n');
+
+  const apptLine=state.appointment&&state.appointment.location
+    ?(lang==='en'?'\n\nAppointment: '+state.appointment.location:'\n\nCita: '+state.appointment.location):'';
+
+  const header=lang==='en'
+    ?'Bellevue ED Leads resource plan'+(state.patientName?' for '+state.patientName:'')
+    :'Plan de recursos ED Leads Bellevue'+(state.patientName?' para '+state.patientName:'');
+
+  const fullText=header+apptLine+'\n\n'+lines;
+
+  // sms: URI — scanning opens Messages app with body pre-filled, no number required
+  const smsUri='sms:?&body='+encodeURIComponent(fullText);
+
+  document.getElementById('qrcode').innerHTML='';
+  new QRCode(document.getElementById('qrcode'),{
+    text:smsUri,
+    width:120,height:120,
+    colorDark:'#1C2B2D',colorLight:'#ffffff',
+    correctLevel:QRCode.CorrectLevel.M
+  });
+}
+
+/* ============================================================
+   CONVERSATION PREVIEW
+============================================================ */
+function buildConvoPreview(){
+  const container=document.getElementById('convoContainer'); container.innerHTML='';
+  let placeName=lang==='en'?'your appointment':'su cita',apptTime='',apptDate='';
+  if(state.appointment){
+    placeName=state.appointment.location||state.appointment.catLabel||placeName;
+    if(state.appointment.time){const [h,m]=state.appointment.time.split(':').map(Number);const d=new Date();d.setHours(h,m,0,0);apptTime=fmtTime(d);}
+    if(state.appointment.date){const d=new Date(state.appointment.date+'T00:00:00');apptDate=d.toLocaleDateString(lang==='en'?'en-US':'es-US',{weekday:'long',month:'long',day:'numeric'});}
+  }
+  const pName=state.patientName||(lang==='en'?'you':'usted');
+  const pt=document.createElement('div'); pt.className='chat-thread';
+  let ptHtml='<h3>'+(lang==='en'?'To ':'Para ')+(state.patientName||'patient')+(state.patientPhone?' — '+state.patientPhone:'')+'</h3>';
+  ptHtml+='<div class="bubble-row in"><div class="bubble">'+(lang==='en'?'Hi — this is Bellevue ED Leads. Your resource plan is attached. Call 311 anytime if you need emergency help.':'Hola — este es el equipo ED Leads de Bellevue. Su plan de recursos está adjunto. Llame al 311 si necesita ayuda de emergencia.')+'</div></div>';
+  if(state.appointment){
+    ptHtml+='<div class="bubble-row in"><div class="bubble">'+(lang==='en'?'Reminder: your appointment at '+placeName+' is tomorrow at '+apptTime+'. Reply YES to confirm.':'Recordatorio: su cita en '+placeName+' es mañana a las '+apptTime+'. Responda SÍ para confirmar.')+'</div></div>';
+    ptHtml+='<div class="bubble-row out"><div class="bubble">'+(lang==='en'?'YES':'SÍ')+'</div></div>';
+    ptHtml+='<div class="bubble-row in"><div class="bubble">'+(lang==='en'?'Got it — confirmed ✓. You\'ve got this.':'Confirmado ✓. ¡Usted puede lograrlo!')+'</div></div>';
+  }
+  pt.innerHTML=ptHtml; container.appendChild(pt);
+  state.buddies.forEach((b,i)=>{
+    if(!b.consent||!b.name) return;
+    const bt=document.createElement('div'); bt.className='chat-thread';
+    let bHtml='<h3>'+(lang==='en'?'To ':'Para ')+b.name+(b.phone?' — '+b.phone:'')+' (support person '+(i+1)+')</h3>';
+    bHtml+='<div class="bubble-row in"><div class="bubble">'+(lang==='en'?'Hi '+b.name+' — '+pName+' at Bellevue listed you as a support person. They have a plan and resources. A quick check-in can make a real difference.':'Hola '+b.name+' — '+pName+' en Bellevue lo/la listó como persona de apoyo. Tiene un plan y recursos. Un breve mensaje de seguimiento puede marcar la diferencia.')+'</div></div>';
+    if(state.appointment){bHtml+='<div class="bubble-row in"><div class="bubble">'+(lang==='en'?pName+'\'s appointment at '+placeName+' is on '+apptDate+(apptTime?' at '+apptTime:'')+'. A "thinking of you" text that day helps.':pName+' tiene una cita en '+placeName+' el '+apptDate+(apptTime?' a las '+apptTime:'')+'. Un mensaje de apoyo ese día ayuda mucho.')+'</div></div>';}
+    bt.innerHTML=bHtml; container.appendChild(bt);
+  });
+  if(!state.buddies.filter(b=>b.consent).length){
+    const nt=document.createElement('div'); nt.className='status-banner status-info'; nt.style.marginBottom='0';
+    nt.textContent=lang==='en'?'No support persons added — only the patient would receive messages.':'No se agregaron personas de apoyo — solo el paciente recibiría mensajes.';
+    container.appendChild(nt);
+  }
+}
+
+/* ============================================================
+   EVENT WIRING
+============================================================ */
+document.getElementById('resultsContainer').addEventListener('click',e=>{
+  const btn=e.target.closest('.call-toggle'); if(!btn) return;
+  const panel=document.getElementById(btn.dataset.panel); if(!panel) return;
+  const open=panel.classList.toggle('open');
+  btn.textContent=open?(lang==='en'?'Hide steps ▲':'Ocultar pasos ▲'):(lang==='en'?'How to make this call — step by step ▾':'Cómo hacer esta llamada — paso a paso ▾');
+});
+document.getElementById('previewTextsBtn').addEventListener('click',()=>{buildConvoPreview();goTo('screen-convo');});
+document.getElementById('backToResultsBtn').addEventListener('click',()=>goTo('screen-results'));
+document.getElementById('restartBtn').addEventListener('click',()=>{
+  state={selectedCats:[],borough:null,zone:null,showArea:null,insurance:null,includeDirections:false,patientName:'',patientPhone:'',buddies:[],appointment:null,clarifyAnswers:{},clarifyQueue:[],currentClarifyId:null,additionalOffered:false,calMarks:{today:null,appt:null}};
+  pendingShowCb=null;
+  document.getElementById('buddy2Block').style.display='none';
+  document.getElementById('addBuddy2Btn').style.display='block';
+  renderStaffGrid();
+  goTo('screen-staff');
+});
+
+document.getElementById('langEnBtn').addEventListener('click',()=>{
+  lang='en';
+  document.getElementById('langEnBtn').classList.add('active');
+  document.getElementById('langEsBtn').classList.remove('active');
+  applyLang();
+});
+document.getElementById('langEsBtn').addEventListener('click',()=>{
+  lang='es';
+  document.getElementById('langEsBtn').classList.add('active');
+  document.getElementById('langEnBtn').classList.remove('active');
+  applyLang();
+});
+
+/* Init */
+applyLang();
+renderBoroughList();
+renderInsuranceScreen();
+renderDirPref();
+goTo('screen-staff');
+</script>
+</body>
+</html>
