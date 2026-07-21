@@ -1,728 +1,1620 @@
-<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"> <meta name="mobile-web-app-capable" content="yes"> <meta name="apple-mobile-web-app-capable" content="yes"> <meta name="apple-mobile-web-app-status-bar-style" content="default"> <meta name="apple-mobile-web-app-title" content="Pathway"> <link rel="manifest" href="/manifest.json"> <meta name="theme-color" content="#2F6F5E"> <link rel="apple-touch-icon" href="/icons/icon-192.png"> <script> if("serviceWorker"in navigator){window.addEventListener("load",()=>{navigator.serviceWorker.register("/sw.js").catch(()=>{});});} </script> <title>Pathway — Bellevue CATCH-ED Leads · SBIRT</title> <link rel="preconnect" href="https://fonts.googleapis.com"> <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet"> <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script> <style> :root{ --ink:#1C2B2D; --paper:#F6F4EE; --card:#FFFFFF; --path:#2F6F5E; --path-light:#E4EEE9; --sun:#E0862F; --line:#D8D3C4; --muted:#6B6459; --danger:#B5482A; --danger-light:#FAF0ED; --success:#2a6b2a; --success-light:#e8f4e8; --safe-l:env(safe-area-inset-left,0px); --safe-r:env(safe-area-inset-right,0px); --safe-b:env(safe-area-inset-bottom,0px); } *{box-sizing:border-box;-webkit-tap-highlight-color:rgba(47,111,94,0.12);} html{-webkit-text-size-adjust:100%;} html,body{margin:0;padding:0;} body{background:var(--paper);color:var(--ink);font-family:'Source Sans 3',sans-serif;min-height:100vh;-webkit-font-smoothing:antialiased;touch-action:manipulation;} h1,h2,h3{font-family:'Fraunces',serif;font-weight:600;margin:0;} .app{max-width:740px;margin:0 auto;padding:26px calc(20px + var(--safe-l)) calc(80px + var(--safe-b)) calc(20px + var(--safe-r));}
-/* topbar */
-.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;padding-bottom:14px;border-bottom:1px solid var(--line);gap:10px;flex-wrap:wrap;}
-.brand{display:flex;align-items:baseline;gap:8px;}
-.brand-mark{width:12px;height:12px;border-radius:50%;background:var(--path);display:inline-block;position:relative;top:1px;}
-.brand h1{font-size:1.5rem;letter-spacing:-0.01em;}
-.brand-sub{font-size:0.73rem;color:var(--muted);font-family:'Source Sans 3',sans-serif;font-weight:400;}
-.topbar-right{display:flex;align-items:center;gap:10px;}
-.mode-badge{font-size:0.68rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);border:1px solid var(--line);padding:5px 11px;border-radius:20px;white-space:nowrap;}
-.lang-toggle{display:flex;border:1.5px solid var(--line);border-radius:22px;overflow:hidden;}
-.lang-btn{background:#fff;border:none;padding:7px 16px;font-family:inherit;font-weight:700;font-size:0.85rem;cursor:pointer;color:var(--muted);min-height:44px;min-width:50px;}
-.lang-btn.active{background:var(--path);color:#fff;}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Pathway">
+<title>Pathway — Patient Resource Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+  :root{
+    --ink:#1C2B2D; --paper:#F6F4EE; --card:#FFFFFF;
+    --path:#2F6F5E; --path-light:#E4EEE9;
+    --sun:#E0862F; --line:#D8D3C4; --muted:#6B6459;
+    --danger:#B5482A; --danger-light:#FAF0ED;
+    --success:#2a6b2a; --success-light:#e8f4e8;
+    --sample:#7d6608; --sample-light:#FEF3CD;
+    --safe-l:env(safe-area-inset-left,0px);
+    --safe-r:env(safe-area-inset-right,0px);
+    --safe-b:env(safe-area-inset-bottom,0px);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:rgba(47,111,94,0.12);}
+  html{-webkit-text-size-adjust:100%;}
+  html,body{margin:0;padding:0;}
+  body{background:var(--paper);color:var(--ink);font-family:'Source Sans 3',sans-serif;min-height:100vh;-webkit-font-smoothing:antialiased;touch-action:manipulation;transition:background .25s;}
+  h1,h2,h3{font-family:'Fraunces',serif;font-weight:600;margin:0;}
+  .app{max-width:740px;margin:0 auto;padding:26px calc(20px + var(--safe-l)) calc(80px + var(--safe-b)) calc(20px + var(--safe-r));}
 
-/* screens */
-.screen{display:none;}
-.screen.active{display:block;animation:rise .28s ease both;}
-@keyframes rise{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:translateY(0);}}
+  /* topbar */
+  .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;padding-bottom:14px;border-bottom:1px solid var(--line);gap:10px;flex-wrap:wrap;}
+  .brand{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;}
+  .brand-mark{width:12px;height:12px;border-radius:50%;background:var(--path);display:inline-block;position:relative;top:1px;transition:background .25s;}
+  .brand h1{font-size:1.5rem;letter-spacing:-0.01em;}
+  .brand-sub{font-size:0.73rem;color:var(--muted);font-family:'Source Sans 3',sans-serif;font-weight:400;}
+  .topbar-right{display:flex;align-items:center;gap:10px;}
+  .mode-badge{font-size:0.68rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);border:1px solid var(--line);padding:5px 11px;border-radius:20px;white-space:nowrap;}
+  .lang-toggle{display:flex;border:1.5px solid var(--line);border-radius:22px;overflow:hidden;}
+  .lang-btn{background:#fff;border:none;padding:7px 16px;font-family:inherit;font-weight:700;font-size:0.85rem;cursor:pointer;color:var(--muted);min-height:44px;min-width:50px;}
+  .lang-btn.active{background:var(--path);color:#fff;}
+  .back-link{background:none;border:none;color:var(--muted);font-family:inherit;font-size:0.85rem;font-weight:600;cursor:pointer;padding:8px 0;min-height:44px;display:inline-flex;align-items:center;gap:5px;}
+  .back-link:active{color:var(--path);}
 
-/* prompt */
-.prompt-eyebrow{font-size:0.76rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--path);font-weight:600;margin-bottom:5px;}
-.prompt h2{font-size:1.7rem;line-height:1.2;margin-bottom:4px;}
-.prompt p.sub{color:var(--muted);margin:5px 0 22px;font-size:0.98rem;line-height:1.55;}
+  /* screens */
+  .screen{display:none;}
+  .screen.active{display:block;animation:rise .28s ease both;}
+  @keyframes rise{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:translateY(0);}}
 
-/* check cards */
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:24px;}
-@media(max-width:500px){.grid{grid-template-columns:1fr;}}
-.check-card{display:flex;align-items:flex-start;gap:12px;background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:15px 16px;cursor:pointer;transition:border-color .15s,background .15s;user-select:none;-webkit-user-select:none;min-height:68px;}
-.check-card:active,.check-card.selected{border-color:var(--path);background:var(--path-light);}
-.check-card input{display:none;}
-.check-box{width:24px;height:24px;border-radius:6px;border:2px solid var(--line);flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;background:#fff;transition:background .12s,border-color .12s;}
-.check-card.selected .check-box{background:var(--path);border-color:var(--path);}
-.check-box svg{width:13px;height:13px;opacity:0;stroke:white;stroke-width:3;}
-.check-card.selected .check-box svg{opacity:1;}
-.check-label{font-size:0.97rem;font-weight:600;line-height:1.35;}
-.check-desc{font-size:0.81rem;color:var(--muted);margin-top:2px;line-height:1.4;}
+  /* prompt */
+  .prompt-eyebrow{font-size:0.76rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--path);font-weight:600;margin-bottom:5px;}
+  .prompt h2{font-size:1.7rem;line-height:1.2;margin-bottom:4px;}
+  .prompt p.sub{color:var(--muted);margin:5px 0 22px;font-size:0.98rem;line-height:1.55;}
 
-/* choice buttons */
-.choice-list{display:flex;flex-direction:column;gap:10px;margin-bottom:24px;}
-.choice-list.row{flex-direction:row;flex-wrap:wrap;}
-.choice-btn{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:17px 19px;font-family:inherit;font-size:1.05rem;font-weight:600;text-align:left;cursor:pointer;color:var(--ink);transition:border-color .15s,background .12s;flex:1 1 190px;min-height:54px;-webkit-user-select:none;}
-.choice-btn:active{background:var(--path-light);border-color:var(--path);}
-.choice-btn.compact{flex:1 1 120px;text-align:center;padding:15px;}
-.choice-btn .sub-line{display:block;font-weight:400;font-size:0.81rem;color:var(--muted);margin-top:3px;}
+  /* check cards */
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:24px;}
+  @media(max-width:500px){.grid{grid-template-columns:1fr;}}
+  .check-card{display:flex;align-items:flex-start;gap:12px;background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:15px 16px;cursor:pointer;transition:border-color .15s,background .15s;user-select:none;-webkit-user-select:none;min-height:68px;}
+  .check-card:active,.check-card.selected{border-color:var(--path);background:var(--path-light);}
+  .check-card input{display:none;}
+  .check-box{width:24px;height:24px;border-radius:6px;border:2px solid var(--line);flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;background:#fff;transition:background .12s,border-color .12s;}
+  .check-card.selected .check-box{background:var(--path);border-color:var(--path);}
+  .check-box svg{width:13px;height:13px;opacity:0;stroke:white;stroke-width:3;}
+  .check-card.selected .check-box svg{opacity:1;}
+  .check-label{font-size:0.97rem;font-weight:600;line-height:1.35;}
+  .check-desc{font-size:0.81rem;color:var(--muted);margin-top:2px;line-height:1.4;}
 
-/* primary / ghost buttons */
-.btn-row{display:flex;gap:11px;margin-top:10px;flex-wrap:wrap;}
-.btn{font-family:inherit;font-weight:700;font-size:1rem;padding:14px 24px;border-radius:12px;border:none;cursor:pointer;transition:opacity .15s,transform .1s;min-height:50px;-webkit-user-select:none;}
-.btn:active{transform:scale(0.97);}
-.btn-primary{background:var(--sun);color:#fff;}
-.btn-primary:disabled{opacity:0.35;cursor:not-allowed;}
-.btn-ghost{background:transparent;color:var(--muted);border:1.5px solid var(--line);}
-.btn-ghost:active{border-color:var(--path);color:var(--path);}
-@media(max-width:500px){.btn-primary{width:100%;}}
-.link-btn{background:none;border:none;color:var(--muted);font-family:inherit;font-size:0.88rem;text-decoration:underline;cursor:pointer;padding:7px 0;min-height:44px;display:inline-flex;align-items:center;}
+  /* big picker cards (location / hospital / action / mode) */
+  .picker-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:24px;}
+  @media(max-width:560px){.picker-grid{grid-template-columns:1fr;}}
+  .picker-grid.cols-3{grid-template-columns:1fr 1fr 1fr;}
+  @media(max-width:680px){.picker-grid.cols-3{grid-template-columns:1fr;}}
+  .picker-card{background:var(--card);border:2px solid var(--line);border-radius:18px;padding:22px 20px;cursor:pointer;text-align:left;transition:border-color .15s,transform .1s,box-shadow .15s;-webkit-user-select:none;user-select:none;}
+  .picker-card:active{transform:scale(0.98);}
+  .picker-card:hover,.picker-card:active{border-color:var(--path);box-shadow:0 6px 18px rgba(0,0,0,0.06);}
+  .picker-icon{width:46px;height:46px;border-radius:12px;background:var(--path-light);display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:12px;}
+  .picker-card h3{font-size:1.15rem;margin-bottom:4px;}
+  .picker-card p{font-size:0.87rem;color:var(--muted);line-height:1.45;margin:0;}
 
-/* fields */
-.field-label{font-size:0.88rem;font-weight:700;margin-bottom:5px;display:block;color:var(--ink);}
-.field-input{width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;font-family:inherit;font-size:16px;margin-bottom:14px;color:var(--ink);background:#fff;-webkit-appearance:none;appearance:none;}
-.field-input:focus{outline:2px solid var(--path);outline-offset:1px;border-color:var(--path);}
-select.field-input{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236B6459' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;}
+  /* choice buttons */
+  .choice-list{display:flex;flex-direction:column;gap:10px;margin-bottom:24px;}
+  .choice-list.row{flex-direction:row;flex-wrap:wrap;}
+  .choice-btn{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:17px 19px;font-family:inherit;font-size:1.05rem;font-weight:600;text-align:left;cursor:pointer;color:var(--ink);transition:border-color .15s,background .12s;flex:1 1 190px;min-height:54px;-webkit-user-select:none;}
+  .choice-btn:active{background:var(--path-light);border-color:var(--path);}
+  .choice-btn.compact{flex:1 1 160px;text-align:center;padding:20px 15px;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:1rem;}
+  .choice-btn .sub-line{display:block;font-weight:400;font-size:0.81rem;color:var(--muted);margin-top:3px;}
 
-/* insurance tags */
-.insurance-tag{display:inline-flex;align-items:center;gap:4px;font-size:0.73rem;font-weight:700;letter-spacing:0.04em;padding:3px 9px;border-radius:5px;margin-bottom:7px;}
-.ins-none-required{background:var(--success-light);color:var(--success);}
-.ins-commercial{background:#f3f4f6;color:#374151;}
+  /* primary / ghost buttons */
+  .btn-row{display:flex;gap:11px;margin-top:10px;flex-wrap:wrap;}
+  .btn{font-family:inherit;font-weight:700;font-size:1rem;padding:14px 24px;border-radius:12px;border:none;cursor:pointer;transition:opacity .15s,transform .1s;min-height:50px;-webkit-user-select:none;}
+  .btn:active{transform:scale(0.97);}
+  .btn-primary{background:var(--sun);color:#fff;}
+  .btn-primary:disabled{opacity:0.35;cursor:not-allowed;}
+  .btn-ghost{background:transparent;color:var(--muted);border:1.5px solid var(--line);}
+  .btn-ghost:active{border-color:var(--path);color:var(--path);}
+  @media(max-width:500px){.btn-primary{width:100%;}}
+  .link-btn{background:none;border:none;color:var(--muted);font-family:inherit;font-size:0.88rem;text-decoration:underline;cursor:pointer;padding:7px 0;min-height:44px;display:inline-flex;align-items:center;}
 
-/* ── Interactive borough SVG map ── */
-.borough-map-wrap{position:relative;margin-bottom:6px;}
-.borough-map-wrap svg{width:100%;height:auto;touch-action:none;}
-.borough-region{cursor:pointer;transition:opacity .15s;}
-.borough-region:active,.borough-region.hovered{opacity:0.75;}
-.borough-label{font-size:13px;font-family:'Source Sans 3',sans-serif;font-weight:700;fill:#1C2B2D;pointer-events:none;}
-.borough-map-hint{font-size:0.82rem;color:var(--muted);text-align:center;margin-top:6px;margin-bottom:18px;}
+  /* fields */
+  .field-label{font-size:0.88rem;font-weight:700;margin-bottom:5px;display:block;color:var(--ink);}
+  .field-input{width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;font-family:inherit;font-size:16px;margin-bottom:14px;color:var(--ink);background:#fff;-webkit-appearance:none;appearance:none;}
+  .field-input:focus{outline:2px solid var(--path);outline-offset:1px;border-color:var(--path);}
 
-/* ── Interactive zone SVG map ── */
-.zone-svg-wrap{position:relative;margin-bottom:24px;}
-.zone-svg-wrap svg{width:100%;height:auto;touch-action:none;}
-.zone-region{cursor:pointer;transition:opacity .15s,stroke-width .1s;}
-.zone-region:active{opacity:0.7;}
-.zone-region.selected-zone{stroke-width:3!important;opacity:1;}
-.zone-label-txt{font-size:11px;font-family:'Source Sans 3',sans-serif;font-weight:600;fill:#1C2B2D;pointer-events:none;text-anchor:middle;}
-.zone-map-hint{font-size:0.82rem;color:var(--muted);text-align:center;margin-top:6px;margin-bottom:4px;}
+  /* insurance / sample tags */
+  .insurance-tag{display:inline-flex;align-items:center;gap:4px;font-size:0.73rem;font-weight:700;letter-spacing:0.04em;padding:3px 9px;border-radius:5px;margin-bottom:7px;margin-right:6px;}
+  .ins-none-required{background:var(--success-light);color:var(--success);}
+  .ins-commercial{background:#f3f4f6;color:#374151;}
+  .sample-tag{background:var(--sample-light);color:var(--sample);}
 
-/* ── PRINT SHEET ── */
-.sheet-wrap{background:#DEDACD;border-radius:18px;padding:22px;margin-bottom:22px;}
-.sheet{background:#fff;border-radius:4px;box-shadow:0 10px 32px rgba(28,43,45,0.14);padding:34px 30px;max-width:640px;margin:0 auto;}
-.sheet-eyebrow{font-size:0.71rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--path);font-weight:700;margin-bottom:8px;}
-.sheet h1.headline{font-size:1.95rem;line-height:1.15;margin-bottom:8px;}
-.sheet .sheet-sub{color:var(--muted);font-size:0.95rem;margin-bottom:4px;}
-.sheet .sheet-date{color:var(--muted);font-size:0.81rem;margin-bottom:20px;padding-bottom:16px;border-bottom:2px solid var(--ink);}
+  /* ── Interactive borough SVG map ── */
+  .borough-map-wrap{position:relative;margin-bottom:6px;}
+  .borough-map-wrap svg{width:100%;height:auto;touch-action:none;}
+  .borough-region{cursor:pointer;transition:opacity .15s;}
+  .borough-region:active{opacity:0.75;}
+  .borough-map-hint{font-size:0.82rem;color:var(--muted);text-align:center;margin-top:6px;margin-bottom:18px;}
 
-/* Handwritten appointment box */
-.appt-write-box{border:2px dashed var(--path);border-radius:14px;padding:18px 20px;margin-bottom:22px;background:#FAFDF9;}
-.awb-label{font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--path);font-weight:700;margin-bottom:12px;}
-.awb-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:12px;}
-@media(max-width:500px){.awb-row{grid-template-columns:1fr;}}
-.awb-field{display:flex;flex-direction:column;gap:5px;}
-.awb-field label{font-size:0.78rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;}
-.awb-line{border:none;border-bottom:1.5px solid var(--ink);width:100%;padding:5px 3px;font-size:1.02rem;font-family:'Source Sans 3',sans-serif;background:transparent;color:var(--ink);}
-.awb-line:focus{outline:none;border-bottom-color:var(--path);}
-.awb-line::placeholder{color:#C8C3B6;font-weight:400;font-style:italic;}
+  /* ── Interactive zone SVG map (chip markers) ── */
+  .zone-svg-wrap{position:relative;margin-bottom:24px;}
+  .zone-svg-wrap svg{width:100%;height:auto;touch-action:none;overflow:visible;}
+  .zone-region{cursor:pointer;}
+  .zone-chip{
+    background:#fff;border:2px solid var(--path);border-radius:10px;
+    width:100%;height:100%;box-sizing:border-box;
+    display:flex;align-items:center;justify-content:center;text-align:center;
+    font-family:'Source Sans 3',sans-serif;font-size:11px;font-weight:700;color:var(--ink);
+    line-height:1.15;padding:2px 5px;transition:background .12s,color .12s,transform .1s;
+  }
+  .zone-region:active .zone-chip{transform:scale(0.95);}
+  .zone-region.selected-zone .zone-chip{background:var(--path);color:#fff;border-color:var(--path);}
+  .zone-map-hint{font-size:0.82rem;color:var(--muted);text-align:center;margin-top:6px;margin-bottom:4px;}
 
-/* 2-week calendar */
-.cal-wrap{margin-top:4px;}
-.cal-label{font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);font-weight:700;margin-bottom:7px;}
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;}
-.cal-head{font-size:0.65rem;font-weight:700;text-align:center;color:var(--muted);text-transform:uppercase;padding-bottom:2px;}
-.cal-day{border:1.5px solid var(--line);border-radius:7px;aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;background:#fff;transition:background .12s;-webkit-user-select:none;user-select:none;min-height:36px;}
-.cal-day:active{background:var(--path-light);}
-.cal-day.today{border-color:var(--sun);background:#FFF8F2;}
-.cal-day.marked-today{background:var(--sun);border-color:var(--sun);}
-.cal-day.marked-today .cal-day-num,.cal-day.marked-appt .cal-day-num{color:#fff;}
-.cal-day.marked-appt{background:var(--path);border-color:var(--path);}
-.cal-day-num{font-size:0.88rem;font-weight:700;line-height:1;}
-.cal-day-mo{font-size:0.55rem;color:var(--muted);margin-top:1px;line-height:1;}
-.cal-day.marked-today .cal-day-mo,.cal-day.marked-appt .cal-day-mo{color:rgba(255,255,255,0.75);}
-.cal-day.today .cal-day-num{color:var(--sun);}
-.cal-legend{display:flex;gap:12px;margin-top:7px;flex-wrap:wrap;}
-.cal-legend-item{display:flex;align-items:center;gap:4px;font-size:0.73rem;color:var(--muted);}
-.cal-legend-dot{width:9px;height:9px;border-radius:3px;flex-shrink:0;}
+  /* ── PRINT SHEET ── */
+  .sheet-wrap{background:#DEDACD;border-radius:18px;padding:22px;margin-bottom:22px;}
+  .sheet{background:#fff;border-radius:4px;box-shadow:0 10px 32px rgba(28,43,45,0.14);padding:34px 30px;max-width:640px;margin:0 auto;}
+  .sheet-eyebrow{font-size:0.71rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--path);font-weight:700;margin-bottom:8px;}
+  .sheet h1.headline{font-size:1.95rem;line-height:1.15;margin-bottom:8px;}
+  .sheet .sheet-sub{color:var(--muted);font-size:0.95rem;margin-bottom:4px;}
+  .sheet .sheet-date{color:var(--muted);font-size:0.81rem;margin-bottom:20px;padding-bottom:16px;border-bottom:2px solid var(--ink);}
 
-/* result cards */
-.result-card{border-bottom:1px solid var(--line);padding:18px 0;margin:0;}
-.result-card:last-child{border-bottom:none;}
-.result-card h3{font-size:1.18rem;margin-bottom:5px;display:flex;align-items:center;gap:7px;}
-.cat-dot{width:7px;height:7px;border-radius:50%;background:var(--path);flex-shrink:0;}
-.result-card .addr{font-size:1.05rem;font-weight:700;margin:4px 0 2px;}
-.result-card .meta{color:var(--muted);font-size:0.95rem;line-height:1.65;}
-.result-card .note-box{margin-top:9px;font-size:0.91rem;background:var(--path-light);padding:11px 14px;border-radius:10px;color:#20463A;line-height:1.55;}
-.result-card .warning-box{margin-top:9px;font-size:0.88rem;background:var(--danger-light);padding:11px 14px;border-radius:10px;color:#7a1a00;line-height:1.55;}
-.directions-link{display:inline-flex;align-items:center;gap:5px;margin-top:8px;font-size:0.93rem;font-weight:700;color:var(--path);text-decoration:none;padding:5px 0;min-height:44px;}
+  /* Handwritten appointment box */
+  .appt-write-box{border:2px dashed var(--path);border-radius:14px;padding:18px 20px;margin-bottom:22px;background:#FAFDF9;}
+  .awb-label{font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--path);font-weight:700;margin-bottom:12px;}
+  .awb-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:12px;}
+  @media(max-width:500px){.awb-row{grid-template-columns:1fr;}}
+  .awb-field{display:flex;flex-direction:column;gap:5px;}
+  .awb-field label{font-size:0.78rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;}
+  .awb-line{border:none;border-bottom:1.5px solid var(--ink);width:100%;padding:5px 3px;font-size:1.02rem;font-family:'Source Sans 3',sans-serif;background:transparent;color:var(--ink);}
+  .awb-line:focus{outline:none;border-bottom-color:var(--path);}
+  .awb-line::placeholder{color:#C8C3B6;font-weight:400;font-style:italic;}
 
-/* collapsible call + directions panels /
-.collapse-toggle{
-background:none;border:1.5px dashed var(--path);color:var(--path);
-font-family:inherit;font-weight:700;font-size:0.86rem;
-padding:9px 15px;border-radius:10px;cursor:pointer;
-margin-top:9px;margin-right:8px;
-min-height:44px;display:inline-flex;align-items:center;gap:6px;
-}
-.collapse-toggle.dir-toggle{border-color:var(--sun);color:var(--sun);}
-.collapse-panel{display:none;margin-top:9px;border-radius:12px;padding:13px 16px;}
-.collapse-panel.open{display:block;}
-.call-panel-inner{background:var(--path-light);}
-.dir-panel-inner{background:#FFFBF5;border:1px solid #F0D9BC;}
-.collapse-panel ol{margin:0;padding-left:18px;}
-.collapse-panel li{margin-bottom:7px;font-size:0.91rem;line-height:1.6;}
-.collapse-panel .say-line{font-style:italic;display:block;margin-top:2px;color:#20463A;}
-/ transit inside dir panel */
-.transit-steps{margin-top:4px;}
-.transit-step{display:flex;gap:10px;align-items:flex-start;margin-bottom:10px;}
-.transit-step:last-child{margin-bottom:0;}
-.ts-icon{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.75rem;flex-shrink:0;margin-top:1px;}
-.ts-icon.walk{background:#F0EBE0;color:var(--ink);}
-.ts-icon.subway{background:var(--sun);color:#fff;font-weight:800;font-size:0.7rem;}
-.ts-icon.arrive{background:var(--path);color:#fff;}
-.ts-body{font-size:0.88rem;line-height:1.5;}
-.ts-body strong{display:block;font-weight:700;color:var(--ink);}
-.ts-body span{color:var(--muted);}
-.gmap-link{display:inline-flex;align-items:center;gap:5px;margin-top:10px;font-size:0.88rem;font-weight:700;color:var(--path);text-decoration:none;padding:6px 12px;border:1.5px solid var(--path);border-radius:8px;}
+  /* 2-week calendar */
+  .cal-wrap{margin-top:4px;}
+  .cal-label{font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);font-weight:700;margin-bottom:7px;}
+  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;}
+  .cal-head{font-size:0.65rem;font-weight:700;text-align:center;color:var(--muted);text-transform:uppercase;padding-bottom:2px;}
+  .cal-day{border:1.5px solid var(--line);border-radius:7px;aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;background:#fff;transition:background .12s;-webkit-user-select:none;user-select:none;min-height:36px;}
+  .cal-day:active{background:var(--path-light);}
+  /* base "is actually today" styling */
+  .cal-day.today{border-color:var(--sun);background:#FFF8F2;}
+  .cal-day.today .cal-day-num{color:var(--sun);}
+  .cal-day-num{font-size:0.88rem;font-weight:700;line-height:1;}
+  .cal-day-mo{font-size:0.55rem;color:var(--muted);margin-top:1px;line-height:1;}
+  /* user-marked states declared AFTER .today so they always win (fixes disappearing number) */
+  .cal-day.marked-today{background:var(--sun);border-color:var(--sun);}
+  .cal-day.marked-appt{background:var(--path);border-color:var(--path);}
+  .cal-day.marked-today .cal-day-num,.cal-day.marked-appt .cal-day-num{color:#fff!important;}
+  .cal-day.marked-today .cal-day-mo,.cal-day.marked-appt .cal-day-mo{color:rgba(255,255,255,0.75);}
+  .cal-legend{display:flex;gap:12px;margin-top:7px;flex-wrap:wrap;}
+  .cal-legend-item{display:flex;align-items:center;gap:4px;font-size:0.73rem;color:var(--muted);}
+  .cal-legend-dot{width:9px;height:9px;border-radius:3px;flex-shrink:0;}
 
-/* status banners */
-.status-banner{border-radius:12px;padding:11px 14px;margin-bottom:18px;font-size:0.88rem;line-height:1.45;}
-.status-info{background:#EFF6FF;border:1px solid #BFDBFE;color:#1e40af;}
-.status-closed{background:var(--danger-light);border:1px solid #f5cfc4;color:#7a1a00;}
+  /* result cards */
+  .result-card{border-bottom:1px solid var(--line);padding:18px 0;margin:0;}
+  .result-card:last-child{border-bottom:none;}
+  .result-card h3{font-size:1.18rem;margin-bottom:5px;display:flex;align-items:center;gap:7px;}
+  .cat-dot{width:7px;height:7px;border-radius:50%;background:var(--path);flex-shrink:0;}
+  .result-card .addr{font-size:1.05rem;font-weight:700;margin:4px 0 2px;}
+  .result-card .meta{color:var(--muted);font-size:0.95rem;line-height:1.65;}
+  .result-card .note-box{margin-top:9px;font-size:0.91rem;background:var(--path-light);padding:11px 14px;border-radius:10px;color:var(--ink);line-height:1.55;}
+  .result-card .warning-box{margin-top:9px;font-size:0.88rem;background:var(--danger-light);padding:11px 14px;border-radius:10px;color:#7a1a00;line-height:1.55;}
+  .directions-link{display:inline-flex;align-items:center;gap:5px;margin-top:8px;font-size:0.93rem;font-weight:700;color:var(--path);text-decoration:none;padding:5px 0;min-height:44px;}
 
-/* QR + footer */
-.footer-actions{display:flex;gap:11px;align-items:center;margin-top:11px;flex-wrap:wrap;}
-@media(max-width:780px){.footer-actions{flex-direction:column;align-items:stretch;}.footer-actions .btn{text-align:center;width:100%;}}
-.qr-block{display:flex;align-items:center;gap:16px;background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:16px;margin-top:14px;}
-#qrcode canvas,#qrcode img{display:block;}
-.qr-copy h3{font-size:0.97rem;margin-bottom:3px;}
-.qr-copy p{font-size:0.86rem;color:var(--muted);margin:0;line-height:1.4;}
-.qr-note{font-size:0.76rem;color:var(--path);font-weight:600;margin-top:5px;}
+  /* collapsible call + directions panels */
+  .collapse-toggle{
+    background:none;border:1.5px dashed var(--path);color:var(--path);
+    font-family:inherit;font-weight:700;font-size:0.86rem;
+    padding:9px 15px;border-radius:10px;cursor:pointer;
+    margin-top:9px;margin-right:8px;
+    min-height:44px;display:inline-flex;align-items:center;gap:6px;
+  }
+  .collapse-toggle.dir-toggle{border-color:var(--sun);color:var(--sun);}
+  .collapse-panel{display:none;margin-top:9px;border-radius:12px;padding:13px 16px;}
+  .collapse-panel.open{display:block;}
+  .call-panel-inner{background:var(--path-light);}
+  .dir-panel-inner{background:#FFFBF5;border:1px solid #F0D9BC;}
+  .collapse-panel ol{margin:0;padding-left:18px;}
+  .collapse-panel li{margin-bottom:7px;font-size:0.91rem;line-height:1.6;}
+  .collapse-panel .say-line{font-style:italic;display:block;margin-top:2px;color:var(--ink);}
+  .transit-steps{margin-top:4px;}
+  .transit-step{display:flex;gap:10px;align-items:flex-start;margin-bottom:10px;}
+  .transit-step:last-child{margin-bottom:0;}
+  .ts-icon{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.75rem;flex-shrink:0;margin-top:1px;}
+  .ts-icon.walk{background:#F0EBE0;color:var(--ink);}
+  .ts-icon.subway{background:var(--sun);color:#fff;font-weight:800;font-size:0.7rem;}
+  .ts-icon.arrive{background:var(--path);color:#fff;}
+  .ts-body{font-size:0.88rem;line-height:1.5;}
+  .ts-body strong{display:block;font-weight:700;color:var(--ink);}
+  .ts-body span{color:var(--muted);}
+  .gmap-link{display:inline-flex;align-items:center;gap:5px;margin-top:10px;font-size:0.88rem;font-weight:700;color:var(--path);text-decoration:none;padding:6px 12px;border:1.5px solid var(--path);border-radius:8px;}
 
-/* section label */
-.section-div{font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--path);font-weight:700;margin:16px 0 9px;padding-top:14px;border-top:1px solid var(--line);}
+  /* status banners */
+  .status-banner{border-radius:12px;padding:11px 14px;margin-bottom:18px;font-size:0.88rem;line-height:1.45;}
+  .status-info{background:#EFF6FF;border:1px solid #BFDBFE;color:#1e40af;}
+  .status-closed{background:var(--danger-light);border:1px solid #f5cfc4;color:#7a1a00;}
+  .status-success{background:var(--success-light);border:1px solid #bfe3bf;color:var(--success);}
 
-@media print{
-body{background:#fff;}
-.topbar,.footer-actions,.qr-block,.no-print,.collapse-toggle{display:none!important;}
-.app{max-width:100%;padding:0;}
-.sheet-wrap{background:none;padding:0;}
-.sheet{box-shadow:none;max-width:100%;padding:18px 0;}
-.collapse-panel{display:block!important;}
-.cal-day{border:1px solid #ccc;}
-.awb-line{border-bottom:1px solid #999;}
-}
+  /* QR + footer */
+  .footer-actions{display:flex;gap:11px;align-items:center;margin-top:11px;flex-wrap:wrap;}
+  @media(max-width:780px){.footer-actions{flex-direction:column;align-items:stretch;}.footer-actions .btn{text-align:center;width:100%;}}
+  .qr-block{display:flex;align-items:center;gap:16px;background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:16px;margin-top:14px;}
+  #qrcode canvas,#qrcode img{display:block;}
+  .qr-copy h3{font-size:0.97rem;margin-bottom:3px;}
+  .qr-copy p{font-size:0.86rem;color:var(--muted);margin:0;line-height:1.4;}
+  .qr-note{font-size:0.76rem;color:var(--path);font-weight:600;margin-top:5px;}
+
+  /* upload screen */
+  .upload-actions{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:18px;}
+  .upload-actions label.choice-btn{cursor:pointer;}
+  .upload-icon{font-size:1.6rem;}
+  .upload-list{display:flex;flex-direction:column;gap:10px;margin-bottom:18px;}
+  .upload-item{display:flex;align-items:center;gap:12px;background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:10px 14px;}
+  .upload-thumb{width:44px;height:44px;border-radius:8px;object-fit:cover;flex-shrink:0;background:var(--path-light);}
+  .upload-icon-box{width:44px;height:44px;border-radius:8px;background:var(--path-light);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;}
+  .upload-name{font-size:0.9rem;font-weight:600;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .upload-remove{background:none;border:none;color:var(--danger);font-size:0.85rem;font-weight:700;cursor:pointer;padding:8px;min-height:44px;}
+
+  /* section label */
+  .section-div{font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--path);font-weight:700;margin:16px 0 9px;padding-top:14px;border-top:1px solid var(--line);}
+
+  @media print{
+    body{background:#fff;}
+    .topbar,.footer-actions,.qr-block,.no-print,.collapse-toggle{display:none!important;}
+    .app{max-width:100%;padding:0;}
+    .sheet-wrap{background:none;padding:0;}
+    .sheet{box-shadow:none;max-width:100%;padding:18px 0;}
+    .collapse-panel{display:block!important;}
+    .cal-day{border:1px solid #ccc;}
+    .awb-line{border-bottom:1px solid #999;}
+  }
 </style>
+</head>
+<body>
+<div class="app">
 
-</head> <body> <div class="app"> <div class="topbar no-print"> <div class="brand"> <span class="brand-mark"></span> <h1>Pathway</h1> <span class="brand-sub">Bellevue CATCH-ED Leads · SBIRT</span> </div> <div class="topbar-right"> <div class="lang-toggle"> <button class="lang-btn active" id="langEnBtn">EN</button> <button class="lang-btn" id="langEsBtn">ES</button> </div> <span class="mode-badge" id="modeBadge">Staff setup</span> </div> </div> <!-- ══ SCREEN: Staff resource selection ══ --> <section class="screen active" id="screen-staff"> <div class="prompt"> <div class="prompt-eyebrow" id="s_staffEyebrow">Step 1 · Staff</div> <h2 id="s_staffH">What does this patient need today?</h2> <p class="sub" id="s_staffSub">Select all that apply. The patient will only see what you check here.</p> </div> <div class="grid" id="staffGrid"></div> <div class="btn-row"> <button class="btn btn-primary" id="startBtn" disabled>Give tablet to patient →</button> </div> </section> <!-- ══ SCREEN: Insurance ══ --> <section class="screen" id="screen-insurance"> <div class="prompt"> <div class="prompt-eyebrow" id="s_insEyebrow">Step 1 of 4</div> <h2 id="s_insH">Do you have health insurance?</h2> <p class="sub" id="s_insSub">This helps us find the right options for you. Many resources are available no matter what.</p> </div> <div class="choice-list" id="insuranceList"></div> </section> <!-- ══ SCREEN: Borough map ══ --> <section class="screen" id="screen-borough"> <div class="prompt"> <div class="prompt-eyebrow" id="s_boroughEyebrow">Step 2 of 4</div> <h2 id="s_boroughH">Where in New York City are you right now?</h2> <p class="sub" id="s_boroughSub">Tap your borough on the map below.</p> </div> <div class="borough-map-wrap" id="boroughMapWrap"></div> <p class="borough-map-hint" id="s_boroughHint">Not sure? Tap the area that looks most familiar.</p> </section> <!-- ══ SCREEN: Zone map ══ --> <section class="screen" id="screen-zone"> <div class="prompt"> <div class="prompt-eyebrow" id="s_zoneEyebrow">Step 2 of 4</div> <h2 id="s_zoneH">Tap the part of <span id="zoneBorough"></span> closest to you.</h2> <p class="sub" id="s_zoneSub">This helps us find the nearest resources and transit routes.</p> </div> <div class="zone-svg-wrap" id="zoneSvgWrap"></div> <p class="zone-map-hint" id="s_zoneHint">Not sure? Tap anywhere — we'll use the center of the borough.</p> </section> <!-- ══ SCREEN: SHOW van area ══ --> <section class="screen" id="screen-show-area"> <div class="prompt"> <div class="prompt-eyebrow" id="s_showEyebrow">S.H.O.W. Mobile Van</div> <h2 id="s_showH">Which area of the borough are you closest to?</h2> <p class="sub" id="s_showSub">The van visits different locations on different days. Pick the closest one.</p> </div> <div class="choice-list" id="showAreaList"></div> </section> <!-- ══ SCREEN: Clarifier ══ --> <section class="screen" id="screen-clarify"> <div class="prompt"> <div class="prompt-eyebrow" id="clarifyEyebrow"></div> <h2 id="clarifyQ"></h2> <p class="sub" id="clarifySub"></p> </div> <div class="choice-list" id="clarifyChoices"></div> <button class="link-btn no-print" id="skipClarify">Skip →</button> </section> <!-- ══ SCREEN: Additional topics ══ --> <section class="screen" id="screen-additional"> <div class="prompt"> <div class="prompt-eyebrow" id="s_addlEyebrow">Step 3 of 4</div> <h2 id="s_addlH">Is there anything else you would like information about?</h2> <p class="sub" id="s_addlSub">Tap anything that applies. You can also skip this.</p> </div> <div class="grid" id="additionalGrid"></div> <div class="btn-row"> <button class="btn btn-primary" id="addMoreBtn">Add to my plan</button> <button class="btn btn-ghost" id="additionalDoneBtn">Skip</button> </div> </section> <!-- ══ SCREEN: Results / print sheet ══ --> <section class="screen" id="screen-results"> <div class="prompt no-print"> <div class="prompt-eyebrow" id="s_resultsEyebrow">Step 4 of 4</div> <h2 id="s_resultsH">Your resource plan is ready.</h2> <p class="sub" id="s_resultsSub">Your counselor will print this for you. You can also scan the code below to save it on your phone.</p> </div> <div class="sheet-wrap"> <div class="sheet" id="sheet"> <div class="sheet-eyebrow">Bellevue CATCH-ED Leads · SBIRT · Patient Resource Guide</div> <h1 class="headline" id="s_headline">Your plan</h1> <div class="sheet-sub" id="sheetPatientName"></div> <div class="sheet-date" id="printDate"></div>
-php
-Copy code
-    <!-- Appointment write-in box -->
-    <div class="appt-write-box">
-      <div class="awb-label" id="s_awbLabel">My next appointment</div>
-      <div class="awb-row">
-        <div class="awb-field">
-          <label id="s_awbWhere">Where</label>
-          <input class="awb-line" id="awbWhere" type="text" placeholder="Location name">
-        </div>
-        <div class="awb-field">
-          <label id="s_awbDate">Date &amp; Time</label>
-          <input class="awb-line" id="awbDate" type="text" placeholder="e.g. Tuesday July 29, 2pm">
-        </div>
+  <div class="topbar no-print">
+    <div class="brand">
+      <span class="brand-mark"></span>
+      <h1>Pathway</h1>
+      <span class="brand-sub" id="brandSub"></span>
+    </div>
+    <div class="topbar-right">
+      <div class="lang-toggle">
+        <button class="lang-btn active" id="langEnBtn">EN</button>
+        <button class="lang-btn" id="langEsBtn">ES</button>
       </div>
-      <div class="cal-wrap">
-        <div class="cal-label" id="s_calLabel">Tap today, then tap your appointment day</div>
-        <div class="cal-grid" id="calGrid"></div>
-        <div class="cal-legend">
-          <div class="cal-legend-item"><div class="cal-legend-dot" style="background:var(--sun);"></div><span id="s_calLegendToday">Today</span></div>
-          <div class="cal-legend-item"><div class="cal-legend-dot" style="background:var(--path);"></div><span id="s_calLegendAppt">Appointment</span></div>
+      <span class="mode-badge" id="modeBadge">Staff setup</span>
+    </div>
+  </div>
+
+  <!-- ══ SCREEN: Location ══ -->
+  <section class="screen active" id="screen-location">
+    <div class="prompt">
+      <div class="prompt-eyebrow" id="s_locEyebrow">Step 1 · Location</div>
+      <h2 id="s_locH">Choose a location to get started</h2>
+      <p class="sub" id="s_locSub">This sets your nearby resources, transit routes, and map.</p>
+    </div>
+    <div class="picker-grid" id="locationGrid"></div>
+  </section>
+
+  <!-- ══ SCREEN: Hospital ══ -->
+  <section class="screen" id="screen-hospital">
+    <button class="back-link no-print" id="backFromHospital">← <span id="s_backLoc">Change location</span></button>
+    <div class="prompt">
+      <div class="prompt-eyebrow" id="s_hospEyebrow">Step 2 · Emergency Department</div>
+      <h2 id="s_hospH">Choose an Emergency Department</h2>
+      <p class="sub" id="s_hospSub">This sets the color theme and how referrals are worded.</p>
+    </div>
+    <div class="picker-grid" id="hospitalGrid"></div>
+  </section>
+
+  <!-- ══ SCREEN: Action ══ -->
+  <section class="screen" id="screen-action">
+    <button class="back-link no-print" id="backFromAction">← <span id="s_backHosp">Change department</span></button>
+    <div class="prompt">
+      <div class="prompt-eyebrow" id="s_actEyebrow">Step 3 · What would you like to do?</div>
+      <h2 id="s_actH">What would you like to do?</h2>
+      <p class="sub" id="s_actSub">Choose one to continue.</p>
+    </div>
+    <div class="picker-grid" id="actionGrid"></div>
+  </section>
+
+  <!-- ══ SCREEN: Upload / Update info ══ -->
+  <section class="screen" id="screen-upload">
+    <button class="back-link no-print" id="backFromUpload">← <span id="s_backAct2">Back</span></button>
+    <div class="prompt">
+      <div class="prompt-eyebrow" id="s_upEyebrow">Update Information</div>
+      <h2 id="s_upH">Upload or photograph updated resource sheets</h2>
+      <p class="sub" id="s_upSub">Choose a file from this device, or use the camera to photograph a printed sheet. You can add more than one.</p>
+    </div>
+    <div class="upload-actions">
+      <label class="choice-btn compact" for="fileUploadInput"><span class="upload-icon">📁</span><span id="s_upChoose">Choose file</span><input type="file" id="fileUploadInput" accept=".pdf,image/*" multiple hidden></label>
+      <label class="choice-btn compact" for="cameraInput"><span class="upload-icon">📷</span><span id="s_upPhoto">Take photo</span><input type="file" id="cameraInput" accept="image/*" capture="environment" hidden></label>
+    </div>
+    <div class="upload-list" id="uploadList"></div>
+    <div class="btn-row">
+      <button class="btn btn-primary" id="submitUploadBtn" disabled>Submit update</button>
+      <button class="btn btn-ghost" id="uploadCancelBtn">Cancel</button>
+    </div>
+    <div id="uploadConfirm"></div>
+  </section>
+
+  <!-- ══ SCREEN: Mode (Who are you) ══ -->
+  <section class="screen" id="screen-mode">
+    <button class="back-link no-print" id="backFromMode">← <span id="s_backAct">Back</span></button>
+    <div class="prompt">
+      <div class="prompt-eyebrow" id="s_modeEyebrow">Step 4 · Who are you?</div>
+      <h2 id="s_modeH">Who are you?</h2>
+      <p class="sub" id="s_modeSub">This adjusts which resources are shown.</p>
+    </div>
+    <div class="picker-grid cols-3" id="modeGrid"></div>
+  </section>
+
+  <!-- ══ SCREEN: Staff resource selection ══ -->
+  <section class="screen" id="screen-staff">
+    <div class="prompt">
+      <div class="prompt-eyebrow" id="s_staffEyebrow">Staff</div>
+      <h2 id="s_staffH">What does this patient need today?</h2>
+      <p class="sub" id="s_staffSub">Select all that apply. The patient will only see what you check here.</p>
+    </div>
+    <div class="grid" id="staffGrid"></div>
+    <div class="btn-row">
+      <button class="btn btn-primary" id="startBtn" disabled>Give tablet to patient →</button>
+    </div>
+  </section>
+
+  <!-- ══ SCREEN: Insurance ══ -->
+  <section class="screen" id="screen-insurance">
+    <div class="prompt">
+      <div class="prompt-eyebrow" id="s_insEyebrow">Step 1 of 4</div>
+      <h2 id="s_insH">Do you have health insurance?</h2>
+      <p class="sub" id="s_insSub">This helps us find the right options for you. Many resources are available no matter what.</p>
+    </div>
+    <div class="choice-list" id="insuranceList"></div>
+  </section>
+
+  <!-- ══ SCREEN: Borough map (NYC only) ══ -->
+  <section class="screen" id="screen-borough">
+    <div class="prompt">
+      <div class="prompt-eyebrow" id="s_boroughEyebrow">Step 2 of 4</div>
+      <h2 id="s_boroughH">Where in New York City are you right now?</h2>
+      <p class="sub" id="s_boroughSub">Tap your borough on the map below.</p>
+    </div>
+    <div class="borough-map-wrap" id="boroughMapWrap"></div>
+    <p class="borough-map-hint" id="s_boroughHint">Not sure? Tap the area that looks most familiar.</p>
+  </section>
+
+  <!-- ══ SCREEN: Zone map ══ -->
+  <section class="screen" id="screen-zone">
+    <div class="prompt">
+      <div class="prompt-eyebrow" id="s_zoneEyebrow">Step 2 of 4</div>
+      <h2 id="s_zoneH">Tap the part of <span id="zoneBorough"></span> closest to you.</h2>
+      <p class="sub" id="s_zoneSub">This helps us find the nearest resources and transit routes.</p>
+    </div>
+    <div class="zone-svg-wrap" id="zoneSvgWrap"></div>
+    <p class="zone-map-hint" id="s_zoneHint">Not sure? Tap anywhere — we'll use the center of the area.</p>
+  </section>
+
+  <!-- ══ SCREEN: Mobile van / street medicine area ══ -->
+  <section class="screen" id="screen-show-area">
+    <div class="prompt">
+      <div class="prompt-eyebrow" id="s_showEyebrow">Mobile Outreach Van</div>
+      <h2 id="s_showH">Which area are you closest to?</h2>
+      <p class="sub" id="s_showSub">The van visits different locations on different days. Pick the closest one.</p>
+    </div>
+    <div class="choice-list" id="showAreaList"></div>
+  </section>
+
+  <!-- ══ SCREEN: Clarifier ══ -->
+  <section class="screen" id="screen-clarify">
+    <div class="prompt">
+      <div class="prompt-eyebrow" id="clarifyEyebrow"></div>
+      <h2 id="clarifyQ"></h2>
+      <p class="sub" id="clarifySub"></p>
+    </div>
+    <div class="choice-list" id="clarifyChoices"></div>
+    <button class="link-btn no-print" id="skipClarify">Skip →</button>
+  </section>
+
+  <!-- ══ SCREEN: Additional topics ══ -->
+  <section class="screen" id="screen-additional">
+    <div class="prompt">
+      <div class="prompt-eyebrow" id="s_addlEyebrow">Step 3 of 4</div>
+      <h2 id="s_addlH">Is there anything else you would like information about?</h2>
+      <p class="sub" id="s_addlSub">Tap anything that applies. You can also skip this.</p>
+    </div>
+    <div class="grid" id="additionalGrid"></div>
+    <div class="btn-row">
+      <button class="btn btn-primary" id="addMoreBtn">Add to my plan</button>
+      <button class="btn btn-ghost" id="additionalDoneBtn">Skip</button>
+    </div>
+  </section>
+
+  <!-- ══ SCREEN: Results / print sheet ══ -->
+  <section class="screen" id="screen-results">
+    <div class="prompt no-print">
+      <div class="prompt-eyebrow" id="s_resultsEyebrow">Step 4 of 4</div>
+      <h2 id="s_resultsH">Your resource plan is ready.</h2>
+      <p class="sub" id="s_resultsSub">Your counselor will print this for you. You can also scan the code below to save it on your phone.</p>
+    </div>
+    <div class="sheet-wrap">
+      <div class="sheet" id="sheet">
+        <div class="sheet-eyebrow" id="sheetEyebrow">Patient Resource Guide</div>
+        <h1 class="headline" id="s_headline">Your plan</h1>
+        <div class="sheet-sub" id="sheetPatientName"></div>
+        <div class="sheet-date" id="printDate"></div>
+
+        <!-- Appointment write-in box -->
+        <div class="appt-write-box">
+          <div class="awb-label" id="s_awbLabel">My next appointment</div>
+          <div class="awb-row">
+            <div class="awb-field">
+              <label id="s_awbWhere">Where</label>
+              <input class="awb-line" id="awbWhere" type="text" placeholder="Location name">
+            </div>
+            <div class="awb-field">
+              <label id="s_awbDate">Date &amp; Time</label>
+              <input class="awb-line" id="awbDate" type="text" placeholder="e.g. Tuesday July 29, 2pm">
+            </div>
+          </div>
+          <div class="cal-wrap">
+            <div class="cal-label" id="s_calLabel">Tap today, then tap your appointment day</div>
+            <div class="cal-grid" id="calGrid"></div>
+            <div class="cal-legend">
+              <div class="cal-legend-item"><div class="cal-legend-dot" style="background:var(--sun);"></div><span id="s_calLegendToday">Today</span></div>
+              <div class="cal-legend-item"><div class="cal-legend-dot" style="background:var(--path);"></div><span id="s_calLegendAppt">Appointment</span></div>
+            </div>
+          </div>
         </div>
+
+        <div id="resultsContainer"></div>
       </div>
     </div>
 
-    <div id="resultsContainer"></div>
-  </div>
+    <div class="footer-actions no-print">
+      <button class="btn btn-primary" onclick="window.print()" id="s_printBtn">Print this page</button>
+      <button class="btn btn-ghost" id="restartBtn">Start over</button>
+    </div>
+
+    <div class="qr-block no-print">
+      <div id="qrcode"></div>
+      <div class="qr-copy">
+        <h3 id="s_qrH">Save this to your phone</h3>
+        <p id="s_qrP">Point your phone camera at this code. It opens a plain text version of your resource list that you can save, copy, or share.</p>
+        <div class="qr-note" id="s_qrNote">Works on iPhone and Android — no app needed</div>
+      </div>
+    </div>
+  </section>
+
 </div>
 
-<div class="footer-actions no-print">
-  <button class="btn btn-primary" onclick="window.print()" id="s_printBtn">Print this page</button>
-  <button class="btn btn-ghost" id="restartBtn">Start over</button>
-</div>
-
-<div class="qr-block no-print">
-  <div id="qrcode"></div>
-  <div class="qr-copy">
-    <h3 id="s_qrH">Save this to your phone</h3>
-    <p id="s_qrP">Point your phone camera at this code. It will open a page with your full resource list that you can save or share.</p>
-    <div class="qr-note" id="s_qrNote">Works on iPhone and Android — no app needed</div>
-  </div>
-</div>
-</section> </div> <script> /* ============================================================ i18n ============================================================ */ const LANG={ en:{ staffBadge:'Staff setup', patientBadge:'', staffEyebrow:'Step 1 · Staff', staffH:'What does this patient need today?', staffSub:'Select all that apply. The patient will only see what you check here.', startBtn:'Give tablet to patient →', insEyebrow:'Step 1 of 4', insH:'Do you have health insurance?', insSub:'This helps us find the right options for you. Many resources are available no matter what.', insOpts:[ {v:'medicaid',l:'Medicaid',d:'State health coverage'}, {v:'medicare',l:'Medicare',d:'Federal program, age 65+ or disability'}, {v:'commercial',l:'Private insurance',d:'Through a job or marketplace'}, {v:'none',l:'No insurance',d:''}, {v:'unknown',l:"I'm not sure",d:''}, ], boroughEyebrow:'Step 2 of 4', boroughH:'Where in New York City are you right now?', boroughSub:'Tap your borough on the map below.', boroughHint:"Not sure? Tap the area that looks most familiar.", zoneEyebrow:'Step 2 of 4', zoneSub:'This helps us find the nearest resources and transit routes.', zoneHint:"Not sure? Tap anywhere — we'll use the center of the borough.", showEyebrow:'S.H.O.W. Mobile Van', showH:'Which area are you closest to?', showSub:'The van visits different locations on different days.', addlEyebrow:'Step 3 of 4', addlH:'Is there anything else you would like information about?', addlSub:'Tap anything that applies. You can also skip this.', addMore:'Add to my plan', addlDone:'Skip', resultsEyebrow:'Step 4 of 4', resultsH:'Your resource plan is ready.', resultsSub:'Your counselor will print this for you. You can also scan the code below to save it on your phone.', headline:'Your plan', printBtn:'Print this page', qrH:'Save this to your phone', qrP:'Point your phone camera at this code. It will open a page with your full resource list that you can save or share.', qrNote:'Works on iPhone and Android — no app needed', awbLabel:'My next appointment', awbWhere:'Where', awbDate:'Date & Time', calLabel:'Tap today, then tap your appointment day', calLegendToday:'Today', calLegendAppt:'Appointment', skipQ:'Skip →', notSure:"Not sure", noInsNote:'Resources marked <em>No insurance required</em> are available to everyone. <a href="https://access.nyc.gov/" target="_blank" style="color:inherit;font-weight:700;">access.nyc.gov</a> can help you sign up for Medicaid.', callToggle:'How to make this call ▾', callToggleHide:'Hide ▲', dirToggle:'How to get there ▾', dirToggleHide:'Hide ▲', categories:{ detox:{label:'Detox / treatment program',desc:'Inpatient beds for detoxification'}, show:{label:'S.H.O.W. Mobile Van',desc:'Street medicine — wound care, Narcan, hygiene kits'}, telehealth:{label:'24/7 Virtual Care',desc:'Speak with a provider today — opioids, withdrawal, urgent care'}, wellness:{label:'Wellness & peer support',desc:'The Pillars, 46th St Club House, mutual aid'}, narcan:{label:'Narcan (naloxone)',desc:'Free kit and hands-on training, available today'}, mentalhealth:{label:'Mental health support',desc:'Crisis line, counseling, walk-in care'}, shelter:{label:'Shelter & housing',desc:'Emergency beds and transitional housing'}, benefits:{label:'Benefits & Medicaid',desc:'Help enrolling in insurance and income support'}, mat:{label:'MAT — medication treatment',desc:'Methadone or buprenorphine (Suboxone)'}, pcp:{label:'Primary care',desc:'Follow-up health visit'}, }, }, es:{ staffBadge:'Configuración del personal', patientBadge:'', staffEyebrow:'Paso 1 · Personal', staffH:'¿Qué necesita este paciente hoy?', staffSub:'Seleccione todo lo que aplique. El paciente solo verá lo que marque aquí.', startBtn:'Entregar la tableta al paciente →', insEyebrow:'Paso 1 de 4', insH:'¿Tiene seguro médico?', insSub:'Esto nos ayuda a encontrar las mejores opciones para usted. Muchos recursos están disponibles sin importar su situación.', insOpts:[ {v:'medicaid',l:'Medicaid',d:'Cobertura estatal de salud'}, {v:'medicare',l:'Medicare',d:'Programa federal, 65+ o discapacidad'}, {v:'commercial',l:'Seguro privado',d:'A través de trabajo o mercado'}, {v:'none',l:'No tengo seguro',d:''}, {v:'unknown',l:'No estoy seguro/a',d:''}, ], boroughEyebrow:'Paso 2 de 4', boroughH:'¿Dónde en Nueva York se encuentra ahora?', boroughSub:'Toque su condado en el mapa.', boroughHint:'¿No está seguro/a? Toque el área que le resulte más familiar.', zoneEyebrow:'Paso 2 de 4', zoneSub:'Esto nos ayuda a encontrar los recursos más cercanos y las rutas de tránsito.', zoneHint:'¿No está seguro/a? Toque en cualquier lugar — usaremos el centro del condado.', showEyebrow:'Van móvil S.H.O.W.', showH:'¿A qué área está más cerca?', showSub:'La van visita diferentes lugares en diferentes días.', addlEyebrow:'Paso 3 de 4', addlH:'¿Hay algo más sobre lo que le gustaría información?', addlSub:'Toque todo lo que aplique. También puede omitir esto.', addMore:'Agregar a mi plan', addlDone:'Omitir', resultsEyebrow:'Paso 4 de 4', resultsH:'Su plan de recursos está listo.', resultsSub:'Su consejero/a lo imprimirá. También puede escanear el código para guardarlo en su teléfono.', headline:'Su plan', printBtn:'Imprimir esta página', qrH:'Guardar en su teléfono', qrP:'Apunte la cámara de su teléfono al código. Se abrirá una página con su lista de recursos que puede guardar o compartir.', qrNote:'Funciona en iPhone y Android — sin necesidad de aplicación', awbLabel:'Mi próxima cita', awbWhere:'Dónde', awbDate:'Fecha y hora', calLabel:'Toque hoy, luego toque el día de su cita', calLegendToday:'Hoy', calLegendAppt:'Cita', skipQ:'Omitir →', notSure:'No estoy seguro/a', noInsNote:'Los recursos marcados <em>Sin seguro requerido</em> están disponibles para todos. <a href="https://access.nyc.gov/" target="_blank" style="color:inherit;font-weight:700;">access.nyc.gov</a> puede ayudarle a inscribirse en Medicaid.', callToggle:'Cómo hacer esta llamada ▾', callToggleHide:'Ocultar ▲', dirToggle:'Cómo llegar ▾', dirToggleHide:'Ocultar ▲', categories:{ detox:{label:'Programa de desintoxicación',desc:'Camas hospitalarias para desintoxicación'}, show:{label:'Van móvil S.H.O.W.',desc:'Medicina callejera — cuidado de heridas, Narcan, kits de higiene'}, telehealth:{label:'Atención virtual 24/7',desc:'Hable con un proveedor hoy — opioides, abstinencia, urgencias'}, wellness:{label:'Bienestar y apoyo entre pares',desc:'The Pillars, 46th St Club House, ayuda mutua'}, narcan:{label:'Narcan (naloxona)',desc:'Kit gratuito y entrenamiento disponible hoy'}, mentalhealth:{label:'Apoyo de salud mental',desc:'Línea de crisis, consejería, atención sin cita'}, shelter:{label:'Refugio y vivienda',desc:'Camas de emergencia y vivienda transitoria'}, benefits:{label:'Beneficios y Medicaid',desc:'Ayuda para inscribirse en seguro y apoyo de ingresos'}, mat:{label:'MAT — tratamiento con medicación',desc:'Metadona o buprenorfina (Suboxone)'}, pcp:{label:'Atención primaria',desc:'Visita de seguimiento de salud general'}, }, } }; let lang='en'; const t=()=>LANG[lang]; function applyLang(){ const s=t(); const isStaff=currentScreen==='screen-staff'; document.getElementById('modeBadge').textContent=isStaff?s.staffBadge:''; document.getElementById('modeBadge').style.display=isStaff?'':'none'; // staff sa('s_staffEyebrow',s.staffEyebrow); sa('s_staffH',s.staffH); sa('s_staffSub',s.staffSub); document.getElementById('startBtn').textContent=s.startBtn; // insurance sa('s_insEyebrow',s.insEyebrow); sa('s_insH',s.insH); sa('s_insSub',s.insSub); // borough sa('s_boroughEyebrow',s.boroughEyebrow); sa('s_boroughH',s.boroughH); sa('s_boroughSub',s.boroughSub); sa('s_boroughHint',s.boroughHint); // zone sa('s_zoneEyebrow',s.zoneEyebrow); sa('s_zoneSub',s.zoneSub); sa('s_zoneHint',s.zoneHint); // show sa('s_showEyebrow',s.showEyebrow); sa('s_showH',s.showH); sa('s_showSub',s.showSub); // additional sa('s_addlEyebrow',s.addlEyebrow); sa('s_addlH',s.addlH); sa('s_addlSub',s.addlSub); document.getElementById('addMoreBtn').textContent=s.addMore; document.getElementById('additionalDoneBtn').textContent=s.addlDone; // results sa('s_resultsEyebrow',s.resultsEyebrow); sa('s_resultsH',s.resultsH); sa('s_resultsSub',s.resultsSub); sa('s_headline',s.headline); sa('s_printBtn',s.printBtn); sa('s_qrH',s.qrH); sa('s_qrP',s.qrP); sa('s_qrNote',s.qrNote); sa('s_awbLabel',s.awbLabel); sa('s_awbWhere',s.awbWhere); sa('s_awbDate',s.awbDate); sa('s_calLabel',s.calLabel); sa('s_calLegendToday',s.calLegendToday); sa('s_calLegendAppt',s.calLegendAppt); // clarify document.getElementById('skipClarify').textContent=s.skipQ; // re-render dynamic lists renderStaffGrid(); renderInsuranceScreen(); renderBoroughMap(); if(currentScreen==='screen-zone'&&state.borough) renderZoneMap(state.borough); if(currentScreen==='screen-additional'){ const rem=CATEGORY_IDS.filter(id=>!state.selectedCats.includes(id)); if(rem.length) renderAdditionalScreen(rem); } } function sa(id,v){const el=document.getElementById(id);if(el)el.textContent=v;} /* ============================================================ RESOURCE DATA (no phone numbers) ============================================================ */ const RESOURCES={ detox:{ Manhattan:[ {name:'Mt. Sinai Behavioral Health — Rivington',addr:'45 Rivington Street, New York, NY 10002',noInsOk:false}, {name:'Project Renewal (Men only)',addr:'8 East 3rd St, New York, NY 10003',noInsOk:true}, {name:'Elev8 Wellness Center',addr:'151 W. 136th Street, New York, NY 10030',noInsOk:false}, {name:'Mt. Sinai West — Addictions Institute',addr:'1000 10th Avenue, New York, NY 10019',noInsOk:false}, ], Brooklyn:[ {name:'ACI — Addiction Care Interventions',addr:'589 Rockaway Avenue, Brooklyn, NY 11212',noInsOk:false}, {name:'Urban Recovery',addr:'411 Van Brunt St, Brooklyn, NY 11231',noInsOk:false}, {name:'Surfpoint Recovery',addr:'2316 Surf Ave, Brooklyn, NY 11224',noInsOk:false}, {name:'Brooklyn Hospital',addr:'121 DeKalb Avenue, Brooklyn, NY 11201',noInsOk:false}, {name:'Genesis Beacon of Hope',addr:'449 39th St, 3rd Floor, Brooklyn, NY 11232',noInsOk:false}, {name:'Interfaith Medical Center Hospital',addr:'1545 Atlantic Avenue, Brooklyn, NY 11213',noInsOk:false}, {name:'Kingsboro ATC',addr:'754 Lexington Avenue, Brooklyn, NY 11221',noInsOk:true}, ], Queens:[ {name:'Cornerstone of the Medical Arts',addr:'159-05 Union Turnpike, Fresh Meadows, NY 11366',noInsOk:false}, {name:'Argus Community Faith Mission Crisis Center',addr:'114-40 Van Wyck Expressway, South Ozone Park, NY 11420',noInsOk:true}, {name:'Flushing Hospital',addr:'4500 Parsons Blvd, Flushing, NY 11355',noInsOk:true}, ], Bronx:[ {name:'BronxCare Hospital',addr:'1285 Fulton Ave, Bronx, NY 10456',noInsOk:false}, {name:'Acacia: Promesa Inc.',addr:'1776 Clay Avenue, Bronx, NY 10457',noInsOk:false}, {name:'St. Barnabas Hospital',addr:'4422 3rd Ave., Bronx, NY 10457',noInsOk:false}, ], 'Staten Island':[ {name:'Staten Island University (Northwell)',addr:'392 Seguine Avenue, Staten Island, NY 10309',noInsOk:false,closed:true}, ], 'Outside NYC':[ {name:'Arms Acres',addr:'75 Seminary Hill Road, Carmel, NY 10517',noInsOk:false}, {name:"St. John's Riverside Hospital",addr:'2 Park Avenue, Yonkers, NY 10713',noInsOk:false}, {name:'CarePoint Health Christ Hospital',addr:'176 Palisade Ave, Jersey City, NJ 07306',noInsOk:false}, {name:'Talbot House',addr:'30 C Carlough Road, Bohemia, NY 11716',noInsOk:true}, {name:'Seafield Center',addr:'7 Seafield Lane, Westhampton Beach, NY 11978',noInsOk:false}, {name:'St. Charles Hospital',addr:'900 Belle Terre Rd, Port Jefferson, NY 11777',noInsOk:false,note:'No opioid detox'}, ], }, commercial:[ {name:'Ascendant Detox',addr:'113 E 60th St, New York, NY 10022',noInsOk:false}, {name:'Pocono Mountain Recovery Centers',addr:'3437 PA-715, Henryville, PA 18332',noInsOk:false}, {name:'Recovery Centers of America',addr:'901 Ernston Rd, South Amboy, NJ 08879',noInsOk:false}, {name:'BOCA Recovery Centers',addr:'30 W Jimmie Leeds Rd, Galloway, NJ 08205',noInsOk:false}, {name:"St. Joseph's Institute",addr:'159 Glenwood Drive, Saranac Lake, NY 12983',noInsOk:false}, {name:'Wellbridge Addiction Treatment',addr:'525 Jan Way, Calverton, NY 11933',noInsOk:false}, {name:'Sunrise Detox Long Island',addr:'141 8th St, Brentwood, NY 11717',noInsOk:false}, ], wellness:[ {name:'The Pillars Wellness Center',addr:'289 Saint Nicholas Ave (btw 124th & 125th St), New York, NY 10027',noInsOk:true}, {name:'46th Street Club House',addr:'252 W 46th St, 2nd floor, New York, NY 10036',hours:'10AM–11:30PM daily',noInsOk:true}, ], }; const SHOW_STOPS=[ {borough:'Queens',area:'Elmhurst/Corona',name:'Park of the Americas',cross:'41st Ave and 103rd St',day:'Monday',hours:'9:30am–4:30pm',subway:'103rd St (7 train)'}, {borough:'Queens',area:'Elmhurst',name:'Moore Homestead Playground',cross:'Broadway and 45th Ave',day:'Tuesday',hours:'9am–5pm',subway:'Elmhurst Ave (M,R) · Jackson Hts/Roosevelt Ave (E,F,R,7)'}, {borough:'Queens',area:'Elmhurst',name:'Elmhurst Hospital – Hope Pavilion',cross:'41st Ave btw 79th & 80th St',day:'Friday',hours:'9:30am–4:30pm',subway:'Elmhurst Ave (M,R) · Jackson Hts/Roosevelt Ave (E,F,R,7)'}, {borough:'Queens',area:'Jamaica',name:'Union Hall Safe Haven',cross:'Between 160th St and Union Hall St',day:'Thursday',hours:'9am–5pm',subway:'Jamaica Center–Parsons/Archer (E,J,Z)'}, {borough:'Bronx',area:'South Bronx (Willis Ave)',name:'147th Street and Willis Ave',cross:'',day:'Tue, Thu, Fri',hours:'9:30am–4:30pm',subway:'East 149th St & Third Ave (2,5)'}, {borough:'Bronx',area:'South Bronx (BOOM! Health)',name:'226 E 144th St (outside BOOM! Health)',cross:'',day:'Wednesday',hours:'9:30am–4:30pm',subway:'149th St Grand Concourse (2,4,5)'}, {borough:'Bronx',area:'East Tremont',name:'East Tremont Transitional Housing',cross:'',day:'Wednesday',hours:'9:30am–4:30pm',subway:'Tremont Ave (B,D)'}, {borough:'Bronx',area:'Tremont',name:'Park Overlook Shelter',cross:'1938 Webster Ave',day:'Thursday',hours:'9:30am–4:30pm',subway:'Tremont Ave (B,D)'}, {borough:'Brooklyn',area:'Williamsburg',name:'Beaver Street',cross:'between Fayette St & Ellery St',day:'Wednesday',hours:'8:30am–3:30pm',subway:'Flushing Ave (M)'}, {borough:'Brooklyn',area:'Williamsburg',name:'Havemeyer St',cross:'between South 5th St & Broadway',day:'Friday',hours:'8:30am–3:30pm',subway:'Marcy Ave (M,J,Z)'}, {borough:'Brooklyn',area:'Bedstuy',name:'Hart Street',cross:'between Broadway & Stuyvesant Ave',day:'Tue, Thu',hours:'8:30am–3:30pm',subway:'Myrtle Ave (M,J,Z)'}, {borough:'Brooklyn',area:'Bedstuy',name:'Samaritan Village Shelter',cross:'988 Myrtle Ave',day:'Monday',hours:'9am–4pm',subway:'Myrtle Ave (M,J,Z)'}, {borough:'Manhattan',area:'Lower East Side',name:'Delancey Street',cross:'between Forsyth St & Chrystie St',day:'Mon–Fri',hours:'9:30am–4:30pm',subway:'Grand Street (B,D)'}, {borough:'Manhattan',area:'Chelsea',name:'28th Street',cross:'between 9th and 10th Ave',day:'Wednesday',hours:'9am–4pm',subway:'23rd Street (C,E)'}, {borough:'Manhattan',area:'Harlem',name:'Mount Morris Park West',cross:'between W 122nd St & Mt Morris Park W',day:'Mon, Tue, Thu, Fri',hours:'9:30am–4:30pm',subway:'125th Street (4,5,6)'}, ]; const TELEHEALTH={name:'Virtual ExpressCare (NYC Health + Hospitals)',url:'https://www.expresscare.nyc/',note:'Available 24 hours a day, 7 days a week. Help with opioid use, withdrawal symptoms, and urgent medical needs.'}; const ACCESS_NYC='https://access.nyc.gov/'; const BOROUGHS=['Manhattan','Brooklyn','Queens','Bronx','Staten Island']; const CATEGORY_IDS=['detox','show','telehealth','wellness','narcan','mentalhealth','shelter','benefits','mat','pcp']; /* Zone data — geographically ordered, with coordinates for SVG placement */ const ZONES={ Manhattan:[ {id:'inwood',label:'Inwood / Washington Heights',addr:'181st St & Broadway, Manhattan, NY',cx:148,cy:42}, {id:'harlem',label:'Harlem',addr:'125th St & Malcolm X Blvd, Manhattan, NY',cx:164,cy:100}, {id:'uws',label:'Upper West Side',addr:'79th St & Broadway, Manhattan, NY',cx:132,cy:148}, {id:'ues',label:'Upper East Side',addr:'79th St & Lexington Ave, Manhattan, NY',cx:194,cy:140}, {id:'midtown',label:'Midtown',addr:'42nd St & 6th Ave, Manhattan, NY',cx:158,cy:195}, {id:'chelsea',label:'Chelsea / West Village',addr:'23rd St & 8th Ave, Manhattan, NY',cx:136,cy:232}, {id:'les',label:'East Village / Lower East Side',addr:'Houston St & Ave A, Manhattan, NY',cx:186,cy:255}, {id:'fidi',label:'Financial District',addr:'Wall St & Broadway, Manhattan, NY',cx:162,cy:298}, ], Brooklyn:[ {id:'wburg',label:'Williamsburg / Greenpoint',addr:'Bedford Ave & N 7th St, Brooklyn, NY',cx:120,cy:60}, {id:'bedstuy',label:'Bedstuy / Bushwick',addr:'Broadway & Myrtle Ave, Brooklyn, NY',cx:155,cy:100}, {id:'dtbk',label:'Downtown Brooklyn',addr:'Flatbush Ave & Fulton St, Brooklyn, NY',cx:95,cy:115}, {id:'sunset',label:'Sunset Park / Bay Ridge',addr:'5th Ave & 45th St, Brooklyn, NY',cx:80,cy:190}, {id:'flatbush',label:'Flatbush / East Flatbush',addr:'Church Ave & Flatbush Ave, Brooklyn, NY',cx:150,cy:195}, ], Queens:[ {id:'astoria',label:'Astoria / Long Island City',addr:'31st St & Broadway, Queens, NY',cx:90,cy:60}, {id:'jhelm',label:'Jackson Heights / Elmhurst',addr:'Roosevelt Ave & 82nd St, Queens, NY',cx:140,cy:110}, {id:'flushing',label:'Flushing',addr:'Main St & Roosevelt Ave, Queens, NY',cx:210,cy:80}, {id:'jamaica',label:'Jamaica',addr:'Jamaica Ave & 165th St, Queens, NY',cx:210,cy:180}, ], Bronx:[ {id:'motthaven',label:'Mott Haven / South Bronx',addr:'3rd Ave & 149th St, Bronx, NY',cx:110,cy:210}, {id:'tremont',label:'Tremont / Fordham',addr:'Tremont Ave & Grand Concourse, Bronx, NY',cx:105,cy:145}, {id:'morrisania',label:'Morrisania / Melrose',addr:'Melrose Ave & 161st St, Bronx, NY',cx:145,cy:180}, {id:'pelham',label:'Pelham / Co-op City',addr:'Baychester Ave & Co-op City Blvd, Bronx, NY',cx:200,cy:80}, ], 'Staten Island':[ {id:'stgeorge',label:'St. George / North Shore',addr:'Richmond Terrace & Victory Blvd, Staten Island, NY',cx:130,cy:80}, {id:'midisland',label:'Mid-Island',addr:'Richmond Ave & Forest Ave, Staten Island, NY',cx:120,cy:160}, ], }; /* ============================================================ STATE ============================================================ */ let state={ selectedCats:[], borough:null, zone:null, showArea:null, insurance:null, clarifyAnswers:{}, clarifyQueue:[], currentClarifyId:null, additionalOffered:false, calMarks:{today:null,appt:null}, }; let pendingShowCb=null; let currentScreen='screen-staff'; /* ============================================================ HELPERS ============================================================ */ function mapsLink(addr){return 'https://www.google.com/maps/dir/?api=1&destination='+encodeURIComponent(addr);} function mapsLinkFrom(from,to){return 'https://www.google.com/maps/dir/?api=1&origin='+encodeURIComponent(from)+'&destination='+encodeURIComponent(to)+'&travelmode=transit';} function seededInt(s,min,max){let h=0;for(let i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))>>>0;return min+(h%(max-min+1));} function fmtTime(d){return d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});} function addMins(d,m){return new Date(d.getTime()+m*60000);} function goTo(id){ currentScreen=id; document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); document.getElementById(id).classList.add('active'); const isStaff=id==='screen-staff'; const mb=document.getElementById('modeBadge'); if(isStaff){mb.textContent=t().staffBadge;mb.style.display='';} else{mb.textContent='';mb.style.display='none';} window.scrollTo({top:0,behavior:'smooth'}); } function insTag(noInsOk,commercial){ if(noInsOk) return '<span class="insurance-tag ins-none-required">✓ No insurance required</span>'; if(commercial) return '<span class="insurance-tag ins-commercial">Commercial insurance</span>'; return ''; } /* ============================================================ TRANSIT DIRECTIONS — collapsible dropdown Uses real Google Maps transit link + seeded illustrative steps ============================================================ */ function buildDirPanel(originAddr, destName, destAddr, panelId){ const seed=originAddr+'|'+destAddr; const w1=seededInt(seed+'w1',4,12),d1=(seededInt(seed+'d1',1,5)/10+0.1).toFixed(1); const tMin=seededInt(seed+'t',6,20),stops=seededInt(seed+'s',2,7); const w2=seededInt(seed+'w2',1,6),d2=seededInt(seed+'d2',200,900); const mapsUrl=mapsLinkFrom(originAddr,destAddr); const stepHtml= '<div class="transit-steps">' +'<div class="transit-step"><div class="ts-icon walk">🚶</div><div class="ts-body"><strong>Walk ~'+w1+' min ('+d1+' mi)</strong><span>to nearest subway station</span></div></div>' +'<div class="transit-step"><div class="ts-icon subway">T</div><div class="ts-body"><strong>Take subway (~'+tMin+' min, '+stops+' stops)</strong><span>See live directions in Google Maps for exact line</span></div></div>' +'<div class="transit-step"><div class="ts-icon walk">🚶</div><div class="ts-body"><strong>Walk ~'+w2+' min ('+d2+' ft)</strong><span>to '+destName+'</span></div></div>' +'<div class="transit-step"><div class="ts-icon arrive">✓</div><div class="ts-body"><strong>Arrive at '+destName+'</strong><span>'+destAddr+'</span></div></div>' +'</div>' +'<a class="gmap-link" href="'+mapsUrl+'" target="_blank" rel="noopener">Open in Google Maps for live directions →</a>'; return '<div class="collapse-panel dir-panel-inner" id="'+panelId+'">'+stepHtml+'</div>'; } function buildCallPanel(id, panelId){ const scripts={ detox:{steps:[ {l:lang==='en'?'Go in person or call ahead':'Ir en persona o llamar antes',d:lang==='en'?'Walk up to the front desk and ask for the intake department. If you prefer to call first, ask the ED Leads counselor for the number.':'Acérquese a la recepción y pida el departamento de admisiones. Si prefiere llamar primero, pida el número al consejero de ED Leads.'}, {l:lang==='en'?'What to say':'Qué decir',d:lang==='en'?'"I was referred by the ED Leads team at Bellevue Hospital. I am looking for detox treatment."':'"Me refirió el equipo de ED Leads del Hospital Bellevue. Busco tratamiento de desintoxicación."'}, {l:lang==='en'?'Bring with you':'Qué llevar',d:lang==='en'?'Your ID if you have one. Let them know about your insurance status. It is okay if you do not have insurance.':'Su identificación si tiene una. Informe sobre su situación de seguro. No hay problema si no tiene seguro.'}, ]}, mat:{steps:[ {l:lang==='en'?'How to reach them':'Cómo contactarlos',d:lang==='en'?'Ask the ED Leads counselor for the direct number, or walk in during their hours.':'Pida al consejero de ED Leads el número directo, o vaya directamente durante sus horarios.'}, {l:lang==='en'?'What to say':'Qué decir',d:lang==='en'?'"I was referred by the ED Leads team. I am looking to start methadone or buprenorphine treatment."':'"Me refirió el equipo de ED Leads. Quiero comenzar tratamiento con metadona o buprenorfina."'}, {l:lang==='en'?'Bring with you':'Qué llevar',d:lang==='en'?'Your name, date of birth, and any insurance card if you have one.':'Su nombre, fecha de nacimiento y tarjeta de seguro si tiene una.'}, ]}, shelter:{steps:[ {l:lang==='en'?'Call 311 or go in person':'Llame al 311 o vaya en persona',d:lang==='en'?'Dial 311 (free call from any phone) and say you need emergency shelter, or go directly to a shelter intake center.':'Marque 311 (llamada gratuita desde cualquier teléfono) y diga que necesita refugio de emergencia, o vaya directamente a un centro de admisión.'}, {l:lang==='en'?'What to say':'Qué decir',d:lang==='en'?'"I was referred by the ED Leads team at Bellevue. I need shelter, as soon as possible."':'"Me refirió el equipo de ED Leads de Bellevue. Necesito un refugio lo antes posible."'}, {l:lang==='en'?'Good to know':'Bueno saber',d:lang==='en'?'The 311 shelter line is available 24 hours a day. You can bring belongings — they will be stored safely.':'La línea de refugio 311 está disponible las 24 horas. Puede traer sus pertenencias — se guardarán de forma segura.'}, ]}, mentalhealth:{steps:[ {l:lang==='en'?'Call or text 988':'Llame o escriba al 988',d:lang==='en'?'Dial or text 988 from any phone, 24 hours a day. It is free and confidential. Press 2 for Spanish.':'Marque o envíe un mensaje al 988 desde cualquier teléfono, las 24 horas. Es gratuito y confidencial. Presione 2 para español.'}, {l:lang==='en'?'What to say':'Qué decir',d:lang==='en'?'"I was referred by the ED Leads team and I would like to speak with someone about how I have been feeling."':'"Me refirió el equipo de ED Leads y me gustaría hablar con alguien sobre cómo me he sentido."'}, {l:lang==='en'?'Good to know':'Bueno saber',d:lang==='en'?'You do not have to be in crisis to call. This line also helps with substance use concerns.':'No tiene que estar en crisis para llamar. Esta línea también ayuda con preocupaciones sobre uso de sustancias.'}, ]}, pcp:{steps:[ {l:lang==='en'?'How to reach them':'Cómo contactarlos',d:lang==='en'?'Call 1-844-NYC-4NYC (1-844-692-4692) or ask the ED Leads counselor for a referral.':'Llame al 1-844-NYC-4NYC (1-844-692-4692) o pida al consejero de ED Leads una derivación.'}, {l:lang==='en'?'What to say':'Qué decir',d:lang==='en'?'"I was seen at Bellevue Emergency and I need a primary care follow-up appointment."':'"Me atendieron en Bellevue y necesito una cita de seguimiento de atención primaria."'}, {l:lang==='en'?'Bring with you':'Qué llevar',d:lang==='en'?'Your name, date of birth, and insurance card if you have one. Sliding-scale fees are available.':'Su nombre, fecha de nacimiento y tarjeta de seguro si tiene una. Hay tarifas según ingresos disponibles.'}, ]}, }; const cs=scripts[id]; if(!cs) return ''; const steps=cs.steps.map(s=>'<li><strong>'+s.l+'</strong><span class="say-line">'+s.d+'</span></li>').join(''); return '<div class="collapse-panel call-panel-inner" id="'+panelId+'"><ol>'+steps+'</ol></div>'; } /* ============================================================ BOROUGH MAP — SVG (geographically accurate outlines) ============================================================ */ function renderBoroughMap(){ const wrap=document.getElementById('boroughMapWrap'); wrap.innerHTML=''; // Simplified but geographically proportioned NYC borough outlines // ViewBox represents a ~300x340 space matching relative NYC geography const svg=`<svg viewBox="0 0 300 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Map of New York City boroughs"> <defs> <style> .b-manhattan{fill:#D4E8DF;stroke:#2F6F5E;stroke-width:1.5;} .b-brooklyn{fill:#D9E8F5;stroke:#1a5276;stroke-width:1.5;} .b-queens{fill:#FEF3CD;stroke:#7d6608;stroke-width:1.5;} .b-bronx{fill:#F5D7D7;stroke:#7b241c;stroke-width:1.5;} .b-si{fill:#E8D5F0;stroke:#6c3483;stroke-width:1.5;} .borough-region{cursor:pointer;} .borough-region:active{opacity:0.7;} .blabel{font-family:'Source Sans 3',sans-serif;font-size:12px;font-weight:700;pointer-events:none;fill:#1C2B2D;} .bsublabel{font-family:'Source Sans 3',sans-serif;font-size:9px;pointer-events:none;fill:#6B6459;} </style> </defs> <!-- Staten Island --> <g class="borough-region" data-b="Staten Island" tabindex="0" role="button" aria-label="Staten Island"> <path class="b-si" d="M 8 240 L 30 225 L 55 220 L 78 228 L 90 245 L 82 268 L 60 285 L 30 290 L 10 275 Z"/> <text class="blabel" x="48" y="255" text-anchor="middle">Staten</text> <text class="blabel" x="48" y="269" text-anchor="middle">Island</text> </g> <!-- Brooklyn --> <g class="borough-region" data-b="Brooklyn" tabindex="0" role="button" aria-label="Brooklyn"> <path class="b-brooklyn" d="M 130 190 L 185 180 L 220 185 L 238 200 L 242 225 L 222 248 L 195 265 L 162 272 L 130 265 L 108 248 L 102 225 L 112 205 Z"/> <text class="blabel" x="172" y="226" text-anchor="middle">Brooklyn</text> </g> <!-- Queens --> <g class="borough-region" data-b="Queens" tabindex="0" role="button" aria-label="Queens"> <path class="b-queens" d="M 185 80 L 248 72 L 285 90 L 292 130 L 280 170 L 250 190 L 220 185 L 185 180 L 162 155 L 158 118 L 168 90 Z"/> <text class="blabel" x="232" y="135" text-anchor="middle">Queens</text> </g> <!-- Bronx --> <g class="borough-region" data-b="Bronx" tabindex="0" role="button" aria-label="The Bronx"> <path class="b-bronx" d="M 148 20 L 200 15 L 245 28 L 255 65 L 242 92 L 220 100 L 185 95 L 168 90 L 158 60 L 148 40 Z"/> <text class="blabel" x="200" y="58" text-anchor="middle">The Bronx</text> </g> <!-- Manhattan --> <g class="borough-region" data-b="Manhattan" tabindex="0" role="button" aria-label="Manhattan"> <path class="b-manhattan" d="M 148 40 L 158 60 L 164 90 L 162 118 L 162 155 L 158 180 L 148 200 L 130 190 L 112 165 L 108 130 L 112 95 L 118 60 L 128 40 Z"/> <text class="blabel" x="136" y="125" text-anchor="middle">Manhattan</text> </g> <!-- Water label --> <text style="font-family:'Source Sans 3',sans-serif;font-size:9px;fill:#8ab4c9;pointer-events:none;" x="88" y="170" text-anchor="middle">New York</text> <text style="font-family:'Source Sans 3',sans-serif;font-size:9px;fill:#8ab4c9;pointer-events:none;" x="88" y="182" text-anchor="middle">Harbor</text> </svg>`; wrap.innerHTML=svg; wrap.querySelectorAll('.borough-region').forEach(el=>{ el.addEventListener('click',()=>{ const b=el.dataset.b; state.borough=b; renderZoneMap(b); goTo('screen-zone'); }); }); }
+<script>
 /* ============================================================
-ZONE MAP — SVG per borough (tappable labeled zones)
+   THEMES / LOCATIONS / HOSPITALS
+============================================================ */
+const THEMES={
+  nyulangone:{path:'#57068C',pathLight:'#EFE3F7',sun:'#B5482A',line:'#E1D6EC',paper:'#F6F3F9'},
+  bellevue:{path:'#2F6F5E',pathLight:'#E4EEE9',sun:'#E0862F',line:'#D8D3C4',paper:'#F6F4EE'},
+  zsfg:{path:'#0B5394',pathLight:'#DDEBF7',sun:'#C2410C',line:'#CBD9E5',paper:'#EEF3F7'},
+  ucsf:{path:'#05203E',pathLight:'#E4E7EC',sun:'#C9A227',line:'#D7D2C2',paper:'#F5F3EC'},
+};
+const HOSPITALS={
+  bellevue:{name:{en:'Bellevue Hospital (NYC Health + Hospitals)',es:'Hospital Bellevue (NYC Health + Hospitals)'},short:'Bellevue',theme:'bellevue',loc:'NYC',icon:'🏛️'},
+  nyulangone:{name:{en:'NYU Langone Health',es:'NYU Langone Health'},short:'NYU Langone',theme:'nyulangone',loc:'NYC',icon:'🔷'},
+  zsfg:{name:{en:'Zuckerberg San Francisco General',es:'Zuckerberg San Francisco General'},short:'ZSFG',theme:'zsfg',loc:'SF',icon:'🏥'},
+  ucsf:{name:{en:'UCSF Medical Center',es:'UCSF Medical Center'},short:'UCSF',theme:'ucsf',loc:'SF',icon:'🐻'},
+};
+const LOCATIONS={
+  NYC:{label:{en:'New York City',es:'Nueva York'},icon:'🌆',hospitals:['bellevue','nyulangone']},
+  SF:{label:{en:'San Francisco',es:'San Francisco'},icon:'🌉',hospitals:['zsfg','ucsf']},
+};
+function applyTheme(hospitalKey){
+  const h=HOSPITALS[hospitalKey]; if(!h) return;
+  const th=THEMES[h.theme];
+  const r=document.documentElement.style;
+  r.setProperty('--path',th.path); r.setProperty('--path-light',th.pathLight);
+  r.setProperty('--sun',th.sun); r.setProperty('--line',th.line); r.setProperty('--paper',th.paper);
+}
+
+/* ============================================================
+   i18n
+============================================================ */
+const LANG={
+  en:{
+    modeBadges:{staff:'Staff setup'},
+    locEyebrow:'Step 1 · Location', locH:'Choose a location to get started', locSub:'This sets your nearby resources, transit routes, and map.',
+    hospEyebrow:'Step 2 · Emergency Department', hospH:'Choose an Emergency Department', hospSub:'This sets the color theme and how referrals are worded.',
+    backLoc:'Change location', backHosp:'Change department', backAct:'Back', backAct2:'Back',
+    actEyebrow:'Step 3 · What would you like to do?', actH:'What would you like to do?', actSub:'Choose one to continue.',
+    actUseTitle:'Use the app', actUseDesc:'Walk a patient through building their resource plan.',
+    actUpdateTitle:'Update information', actUpdateDesc:'Upload or photograph an updated resource sheet.',
+    upEyebrow:'Update Information', upH:'Upload or photograph updated resource sheets',
+    upSub:'Choose a file from this device, or use the camera to photograph a printed sheet. You can add more than one.',
+    upChoose:'Choose file', upPhoto:'Take photo', upSubmit:'Submit update', upCancel:'Cancel',
+    upConfirm:'Thanks — your update has been queued for review. (This demo does not connect to a live server yet; wire this button to your team&#39;s inbox or shared drive.)',
+    modeEyebrow:'Step 4 · Who are you?', modeH:'Who are you?', modeSub:'This adjusts which resources are shown.',
+    modeSbirtTitle:'SBIRT', modeSbirtDesc:'Walk-in resources only — no appointment or call-ahead items like methadone/detox intake.',
+    modeLeadsTitle:'LEADS', modeLeadsDesc:'Full resource list, including programs that need a call-ahead or intake appointment.',
+    modeOtherTitle:'Other', modeOtherDesc:'Full resource list with general wording.',
+    staffEyebrow:'Staff', staffH:'What does this patient need today?',
+    staffSub:'Select all that apply. The patient will only see what you check here.',
+    startBtn:'Give tablet to patient →',
+    insEyebrow:'Step 1 of 4', insH:'Do you have health insurance?',
+    insSub:'This helps us find the right options for you. Many resources are available no matter what.',
+    insOpts:[
+      {v:'medicaid',l:'Medicaid',d:'State health coverage'},
+      {v:'medicare',l:'Medicare',d:'Federal program, age 65+ or disability'},
+      {v:'commercial',l:'Private insurance',d:'Through a job or marketplace'},
+      {v:'none',l:'No insurance',d:''},
+      {v:'unknown',l:"I'm not sure",d:''},
+    ],
+    boroughEyebrow:'Step 2 of 4', boroughH:'Where in New York City are you right now?',
+    boroughSub:'Tap your borough on the map below.',
+    boroughHint:"Not sure? Tap the area that looks most familiar.",
+    zoneEyebrow:'Step 2 of 4', zoneSub:'This helps us find the nearest resources and transit routes.',
+    zoneHint:"Not sure? Tap anywhere — we'll use the center of the area.",
+    showEyebrow:'Mobile Outreach Van', showH:'Which area are you closest to?',
+    showSub:'The van visits different locations on different days.',
+    addlEyebrow:'Step 3 of 4', addlH:'Is there anything else you would like information about?',
+    addlSub:'Tap anything that applies. You can also skip this.',
+    addMore:'Add to my plan', addlDone:'Skip',
+    resultsEyebrow:'Step 4 of 4', resultsH:'Your resource plan is ready.',
+    resultsSub:'Your counselor will print this for you. You can also scan the code below to save it on your phone.',
+    headline:'Your plan',
+    printBtn:'Print this page',
+    qrH:'Save this to your phone',
+    qrP:'Point your phone camera at this code. It opens a plain text version of your resource list that you can save, copy, or share.',
+    qrNote:'Works on iPhone and Android — no app needed',
+    awbLabel:'My next appointment', awbWhere:'Where', awbDate:'Date & Time',
+    calLabel:'Tap today, then tap your appointment day',
+    calLegendToday:'Today', calLegendAppt:'Appointment',
+    skipQ:'Skip →', notSure:"Not sure",
+    noInsNote:'Resources marked <em>No insurance required</em> are available to everyone.',
+    sampleNote:'Some entries below are placeholder sample data for demonstration and need to be verified and replaced with confirmed local resources before this is used with patients.',
+    callToggle:'How to make this call ▾', callToggleHide:'Hide ▲',
+    dirToggle:'How to get there ▾', dirToggleHide:'Hide ▲',
+    categories:{
+      detox:{label:'Detox / treatment program',desc:'Inpatient beds for detoxification'},
+      show:{label:'Mobile Outreach Van',desc:'Street medicine — wound care, Narcan, hygiene kits'},
+      telehealth:{label:'24/7 Virtual Care',desc:'Speak with a provider today — opioids, withdrawal, urgent care'},
+      wellness:{label:'Wellness & peer support',desc:'Drop-in centers, clubhouses, mutual aid'},
+      narcan:{label:'Narcan (naloxone)',desc:'Free kit and hands-on training, available today'},
+      mentalhealth:{label:'Mental health support',desc:'Crisis line, counseling, walk-in care'},
+      shelter:{label:'Shelter & housing',desc:'Emergency beds and transitional housing'},
+      benefits:{label:'Benefits & Medicaid',desc:'Help enrolling in insurance and income support'},
+      mat:{label:'MAT — medication treatment',desc:'Methadone or buprenorphine (Suboxone) — call ahead / intake needed'},
+      pcp:{label:'Primary care',desc:'Follow-up health visit — appointment needed'},
+    },
+  },
+  es:{
+    modeBadges:{staff:'Configuración del personal'},
+    locEyebrow:'Paso 1 · Ubicación', locH:'Elija una ubicación para comenzar', locSub:'Esto establece sus recursos cercanos, rutas de tránsito y mapa.',
+    hospEyebrow:'Paso 2 · Departamento de Emergencias', hospH:'Elija un Departamento de Emergencias', hospSub:'Esto establece el tema de color y cómo se redactan las referencias.',
+    backLoc:'Cambiar ubicación', backHosp:'Cambiar departamento', backAct:'Volver', backAct2:'Volver',
+    actEyebrow:'Paso 3 · ¿Qué le gustaría hacer?', actH:'¿Qué le gustaría hacer?', actSub:'Elija una opción para continuar.',
+    actUseTitle:'Usar la aplicación', actUseDesc:'Guíe a un paciente para crear su plan de recursos.',
+    actUpdateTitle:'Actualizar información', actUpdateDesc:'Suba o fotografíe una hoja de recursos actualizada.',
+    upEyebrow:'Actualizar Información', upH:'Suba o fotografíe hojas de recursos actualizadas',
+    upSub:'Elija un archivo de este dispositivo, o use la cámara para fotografiar una hoja impresa. Puede agregar más de una.',
+    upChoose:'Elegir archivo', upPhoto:'Tomar foto', upSubmit:'Enviar actualización', upCancel:'Cancelar',
+    upConfirm:'Gracias — su actualización quedó en cola para revisión. (Esta demostración aún no se conecta a un servidor en vivo; conecte este botón a la bandeja de entrada o unidad compartida de su equipo.)',
+    modeEyebrow:'Paso 4 · ¿Quién es usted?', modeH:'¿Quién es usted?', modeSub:'Esto ajusta qué recursos se muestran.',
+    modeSbirtTitle:'SBIRT', modeSbirtDesc:'Solo recursos sin cita — sin elementos que requieran llamar antes, como admisión a metadona/desintoxicación.',
+    modeLeadsTitle:'LEADS', modeLeadsDesc:'Lista completa de recursos, incluyendo programas que requieren llamar antes o cita de admisión.',
+    modeOtherTitle:'Otro', modeOtherDesc:'Lista completa de recursos con redacción general.',
+    staffEyebrow:'Personal', staffH:'¿Qué necesita este paciente hoy?',
+    staffSub:'Seleccione todo lo que aplique. El paciente solo verá lo que marque aquí.',
+    startBtn:'Entregar la tableta al paciente →',
+    insEyebrow:'Paso 1 de 4', insH:'¿Tiene seguro médico?',
+    insSub:'Esto nos ayuda a encontrar las mejores opciones para usted. Muchos recursos están disponibles sin importar su situación.',
+    insOpts:[
+      {v:'medicaid',l:'Medicaid',d:'Cobertura estatal de salud'},
+      {v:'medicare',l:'Medicare',d:'Programa federal, 65+ o discapacidad'},
+      {v:'commercial',l:'Seguro privado',d:'A través de trabajo o mercado'},
+      {v:'none',l:'No tengo seguro',d:''},
+      {v:'unknown',l:'No estoy seguro/a',d:''},
+    ],
+    boroughEyebrow:'Paso 2 de 4', boroughH:'¿Dónde en Nueva York se encuentra ahora?',
+    boroughSub:'Toque su condado en el mapa.',
+    boroughHint:'¿No está seguro/a? Toque el área que le resulte más familiar.',
+    zoneEyebrow:'Paso 2 de 4', zoneSub:'Esto nos ayuda a encontrar los recursos más cercanos y las rutas de tránsito.',
+    zoneHint:'¿No está seguro/a? Toque en cualquier lugar — usaremos el centro del área.',
+    showEyebrow:'Van móvil de alcance', showH:'¿A qué área está más cerca?',
+    showSub:'La van visita diferentes lugares en diferentes días.',
+    addlEyebrow:'Paso 3 de 4', addlH:'¿Hay algo más sobre lo que le gustaría información?',
+    addlSub:'Toque todo lo que aplique. También puede omitir esto.',
+    addMore:'Agregar a mi plan', addlDone:'Omitir',
+    resultsEyebrow:'Paso 4 de 4', resultsH:'Su plan de recursos está listo.',
+    resultsSub:'Su consejero/a lo imprimirá. También puede escanear el código para guardarlo en su teléfono.',
+    headline:'Su plan',
+    printBtn:'Imprimir esta página',
+    qrH:'Guardar en su teléfono',
+    qrP:'Apunte la cámara de su teléfono al código. Se abrirá una versión de texto de su lista de recursos que puede guardar, copiar o compartir.',
+    qrNote:'Funciona en iPhone y Android — sin necesidad de aplicación',
+    awbLabel:'Mi próxima cita', awbWhere:'Dónde', awbDate:'Fecha y hora',
+    calLabel:'Toque hoy, luego toque el día de su cita',
+    calLegendToday:'Hoy', calLegendAppt:'Cita',
+    skipQ:'Omitir →', notSure:'No estoy seguro/a',
+    noInsNote:'Los recursos marcados <em>Sin seguro requerido</em> están disponibles para todos.',
+    sampleNote:'Algunas entradas a continuación son datos de muestra de demostración y deben verificarse y reemplazarse con recursos locales confirmados antes de usarse con pacientes.',
+    callToggle:'Cómo hacer esta llamada ▾', callToggleHide:'Ocultar ▲',
+    dirToggle:'Cómo llegar ▾', dirToggleHide:'Ocultar ▲',
+    categories:{
+      detox:{label:'Programa de desintoxicación',desc:'Camas hospitalarias para desintoxicación'},
+      show:{label:'Van móvil de alcance',desc:'Medicina callejera — cuidado de heridas, Narcan, kits de higiene'},
+      telehealth:{label:'Atención virtual 24/7',desc:'Hable con un proveedor hoy — opioides, abstinencia, urgencias'},
+      wellness:{label:'Bienestar y apoyo entre pares',desc:'Centros de acogida, clubes, ayuda mutua'},
+      narcan:{label:'Narcan (naloxona)',desc:'Kit gratuito y entrenamiento disponible hoy'},
+      mentalhealth:{label:'Apoyo de salud mental',desc:'Línea de crisis, consejería, atención sin cita'},
+      shelter:{label:'Refugio y vivienda',desc:'Camas de emergencia y vivienda transitoria'},
+      benefits:{label:'Beneficios y Medicaid',desc:'Ayuda para inscribirse en seguro y apoyo de ingresos'},
+      mat:{label:'MAT — tratamiento con medicación',desc:'Metadona o buprenorfina (Suboxone) — requiere llamar antes / admisión'},
+      pcp:{label:'Atención primaria',desc:'Visita de seguimiento — requiere cita'},
+    },
+  }
+};
+let lang='en';
+const t=()=>LANG[lang];
+
+/* ============================================================
+   RESOURCE DATA
+============================================================ */
+const RESOURCES={
+  detox:{
+    NYC:{
+      Manhattan:[
+        {name:'Mt. Sinai Behavioral Health — Rivington',addr:'45 Rivington Street, New York, NY 10002',noInsOk:false},
+        {name:'Project Renewal (Men only)',addr:'8 East 3rd St, New York, NY 10003',noInsOk:true},
+        {name:'Elev8 Wellness Center',addr:'151 W. 136th Street, New York, NY 10030',noInsOk:false},
+        {name:'Mt. Sinai West — Addictions Institute',addr:'1000 10th Avenue, New York, NY 10019',noInsOk:false},
+      ],
+      Brooklyn:[
+        {name:'ACI — Addiction Care Interventions',addr:'589 Rockaway Avenue, Brooklyn, NY 11212',noInsOk:false},
+        {name:'Urban Recovery',addr:'411 Van Brunt St, Brooklyn, NY 11231',noInsOk:false},
+        {name:'Surfpoint Recovery',addr:'2316 Surf Ave, Brooklyn, NY 11224',noInsOk:false},
+        {name:'Brooklyn Hospital',addr:'121 DeKalb Avenue, Brooklyn, NY 11201',noInsOk:false},
+        {name:'Genesis Beacon of Hope',addr:'449 39th St, 3rd Floor, Brooklyn, NY 11232',noInsOk:false},
+        {name:'Interfaith Medical Center Hospital',addr:'1545 Atlantic Avenue, Brooklyn, NY 11213',noInsOk:false},
+        {name:'Kingsboro ATC',addr:'754 Lexington Avenue, Brooklyn, NY 11221',noInsOk:true},
+      ],
+      Queens:[
+        {name:'Cornerstone of the Medical Arts',addr:'159-05 Union Turnpike, Fresh Meadows, NY 11366',noInsOk:false},
+        {name:'Argus Community Faith Mission Crisis Center',addr:'114-40 Van Wyck Expressway, South Ozone Park, NY 11420',noInsOk:true},
+        {name:'Flushing Hospital',addr:'4500 Parsons Blvd, Flushing, NY 11355',noInsOk:true},
+      ],
+      Bronx:[
+        {name:'BronxCare Hospital',addr:'1285 Fulton Ave, Bronx, NY 10456',noInsOk:false},
+        {name:'Acacia: Promesa Inc.',addr:'1776 Clay Avenue, Bronx, NY 10457',noInsOk:false},
+        {name:'St. Barnabas Hospital',addr:'4422 3rd Ave., Bronx, NY 10457',noInsOk:false},
+      ],
+      'Staten Island':[
+        {name:'Staten Island University (Northwell)',addr:'392 Seguine Avenue, Staten Island, NY 10309',noInsOk:false,closed:true},
+      ],
+      'Outside NYC':[
+        {name:'Arms Acres',addr:'75 Seminary Hill Road, Carmel, NY 10517',noInsOk:false},
+        {name:"St. John's Riverside Hospital",addr:'2 Park Avenue, Yonkers, NY 10713',noInsOk:false},
+        {name:'CarePoint Health Christ Hospital',addr:'176 Palisade Ave, Jersey City, NJ 07306',noInsOk:false},
+        {name:'Talbot House',addr:'30 C Carlough Road, Bohemia, NY 11716',noInsOk:true},
+        {name:'Seafield Center',addr:'7 Seafield Lane, Westhampton Beach, NY 11978',noInsOk:false},
+        {name:'St. Charles Hospital',addr:'900 Belle Terre Rd, Port Jefferson, NY 11777',noInsOk:false,note:'No opioid detox'},
+      ],
+    },
+    SF:{
+      'San Francisco':[
+        {name:'Zuckerberg SF General — Psychiatric Emergency / Detox Referral',addr:'1001 Potrero Ave, San Francisco, CA 94110',noInsOk:true,sample:true},
+        {name:'HealthRIGHT 360 — Integrated Care Center',addr:'1563 Mission St, San Francisco, CA 94103',noInsOk:true,sample:true},
+        {name:'Salvation Army Harbor Light Center',addr:'1275 Harrison St, San Francisco, CA 94103',noInsOk:true,sample:true},
+        {name:'Walden House Residential Treatment',addr:'890 Hayes St, San Francisco, CA 94117',noInsOk:false,sample:true},
+      ],
+    },
+  },
+  commercial:{
+    NYC:[
+      {name:'Ascendant Detox',addr:'113 E 60th St, New York, NY 10022',noInsOk:false},
+      {name:'Pocono Mountain Recovery Centers',addr:'3437 PA-715, Henryville, PA 18332',noInsOk:false},
+      {name:'Recovery Centers of America',addr:'901 Ernston Rd, South Amboy, NJ 08879',noInsOk:false},
+      {name:'BOCA Recovery Centers',addr:'30 W Jimmie Leeds Rd, Galloway, NJ 08205',noInsOk:false},
+      {name:"St. Joseph's Institute",addr:'159 Glenwood Drive, Saranac Lake, NY 12983',noInsOk:false},
+      {name:'Wellbridge Addiction Treatment',addr:'525 Jan Way, Calverton, NY 11933',noInsOk:false},
+      {name:'Sunrise Detox Long Island',addr:'141 8th St, Brentwood, NY 11717',noInsOk:false},
+    ],
+    SF:[
+      {name:'Bay Area private detox partner (sample)',addr:'Ask your counselor for the current commercial-insurance network list',noInsOk:false,sample:true},
+    ],
+  },
+  wellness:{
+    NYC:[
+      {name:'The Pillars Wellness Center',addr:'289 Saint Nicholas Ave (btw 124th & 125th St), New York, NY 10027',noInsOk:true},
+      {name:'46th Street Club House',addr:'252 W 46th St, 2nd floor, New York, NY 10036',hours:'10AM–11:30PM daily',noInsOk:true},
+    ],
+    SF:[
+      {name:'Glide Harm Reduction & Drop-In Services',addr:'330 Ellis St, San Francisco, CA 94102',noInsOk:true,sample:true},
+      {name:'St. Anthony&#39;s Foundation',addr:'150 Golden Gate Ave, San Francisco, CA 94102',noInsOk:true,sample:true},
+    ],
+  },
+};
+
+const SHOW_STOPS=[
+  {loc:'NYC',borough:'Queens',area:'Elmhurst/Corona',name:'Park of the Americas',cross:'41st Ave and 103rd St',day:'Monday',hours:'9:30am–4:30pm',subway:'103rd St (7 train)'},
+  {loc:'NYC',borough:'Queens',area:'Elmhurst',name:'Moore Homestead Playground',cross:'Broadway and 45th Ave',day:'Tuesday',hours:'9am–5pm',subway:'Elmhurst Ave (M,R) · Jackson Hts/Roosevelt Ave (E,F,R,7)'},
+  {loc:'NYC',borough:'Queens',area:'Elmhurst',name:'Elmhurst Hospital – Hope Pavilion',cross:'41st Ave btw 79th & 80th St',day:'Friday',hours:'9:30am–4:30pm',subway:'Elmhurst Ave (M,R) · Jackson Hts/Roosevelt Ave (E,F,R,7)'},
+  {loc:'NYC',borough:'Queens',area:'Jamaica',name:'Union Hall Safe Haven',cross:'Between 160th St and Union Hall St',day:'Thursday',hours:'9am–5pm',subway:'Jamaica Center–Parsons/Archer (E,J,Z)'},
+  {loc:'NYC',borough:'Bronx',area:'South Bronx (Willis Ave)',name:'147th Street and Willis Ave',cross:'',day:'Tue, Thu, Fri',hours:'9:30am–4:30pm',subway:'East 149th St & Third Ave (2,5)'},
+  {loc:'NYC',borough:'Bronx',area:'South Bronx (BOOM! Health)',name:'226 E 144th St (outside BOOM! Health)',cross:'',day:'Wednesday',hours:'9:30am–4:30pm',subway:'149th St Grand Concourse (2,4,5)'},
+  {loc:'NYC',borough:'Bronx',area:'East Tremont',name:'East Tremont Transitional Housing',cross:'',day:'Wednesday',hours:'9:30am–4:30pm',subway:'Tremont Ave (B,D)'},
+  {loc:'NYC',borough:'Bronx',area:'Tremont',name:'Park Overlook Shelter',cross:'1938 Webster Ave',day:'Thursday',hours:'9:30am–4:30pm',subway:'Tremont Ave (B,D)'},
+  {loc:'NYC',borough:'Brooklyn',area:'Williamsburg',name:'Beaver Street',cross:'between Fayette St & Ellery St',day:'Wednesday',hours:'8:30am–3:30pm',subway:'Flushing Ave (M)'},
+  {loc:'NYC',borough:'Brooklyn',area:'Williamsburg',name:'Havemeyer St',cross:'between South 5th St & Broadway',day:'Friday',hours:'8:30am–3:30pm',subway:'Marcy Ave (M,J,Z)'},
+  {loc:'NYC',borough:'Brooklyn',area:'Bedstuy',name:'Hart Street',cross:'between Broadway & Stuyvesant Ave',day:'Tue, Thu',hours:'8:30am–3:30pm',subway:'Myrtle Ave (M,J,Z)'},
+  {loc:'NYC',borough:'Brooklyn',area:'Bedstuy',name:'Samaritan Village Shelter',cross:'988 Myrtle Ave',day:'Monday',hours:'9am–4pm',subway:'Myrtle Ave (M,J,Z)'},
+  {loc:'NYC',borough:'Manhattan',area:'Lower East Side',name:'Delancey Street',cross:'between Forsyth St & Chrystie St',day:'Mon–Fri',hours:'9:30am–4:30pm',subway:'Grand Street (B,D)'},
+  {loc:'NYC',borough:'Manhattan',area:'Chelsea',name:'28th Street',cross:'between 9th and 10th Ave',day:'Wednesday',hours:'9am–4pm',subway:'23rd Street (C,E)'},
+  {loc:'NYC',borough:'Manhattan',area:'Harlem',name:'Mount Morris Park West',cross:'between W 122nd St & Mt Morris Park W',day:'Mon, Tue, Thu, Fri',hours:'9:30am–4:30pm',subway:'125th Street (4,5,6)'},
+  {loc:'SF',borough:'San Francisco',area:'Tenderloin',name:'UN Plaza (sample stop)',cross:'Market St & Leavenworth St',day:'Mon, Wed, Fri',hours:'9am–2pm',subway:'Civic Center BART/Muni',sample:true},
+  {loc:'SF',borough:'San Francisco',area:'SoMa',name:'6th & Mission (sample stop)',cross:'6th St & Mission St',day:'Tuesday',hours:'9am–2pm',subway:'Powell St BART/Muni',sample:true},
+  {loc:'SF',borough:'San Francisco',area:'Mission',name:'16th & Mission Plaza (sample stop)',cross:'16th St & Mission St',day:'Thursday',hours:'9am–2pm',subway:'16th St Mission BART',sample:true},
+  {loc:'SF',borough:'San Francisco',area:'Bayview',name:'Third St & Palou Ave (sample stop)',cross:'',day:'Friday',hours:'9am–2pm',subway:'T Third Muni',sample:true},
+];
+
+const TELEHEALTH={
+  NYC:{name:'Virtual ExpressCare (NYC Health + Hospitals)',url:'https://www.expresscare.nyc/',note:'Available 24 hours a day, 7 days a week. Help with opioid use, withdrawal symptoms, and urgent medical needs.'},
+  SF:{name:'San Francisco Health Network Telehealth (sample — verify current service)',url:'https://www.sf.gov/',note:'Ask your counselor for the current telehealth access line for San Francisco Health Network patients.',sample:true},
+};
+const ACCESS_LINK={
+  NYC:{url:'https://access.nyc.gov/',label:'access.nyc.gov'},
+  SF:{url:'https://www.benefitscal.com/',label:'benefitscal.com'},
+};
+const BOROUGHS=['Manhattan','Brooklyn','Queens','Bronx','Staten Island'];
+const CATEGORY_IDS=['detox','show','telehealth','wellness','narcan','mentalhealth','shelter','benefits','mat','pcp'];
+const MODE_EXCLUDE={SBIRT:['detox','mat','pcp'],LEADS:[],Other:[]};
+
+/* Zone data — chip markers, uniform box size so labels always fit */
+const ZONES={
+  Manhattan:[
+    {id:'inwood',label:'Inwood / Wash. Heights',addr:'181st St & Broadway, Manhattan, NY',cx:140,cy:40},
+    {id:'harlem',label:'Harlem',addr:'125th St & Malcolm X Blvd, Manhattan, NY',cx:140,cy:95},
+    {id:'uws',label:'Upper West Side',addr:'79th St & Broadway, Manhattan, NY',cx:90,cy:150},
+    {id:'ues',label:'Upper East Side',addr:'79th St & Lexington Ave, Manhattan, NY',cx:190,cy:150},
+    {id:'midtown',label:'Midtown',addr:'42nd St & 6th Ave, Manhattan, NY',cx:140,cy:205},
+    {id:'chelsea',label:'Chelsea / W. Village',addr:'23rd St & 8th Ave, Manhattan, NY',cx:90,cy:260},
+    {id:'les',label:'East Village / LES',addr:'Houston St & Ave A, Manhattan, NY',cx:190,cy:260},
+    {id:'fidi',label:'Financial District',addr:'Wall St & Broadway, Manhattan, NY',cx:140,cy:310},
+  ],
+  Brooklyn:[
+    {id:'wburg',label:'Williamsburg / Greenpoint',addr:'Bedford Ave & N 7th St, Brooklyn, NY',cx:80,cy:55},
+    {id:'bedstuy',label:'Bedstuy / Bushwick',addr:'Broadway & Myrtle Ave, Brooklyn, NY',cx:200,cy:55},
+    {id:'dtbk',label:'Downtown Brooklyn',addr:'Flatbush Ave & Fulton St, Brooklyn, NY',cx:140,cy:125},
+    {id:'sunset',label:'Sunset Park / Bay Ridge',addr:'5th Ave & 45th St, Brooklyn, NY',cx:80,cy:200},
+    {id:'flatbush',label:'Flatbush / E. Flatbush',addr:'Church Ave & Flatbush Ave, Brooklyn, NY',cx:200,cy:200},
+  ],
+  Queens:[
+    {id:'astoria',label:'Astoria / LIC',addr:'31st St & Broadway, Queens, NY',cx:80,cy:50},
+    {id:'flushing',label:'Flushing',addr:'Main St & Roosevelt Ave, Queens, NY',cx:200,cy:50},
+    {id:'jhelm',label:'Jackson Hts / Elmhurst',addr:'Roosevelt Ave & 82nd St, Queens, NY',cx:80,cy:170},
+    {id:'jamaica',label:'Jamaica',addr:'Jamaica Ave & 165th St, Queens, NY',cx:200,cy:170},
+  ],
+  Bronx:[
+    {id:'pelham',label:'Pelham / Co-op City',addr:'Baychester Ave & Co-op City Blvd, Bronx, NY',cx:200,cy:45},
+    {id:'tremont',label:'Tremont / Fordham',addr:'Tremont Ave & Grand Concourse, Bronx, NY',cx:80,cy:120},
+    {id:'morrisania',label:'Morrisania / Melrose',addr:'Melrose Ave & 161st St, Bronx, NY',cx:200,cy:120},
+    {id:'motthaven',label:'Mott Haven / S. Bronx',addr:'3rd Ave & 149th St, Bronx, NY',cx:140,cy:200},
+  ],
+  'Staten Island':[
+    {id:'stgeorge',label:'St. George / North Shore',addr:'Richmond Terrace & Victory Blvd, Staten Island, NY',cx:100,cy:75},
+    {id:'midisland',label:'Mid-Island',addr:'Richmond Ave & Forest Ave, Staten Island, NY',cx:100,cy:175},
+  ],
+  'San Francisco':[
+    {id:'richmond',label:'Richmond',addr:'9th Ave & Irving St, San Francisco, CA',cx:70,cy:80},
+    {id:'northbeach',label:'North Beach / Chinatown',addr:'Columbus Ave & Grant Ave, San Francisco, CA',cx:210,cy:60},
+    {id:'fillmore',label:'Western Addition / Fillmore',addr:'Fillmore St & Geary Blvd, San Francisco, CA',cx:110,cy:130},
+    {id:'tenderloin',label:'Tenderloin / Civic Center',addr:'Market St & Leavenworth St, San Francisco, CA',cx:190,cy:130},
+    {id:'soma',label:'SoMa',addr:'6th St & Mission St, San Francisco, CA',cx:220,cy:190},
+    {id:'mission',label:'Mission',addr:'16th St & Mission St, San Francisco, CA',cx:140,cy:210},
+    {id:'sunsetsf',label:'Sunset',addr:'Judah St & 19th Ave, San Francisco, CA',cx:60,cy:230},
+    {id:'bernal',label:'Bernal Heights / Excelsior',addr:'Mission St & Cortland Ave, San Francisco, CA',cx:150,cy:270},
+    {id:'bayview',label:'Bayview / Hunters Point',addr:'Third St & Palou Ave, San Francisco, CA',cx:220,cy:270},
+  ],
+};
+
+/* ============================================================
+   STATE
+============================================================ */
+let state={
+  location:null, hospitalKey:null, mode:null,
+  selectedCats:[], borough:null, zone:null, showArea:null,
+  insurance:null,
+  clarifyAnswers:{}, clarifyQueue:[], currentClarifyId:null,
+  additionalOffered:false,
+  calMarks:{today:null,appt:null},
+  uploadedFiles:[],
+};
+let pendingShowCb=null;
+let currentScreen='screen-location';
+
+/* ============================================================
+   HELPERS
+============================================================ */
+function mapsLink(addr){return 'https://www.google.com/maps/dir/?api=1&destination='+encodeURIComponent(addr);}
+function mapsLinkFrom(from,to){return 'https://www.google.com/maps/dir/?api=1&origin='+encodeURIComponent(from)+'&destination='+encodeURIComponent(to)+'&travelmode=transit';}
+function seededInt(s,min,max){let h=0;for(let i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))>>>0;return min+(h%(max-min+1));}
+
+function goTo(id){
+  currentScreen=id;
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const isStaff=id==='screen-staff';
+  const mb=document.getElementById('modeBadge');
+  if(isStaff){mb.textContent=t().modeBadges.staff;mb.style.display='';}
+  else{mb.textContent='';mb.style.display='none';}
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function hospitalShort(){const h=HOSPITALS[state.hospitalKey];return h?h.short:'';}
+function modeLabel(){return state.mode||'care';}
+function updateBrandSub(){
+  const el=document.getElementById('brandSub');
+  const parts=[];
+  if(state.hospitalKey) parts.push(HOSPITALS[state.hospitalKey].short);
+  if(state.mode) parts.push(state.mode);
+  el.textContent=parts.join(' · ');
+}
+
+function insTag(noInsOk,commercial){
+  let out='';
+  if(noInsOk) out+='<span class="insurance-tag ins-none-required">✓ No insurance required</span>';
+  if(commercial) out+='<span class="insurance-tag ins-commercial">Commercial insurance</span>';
+  return out;
+}
+function sampleTag(){return '<span class="insurance-tag sample-tag">'+(lang==='en'?'Sample data — verify':'Muestra — verificar')+'</span>';}
+
+/* ============================================================
+   LANG APPLY
+============================================================ */
+function applyLang(){
+  const s=t();
+  sa('s_locEyebrow',s.locEyebrow); sa('s_locH',s.locH); sa('s_locSub',s.locSub);
+  sa('s_hospEyebrow',s.hospEyebrow); sa('s_hospH',s.hospH); sa('s_hospSub',s.hospSub);
+  sa('s_backLoc',s.backLoc); sa('s_backHosp',s.backHosp); sa('s_backAct',s.backAct); sa('s_backAct2',s.backAct2);
+  sa('s_actEyebrow',s.actEyebrow); sa('s_actH',s.actH); sa('s_actSub',s.actSub);
+  sa('s_upEyebrow',s.upEyebrow); sa('s_upH',s.upH); sa('s_upSub',s.upSub);
+  sa('s_upChoose',s.upChoose); sa('s_upPhoto',s.upPhoto);
+  document.getElementById('submitUploadBtn').textContent=s.upSubmit;
+  document.getElementById('uploadCancelBtn').textContent=s.upCancel;
+  sa('s_modeEyebrow',s.modeEyebrow); sa('s_modeH',s.modeH); sa('s_modeSub',s.modeSub);
+  sa('s_staffEyebrow',s.staffEyebrow); sa('s_staffH',s.staffH); sa('s_staffSub',s.staffSub);
+  document.getElementById('startBtn').textContent=s.startBtn;
+  sa('s_insEyebrow',s.insEyebrow); sa('s_insH',s.insH); sa('s_insSub',s.insSub);
+  sa('s_boroughEyebrow',s.boroughEyebrow); sa('s_boroughH',s.boroughH); sa('s_boroughSub',s.boroughSub); sa('s_boroughHint',s.boroughHint);
+  sa('s_zoneEyebrow',s.zoneEyebrow); sa('s_zoneSub',s.zoneSub); sa('s_zoneHint',s.zoneHint);
+  sa('s_showEyebrow',s.showEyebrow); sa('s_showH',s.showH); sa('s_showSub',s.showSub);
+  sa('s_addlEyebrow',s.addlEyebrow); sa('s_addlH',s.addlH); sa('s_addlSub',s.addlSub);
+  document.getElementById('addMoreBtn').textContent=s.addMore;
+  document.getElementById('additionalDoneBtn').textContent=s.addlDone;
+  sa('s_resultsEyebrow',s.resultsEyebrow); sa('s_resultsH',s.resultsH); sa('s_resultsSub',s.resultsSub);
+  sa('s_headline',s.headline); sa('s_printBtn',s.printBtn);
+  sa('s_qrH',s.qrH); sa('s_qrP',s.qrP); sa('s_qrNote',s.qrNote);
+  sa('s_awbLabel',s.awbLabel); sa('s_awbWhere',s.awbWhere); sa('s_awbDate',s.awbDate);
+  sa('s_calLabel',s.calLabel); sa('s_calLegendToday',s.calLegendToday); sa('s_calLegendAppt',s.calLegendAppt);
+  document.getElementById('skipClarify').textContent=s.skipQ;
+  const eyeb=document.getElementById('sheetEyebrow');
+  if(eyeb){
+    let label=(lang==='en'?'Patient Resource Guide':'Guía de Recursos para el Paciente');
+    if(state.hospitalKey) label=HOSPITALS[state.hospitalKey].name[lang]+' · '+label;
+    if(state.mode) label=state.mode+' · '+label;
+    eyeb.textContent=label;
+  }
+  updateBrandSub();
+  renderLocationGrid(); renderHospitalGrid(); renderActionGrid(); renderModeGrid();
+  renderStaffGrid(); renderInsuranceScreen(); renderBoroughMap();
+  if(currentScreen==='screen-zone'&&state.borough) renderZoneMap(state.borough);
+  if(currentScreen==='screen-additional'){
+    const excl=MODE_EXCLUDE[state.mode]||[];
+    const rem=CATEGORY_IDS.filter(id=>!state.selectedCats.includes(id)&&!excl.includes(id));
+    if(rem.length) renderAdditionalScreen(rem);
+  }
+  if(currentScreen==='screen-upload') renderUploadList();
+}
+function sa(id,v){const el=document.getElementById(id);if(el)el.innerHTML=v;}
+
+/* ============================================================
+   SCREEN: LOCATION
+============================================================ */
+function renderLocationGrid(){
+  const g=document.getElementById('locationGrid'); g.innerHTML='';
+  Object.keys(LOCATIONS).forEach(key=>{
+    const loc=LOCATIONS[key];
+    const card=document.createElement('div'); card.className='picker-card';
+    card.innerHTML='<div class="picker-icon">'+loc.icon+'</div><h3>'+loc.label[lang]+'</h3><p>'+(lang==='en'?'Select to view Emergency Departments in '+loc.label.en:'Seleccione para ver Departamentos de Emergencias en '+loc.label.es)+'</p>';
+    card.addEventListener('click',()=>{
+      state.location=key; renderHospitalGrid(); goTo('screen-hospital');
+    });
+    g.appendChild(card);
+  });
+}
+document.getElementById('backFromHospital').addEventListener('click',()=>goTo('screen-location'));
+
+/* ============================================================
+   SCREEN: HOSPITAL
+============================================================ */
+function renderHospitalGrid(){
+  const g=document.getElementById('hospitalGrid'); g.innerHTML='';
+  if(!state.location) return;
+  LOCATIONS[state.location].hospitals.forEach(key=>{
+    const h=HOSPITALS[key];
+    const card=document.createElement('div'); card.className='picker-card';
+    card.innerHTML='<div class="picker-icon">'+h.icon+'</div><h3>'+h.name[lang]+'</h3><p>'+(lang==='en'?'Emergency Department':'Departamento de Emergencias')+'</p>';
+    card.addEventListener('click',()=>{
+      state.hospitalKey=key; applyTheme(key); updateBrandSub();
+      renderActionGrid(); goTo('screen-action');
+    });
+    g.appendChild(card);
+  });
+}
+document.getElementById('backFromAction').addEventListener('click',()=>goTo('screen-hospital'));
+
+/* ============================================================
+   SCREEN: ACTION
+============================================================ */
+function renderActionGrid(){
+  const g=document.getElementById('actionGrid'); g.innerHTML='';
+  const s=t();
+  const use=document.createElement('div'); use.className='picker-card';
+  use.innerHTML='<div class="picker-icon">🧭</div><h3>'+s.actUseTitle+'</h3><p>'+s.actUseDesc+'</p>';
+  use.addEventListener('click',()=>{renderModeGrid(); goTo('screen-mode');});
+  const upd=document.createElement('div'); upd.className='picker-card';
+  upd.innerHTML='<div class="picker-icon">📤</div><h3>'+s.actUpdateTitle+'</h3><p>'+s.actUpdateDesc+'</p>';
+  upd.addEventListener('click',()=>{renderUploadList(); goTo('screen-upload');});
+  g.appendChild(use); g.appendChild(upd);
+}
+document.getElementById('backFromUpload').addEventListener('click',()=>goTo('screen-action'));
+document.getElementById('backFromMode').addEventListener('click',()=>goTo('screen-action'));
+
+/* ============================================================
+   SCREEN: UPLOAD
+============================================================ */
+function fileIcon(f){
+  if(f.type==='application/pdf') return '📄';
+  return '🖼️';
+}
+function renderUploadList(){
+  const wrap=document.getElementById('uploadList'); wrap.innerHTML='';
+  state.uploadedFiles.forEach((f,i)=>{
+    const row=document.createElement('div'); row.className='upload-item';
+    const thumbHtml=f.dataUrl?('<img class="upload-thumb" src="'+f.dataUrl+'">'):('<div class="upload-icon-box">'+fileIcon(f)+'</div>');
+    row.innerHTML=thumbHtml+'<div class="upload-name">'+f.name+'</div><button class="upload-remove" data-i="'+i+'">✕</button>';
+    wrap.appendChild(row);
+  });
+  wrap.querySelectorAll('.upload-remove').forEach(btn=>{
+    btn.addEventListener('click',()=>{state.uploadedFiles.splice(parseInt(btn.dataset.i,10),1);renderUploadList();updateSubmitState();});
+  });
+  updateSubmitState();
+}
+function updateSubmitState(){document.getElementById('submitUploadBtn').disabled=state.uploadedFiles.length===0;}
+function handleFileInput(fileList){
+  Array.from(fileList).forEach(file=>{
+    const entry={name:file.name,type:file.type,dataUrl:null};
+    state.uploadedFiles.push(entry);
+    if(file.type.startsWith('image/')){
+      const reader=new FileReader();
+      reader.onload=e=>{entry.dataUrl=e.target.result; renderUploadList();};
+      reader.readAsDataURL(file);
+    } else {
+      renderUploadList();
+    }
+  });
+  renderUploadList();
+}
+document.getElementById('fileUploadInput').addEventListener('change',e=>{handleFileInput(e.target.files); e.target.value='';});
+document.getElementById('cameraInput').addEventListener('change',e=>{handleFileInput(e.target.files); e.target.value='';});
+document.getElementById('uploadCancelBtn').addEventListener('click',()=>{
+  state.uploadedFiles=[]; document.getElementById('uploadConfirm').innerHTML=''; goTo('screen-action');
+});
+document.getElementById('submitUploadBtn').addEventListener('click',()=>{
+  const box=document.getElementById('uploadConfirm');
+  box.innerHTML='<div class="status-banner status-success">✓ '+t().upConfirm+'</div>';
+  state.uploadedFiles=[]; renderUploadList();
+});
+
+/* ============================================================
+   SCREEN: MODE
+============================================================ */
+function renderModeGrid(){
+  const g=document.getElementById('modeGrid'); g.innerHTML='';
+  const s=t();
+  const modes=[
+    {key:'SBIRT',title:s.modeSbirtTitle,desc:s.modeSbirtDesc,icon:'🚶'},
+    {key:'LEADS',title:s.modeLeadsTitle,desc:s.modeLeadsDesc,icon:'📋'},
+    {key:'Other',title:s.modeOtherTitle,desc:s.modeOtherDesc,icon:'✳️'},
+  ];
+  modes.forEach(m=>{
+    const card=document.createElement('div'); card.className='picker-card';
+    card.innerHTML='<div class="picker-icon">'+m.icon+'</div><h3>'+m.title+'</h3><p>'+m.desc+'</p>';
+    card.addEventListener('click',()=>{
+      state.mode=m.key; updateBrandSub();
+      state.selectedCats=state.selectedCats.filter(id=>!(MODE_EXCLUDE[m.key]||[]).includes(id));
+      renderStaffGrid(); goTo('screen-staff');
+    });
+    g.appendChild(card);
+  });
+}
+
+/* ============================================================
+   BOROUGH MAP — SVG (NYC only)
+============================================================ */
+function renderBoroughMap(){
+  const wrap=document.getElementById('boroughMapWrap'); wrap.innerHTML='';
+  const svg=`<svg viewBox="0 0 300 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Map of New York City boroughs">
+  <defs>
+    <style>
+      .b-manhattan{fill:#D4E8DF;stroke:#2F6F5E;stroke-width:1.5;}
+      .b-brooklyn{fill:#D9E8F5;stroke:#1a5276;stroke-width:1.5;}
+      .b-queens{fill:#FEF3CD;stroke:#7d6608;stroke-width:1.5;}
+      .b-bronx{fill:#F5D7D7;stroke:#7b241c;stroke-width:1.5;}
+      .b-si{fill:#E8D5F0;stroke:#6c3483;stroke-width:1.5;}
+      .borough-region{cursor:pointer;}
+      .borough-region:active{opacity:0.7;}
+      .blabel{font-family:'Source Sans 3',sans-serif;font-size:12px;font-weight:700;pointer-events:none;fill:#1C2B2D;}
+    </style>
+  </defs>
+  <g class="borough-region" data-b="Staten Island" tabindex="0" role="button" aria-label="Staten Island">
+    <path class="b-si" d="M 8 240 L 30 225 L 55 220 L 78 228 L 90 245 L 82 268 L 60 285 L 30 290 L 10 275 Z"/>
+    <text class="blabel" x="48" y="255" text-anchor="middle">Staten</text>
+    <text class="blabel" x="48" y="269" text-anchor="middle">Island</text>
+  </g>
+  <g class="borough-region" data-b="Brooklyn" tabindex="0" role="button" aria-label="Brooklyn">
+    <path class="b-brooklyn" d="M 130 190 L 185 180 L 220 185 L 238 200 L 242 225 L 222 248 L 195 265 L 162 272 L 130 265 L 108 248 L 102 225 L 112 205 Z"/>
+    <text class="blabel" x="172" y="226" text-anchor="middle">Brooklyn</text>
+  </g>
+  <g class="borough-region" data-b="Queens" tabindex="0" role="button" aria-label="Queens">
+    <path class="b-queens" d="M 185 80 L 248 72 L 285 90 L 292 130 L 280 170 L 250 190 L 220 185 L 185 180 L 162 155 L 158 118 L 168 90 Z"/>
+    <text class="blabel" x="232" y="135" text-anchor="middle">Queens</text>
+  </g>
+  <g class="borough-region" data-b="Bronx" tabindex="0" role="button" aria-label="The Bronx">
+    <path class="b-bronx" d="M 148 20 L 200 15 L 245 28 L 255 65 L 242 92 L 220 100 L 185 95 L 168 90 L 158 60 L 148 40 Z"/>
+    <text class="blabel" x="200" y="58" text-anchor="middle">The Bronx</text>
+  </g>
+  <g class="borough-region" data-b="Manhattan" tabindex="0" role="button" aria-label="Manhattan">
+    <path class="b-manhattan" d="M 148 40 L 158 60 L 164 90 L 162 118 L 162 155 L 158 180 L 148 200 L 130 190 L 112 165 L 108 130 L 112 95 L 118 60 L 128 40 Z"/>
+    <text class="blabel" x="136" y="125" text-anchor="middle">Manhattan</text>
+  </g>
+  <text style="font-family:'Source Sans 3',sans-serif;font-size:9px;fill:#8ab4c9;pointer-events:none;" x="88" y="170" text-anchor="middle">New York</text>
+  <text style="font-family:'Source Sans 3',sans-serif;font-size:9px;fill:#8ab4c9;pointer-events:none;" x="88" y="182" text-anchor="middle">Harbor</text>
+</svg>`;
+  wrap.innerHTML=svg;
+  wrap.querySelectorAll('.borough-region').forEach(el=>{
+    el.addEventListener('click',()=>{
+      const b=el.dataset.b; state.borough=b;
+      renderZoneMap(b); goTo('screen-zone');
+    });
+  });
+}
+
+/* ============================================================
+   ZONE MAP — chip markers (uniform size, foreignObject text wrap)
 ============================================================ */
 function renderZoneMap(borough){
-document.getElementById('zoneBorough').textContent=borough;
-const wrap=document.getElementById('zoneSvgWrap'); wrap.innerHTML='';
-const zones=ZONES[borough]||[];
+  document.getElementById('zoneBorough').textContent=borough;
+  const wrap=document.getElementById('zoneSvgWrap'); wrap.innerHTML='';
+  const zones=ZONES[borough]||[];
 
-// Build a simple schematic map: colored circles at approximate positions
-// Each borough has a different viewBox to match its shape
-const configs={
-Manhattan:{vw:280,vh:340,bg:'#D4E8DF',stroke:'#2F6F5E'},
-Brooklyn:{vw:280,vh:300,bg:'#D9E8F5',stroke:'#1a5276'},
-Queens:{vw:280,vh:260,bg:'#FEF3CD',stroke:'#7d6608'},
-Bronx:{vw:280,vh:260,bg:'#F5D7D7',stroke:'#7b241c'},
-'Staten Island':{vw:200,vh:240,bg:'#E8D5F0',stroke:'#6c3483'},
-};
-const cfg=configs[borough]||{vw:280,vh:280,bg:'#E4EEE9',stroke:'#2F6F5E'};
+  const configs={
+    Manhattan:{vw:280,vh:340,bg:'var(--path-light)'},
+    Brooklyn:{vw:280,vh:250,bg:'var(--path-light)'},
+    Queens:{vw:280,vh:220,bg:'var(--path-light)'},
+    Bronx:{vw:280,vh:250,bg:'var(--path-light)'},
+    'Staten Island':{vw:200,vh:240,bg:'var(--path-light)'},
+    'San Francisco':{vw:280,vh:320,bg:'var(--path-light)'},
+  };
+  const cfg=configs[borough]||{vw:280,vh:280,bg:'var(--path-light)'};
+  const CW=112, CH=46;
 
-let circles=''; let labels='';
-zones.forEach((z,i)=>{
-const hue=i%2===0?'#fff':'#f9f9f6';
-circles+=<circle class="zone-region" data-zid="${z.id}" cx="${z.cx}" cy="${z.cy}" r="22" fill="${hue}" stroke="${cfg.stroke}" stroke-width="2"/>;
-// Split long labels
-const words=z.label.split(' / ');
-if(words.length>1){
-labels+=<text class="zone-label-txt" data-zid="${z.id}" x="${z.cx}" y="${z.cy-2}" pointer-events="none">${words[0]}</text>;
-labels+=<text class="zone-label-txt" data-zid="${z.id}" x="${z.cx}" y="${z.cy+10}" pointer-events="none" style="font-size:9px;fill:#6B6459">${words[1]}</text>;
-} else {
-const parts=z.label.split(' ');
-const mid=Math.ceil(parts.length/2);
-const line1=parts.slice(0,mid).join(' ');
-const line2=parts.slice(mid).join(' ');
-if(line2){
-labels+=<text class="zone-label-txt" data-zid="${z.id}" x="${z.cx}" y="${z.cy-2}" pointer-events="none">${line1}</text>;
-labels+=<text class="zone-label-txt" data-zid="${z.id}" x="${z.cx}" y="${z.cy+10}" pointer-events="none" style="font-size:9px;fill:#6B6459">${line2}</text>;
-} else {
-labels+=<text class="zone-label-txt" data-zid="${z.id}" x="${z.cx}" y="${z.cy+4}" pointer-events="none">${z.label}</text>;
-}
-}
-});
+  let chips='';
+  zones.forEach(z=>{
+    const x=Math.max(2,Math.min(cfg.vw-CW-2,z.cx-CW/2));
+    const y=Math.max(2,Math.min(cfg.vh-CH-2,z.cy-CH/2));
+    chips+=`<g class="zone-region" data-zid="${z.id}">
+      <foreignObject x="${x}" y="${y}" width="${CW}" height="${CH}">
+        <div xmlns="http://www.w3.org/1999/xhtml" class="zone-chip">${z.label}</div>
+      </foreignObject>
+    </g>`;
+  });
 
-const svg=<svg viewBox="0 0 ${cfg.vw} ${cfg.vh}" xmlns="http://www.w3.org/2000/svg">   <rect width="${cfg.vw}" height="${cfg.vh}" fill="${cfg.bg}" rx="12"/>   <text style="font-family:'Source Sans 3',sans-serif;font-size:14px;font-weight:700;fill:${cfg.stroke};opacity:0.25;" x="${cfg.vw/2}" y="${cfg.vh/2}" text-anchor="middle" dominant-baseline="middle">${borough}</text>   ${circles}${labels} </svg>;
+  const svg=`<svg viewBox="0 0 ${cfg.vw} ${cfg.vh}" xmlns="http://www.w3.org/2000/svg">
+  <rect width="${cfg.vw}" height="${cfg.vh}" fill="${cfg.bg}" rx="16"/>
+  <text style="font-family:'Fraunces',serif;font-size:15px;font-weight:600;fill:var(--path);opacity:0.28;" x="${cfg.vw/2}" y="${cfg.vh/2}" text-anchor="middle" dominant-baseline="middle">${borough}</text>
+  ${chips}
+</svg>`;
 
-wrap.innerHTML=svg;
-// Tap on circle or label → select zone
-wrap.querySelectorAll('.zone-region').forEach(el=>{
-el.addEventListener('click',()=>{
-const z=zones.find(z=>z.id===el.dataset.zid); if(!z) return;
-state.zone=z;
-// highlight selected
-wrap.querySelectorAll('.zone-region').forEach(c=>c.classList.remove('selected-zone'));
-el.classList.add('selected-zone');
-el.style.fill=cfg.stroke; el.style.stroke='#fff';
-setTimeout(()=>afterZone(),250);
-});
-});
-// Fallback: tap borough background
-wrap.querySelector('rect').addEventListener('click',()=>{
-if(!state.zone){ state.zone=zones[0]||{id:'center',label:borough,addr:borough+', NY'}; afterZone(); }
-});
+  wrap.innerHTML=svg;
+  wrap.querySelectorAll('.zone-region').forEach(el=>{
+    el.addEventListener('click',()=>{
+      const z=zones.find(z=>z.id===el.dataset.zid); if(!z) return;
+      state.zone=z;
+      wrap.querySelectorAll('.zone-region').forEach(c=>c.classList.remove('selected-zone'));
+      el.classList.add('selected-zone');
+      setTimeout(()=>afterZone(),220);
+    });
+  });
+  const rectEl=wrap.querySelector('rect');
+  if(rectEl) rectEl.addEventListener('click',()=>{
+    if(!state.zone){ state.zone=zones[0]||{id:'center',label:borough,addr:borough+', NY'}; afterZone(); }
+  });
 }
 
 /* ============================================================
-SCREENS
+   STAFF SCREEN
 ============================================================ */
 function renderStaffGrid(){
-const g=document.getElementById('staffGrid'); g.innerHTML='';
-const cats=t().categories;
-CATEGORY_IDS.forEach(id=>{
-const cat=cats[id];
-const card=document.createElement('label'); card.className='check-card'+(state.selectedCats.includes(id)?' selected':'');
-card.innerHTML='<input type="checkbox" value="'+id+'" '+(state.selectedCats.includes(id)?'checked':'')+'>'
-+'<span class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M4 12l6 6L20 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>'
-+'<span><div class="check-label">'+cat.label+'</div><div class="check-desc">'+cat.desc+'</div></span>';
-card.addEventListener('click',e=>{
-e.preventDefault();
-const on=card.classList.toggle('selected'); card.querySelector('input').checked=on;
-if(on){state.selectedCats.push(id);}else{state.selectedCats=state.selectedCats.filter(x=>x!==id);}
-document.getElementById('startBtn').disabled=state.selectedCats.length===0;
-});
-g.appendChild(card);
-});
-document.getElementById('startBtn').disabled=state.selectedCats.length===0;
+  const g=document.getElementById('staffGrid'); g.innerHTML='';
+  const cats=t().categories;
+  const excl=MODE_EXCLUDE[state.mode]||[];
+  const ids=CATEGORY_IDS.filter(id=>!excl.includes(id));
+  state.selectedCats=state.selectedCats.filter(id=>ids.includes(id));
+  ids.forEach(id=>{
+    const cat=cats[id];
+    const card=document.createElement('label'); card.className='check-card'+(state.selectedCats.includes(id)?' selected':'');
+    card.innerHTML='<input type="checkbox" value="'+id+'" '+(state.selectedCats.includes(id)?'checked':'')+'>'
+      +'<span class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M4 12l6 6L20 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>'
+      +'<span><div class="check-label">'+cat.label+'</div><div class="check-desc">'+cat.desc+'</div></span>';
+    card.addEventListener('click',e=>{
+      e.preventDefault();
+      const on=card.classList.toggle('selected'); card.querySelector('input').checked=on;
+      if(on){state.selectedCats.push(id);}else{state.selectedCats=state.selectedCats.filter(x=>x!==id);}
+      document.getElementById('startBtn').disabled=state.selectedCats.length===0;
+    });
+    g.appendChild(card);
+  });
+  document.getElementById('startBtn').disabled=state.selectedCats.length===0;
 }
-
 document.getElementById('startBtn').addEventListener('click',()=>{
-renderInsuranceScreen(); goTo('screen-insurance');
+  renderInsuranceScreen(); goTo('screen-insurance');
 });
 
 function renderInsuranceScreen(){
-const list=document.getElementById('insuranceList'); list.innerHTML='';
-t().insOpts.forEach(o=>{
-const btn=document.createElement('button'); btn.className='choice-btn';
-btn.innerHTML=o.l+(o.d?'<span class="sub-line">'+o.d+'</span>':'');
-btn.addEventListener('click',()=>{state.insurance=o.v; renderBoroughMap(); goTo('screen-borough');});
-list.appendChild(btn);
-});
+  const list=document.getElementById('insuranceList'); list.innerHTML='';
+  t().insOpts.forEach(o=>{
+    const btn=document.createElement('button'); btn.className='choice-btn';
+    btn.innerHTML=o.l+(o.d?'<span class="sub-line">'+o.d+'</span>':'');
+    btn.addEventListener('click',()=>{
+      state.insurance=o.v;
+      if(state.location==='NYC'){ renderBoroughMap(); goTo('screen-borough'); }
+      else { state.borough='San Francisco'; renderZoneMap('San Francisco'); goTo('screen-zone'); }
+    });
+    list.appendChild(btn);
+  });
 }
 
 function afterZone(){
-if(state.selectedCats.includes('show')&&!state.showArea){
-const areas=[...new Set(SHOW_STOPS.filter(s=>s.borough===state.borough).map(s=>s.area))];
-if(areas.length>0){pendingShowCb=startClarify; renderShowAreas(areas); goTo('screen-show-area'); return;}
-}
-startClarify();
+  if(state.selectedCats.includes('show')&&!state.showArea){
+    const areas=[...new Set(SHOW_STOPS.filter(s=>s.loc===state.location&&s.borough===state.borough).map(s=>s.area))];
+    if(areas.length>0){pendingShowCb=startClarify; renderShowAreas(areas); goTo('screen-show-area'); return;}
+  }
+  startClarify();
 }
 
 function renderShowAreas(areas){
-const wrap=document.getElementById('showAreaList'); wrap.innerHTML='';
-areas.forEach(area=>{
-const stops=SHOW_STOPS.filter(s=>s.borough===state.borough&&s.area===area);
-const days=[...new Set(stops.map(s=>s.day))].join(' · ');
-const btn=document.createElement('button'); btn.className='choice-btn';
-btn.innerHTML=area+'<span class="sub-line">'+days+'</span>';
-btn.addEventListener('click',()=>{state.showArea=area;(pendingShowCb||startClarify)();});
-wrap.appendChild(btn);
-});
+  const wrap=document.getElementById('showAreaList'); wrap.innerHTML='';
+  areas.forEach(area=>{
+    const stops=SHOW_STOPS.filter(s=>s.loc===state.location&&s.borough===state.borough&&s.area===area);
+    const days=[...new Set(stops.map(s=>s.day))].join(' · ');
+    const btn=document.createElement('button'); btn.className='choice-btn';
+    btn.innerHTML=area+'<span class="sub-line">'+days+'</span>';
+    btn.addEventListener('click',()=>{state.showArea=area;(pendingShowCb||startClarify)();});
+    wrap.appendChild(btn);
+  });
 }
 
 /* ============================================================
-CLARIFIERS
+   CLARIFIERS
 ============================================================ */
 const CLARIFIERS={
-shelter:{
-eyebrow:{en:'Shelter / housing',es:'Refugio / vivienda'},
-q:{en:'Are you looking for somewhere to stay tonight, or something longer-term?',es:'¿Busca un lugar para quedarse esta noche o algo más a largo plazo?'},
-sub:{en:'This changes which options are most useful for you.',es:'Esto cambia qué opciones son más útiles para usted.'},
-choices:[{l:{en:'Tonight / emergency',es:'Esta noche / emergencia'},v:'emergency'},{l:{en:'Longer-term',es:'Más a largo plazo'},v:'transitional'}],
-},
-mat:{
-eyebrow:{en:'MAT — medication treatment',es:'MAT — tratamiento con medicación'},
-q:{en:'Which medication would you like to know about?',es:'¿Sobre qué medicación le gustaría saber?'},
-sub:{en:'Both work well — this helps us show the most relevant programs.',es:'Ambas funcionan bien — esto nos ayuda a mostrar los programas más relevantes.'},
-choices:[{l:{en:'Methadone',es:'Metadona'},v:'methadone'},{l:{en:'Buprenorphine (Suboxone)',es:'Buprenorfina (Suboxone)'},v:'bupe'},{l:{en:"I'm not sure",es:'No estoy seguro/a'},v:'either'}],
-},
+  shelter:{
+    eyebrow:{en:'Shelter / housing',es:'Refugio / vivienda'},
+    q:{en:'Are you looking for somewhere to stay tonight, or something longer-term?',es:'¿Busca un lugar para quedarse esta noche o algo más a largo plazo?'},
+    sub:{en:'This changes which options are most useful for you.',es:'Esto cambia qué opciones son más útiles para usted.'},
+    choices:[{l:{en:'Tonight / emergency',es:'Esta noche / emergencia'},v:'emergency'},{l:{en:'Longer-term',es:'Más a largo plazo'},v:'transitional'}],
+  },
+  mat:{
+    eyebrow:{en:'MAT — medication treatment',es:'MAT — tratamiento con medicación'},
+    q:{en:'Which medication would you like to know about?',es:'¿Sobre qué medicación le gustaría saber?'},
+    sub:{en:'Both work well — this helps us show the most relevant programs.',es:'Ambas funcionan bien — esto nos ayuda a mostrar los programas más relevantes.'},
+    choices:[{l:{en:'Methadone',es:'Metadona'},v:'methadone'},{l:{en:'Buprenorphine (Suboxone)',es:'Buprenorfina (Suboxone)'},v:'bupe'},{l:{en:"I'm not sure",es:'No estoy seguro/a'},v:'either'}],
+  },
 };
 
 function startClarify(){
-state.clarifyQueue=state.selectedCats.filter(id=>CLARIFIERS[id]);
-advanceClarify();
+  state.clarifyQueue=state.selectedCats.filter(id=>CLARIFIERS[id]);
+  advanceClarify();
 }
 function advanceClarify(){
-if(state.clarifyQueue.length===0){
-if(!state.additionalOffered){
-state.additionalOffered=true;
-const rem=CATEGORY_IDS.filter(id=>!state.selectedCats.includes(id));
-if(rem.length>0){renderAdditionalScreen(rem); goTo('screen-additional'); return;}
-}
-buildResults(); goTo('screen-results'); return;
-}
-const id=state.clarifyQueue.shift(); state.currentClarifyId=id; renderClarify(id); goTo('screen-clarify');
+  if(state.clarifyQueue.length===0){
+    if(!state.additionalOffered){
+      state.additionalOffered=true;
+      const excl=MODE_EXCLUDE[state.mode]||[];
+      const rem=CATEGORY_IDS.filter(id=>!state.selectedCats.includes(id)&&!excl.includes(id));
+      if(rem.length>0){renderAdditionalScreen(rem); goTo('screen-additional'); return;}
+    }
+    buildResults(); goTo('screen-results'); return;
+  }
+  const id=state.clarifyQueue.shift(); state.currentClarifyId=id; renderClarify(id); goTo('screen-clarify');
 }
 function renderClarify(id){
-const c=CLARIFIERS[id];
-document.getElementById('clarifyEyebrow').textContent=c.eyebrow[lang];
-document.getElementById('clarifyQ').textContent=c.q[lang];
-document.getElementById('clarifySub').textContent=c.sub[lang];
-const wrap=document.getElementById('clarifyChoices'); wrap.innerHTML='';
-c.choices.forEach(ch=>{
-const btn=document.createElement('button'); btn.className='choice-btn'; btn.textContent=ch.l[lang];
-btn.addEventListener('click',()=>{state.clarifyAnswers[id]=ch.v; advanceClarify();}); wrap.appendChild(btn);
-});
-document.getElementById('skipClarify').onclick=()=>advanceClarify();
+  const c=CLARIFIERS[id];
+  document.getElementById('clarifyEyebrow').textContent=c.eyebrow[lang];
+  document.getElementById('clarifyQ').textContent=c.q[lang];
+  document.getElementById('clarifySub').textContent=c.sub[lang];
+  const wrap=document.getElementById('clarifyChoices'); wrap.innerHTML='';
+  c.choices.forEach(ch=>{
+    const btn=document.createElement('button'); btn.className='choice-btn'; btn.textContent=ch.l[lang];
+    btn.addEventListener('click',()=>{state.clarifyAnswers[id]=ch.v; advanceClarify();}); wrap.appendChild(btn);
+  });
+  document.getElementById('skipClarify').onclick=()=>advanceClarify();
 }
 
 let _addlSel=[];
 function renderAdditionalScreen(remaining){
-_addlSel=[];
-const g=document.getElementById('additionalGrid'); g.innerHTML='';
-const cats=t().categories;
-remaining.forEach(id=>{
-const cat=cats[id];
-const card=document.createElement('label'); card.className='check-card';
-card.innerHTML='<input type="checkbox" value="'+id+'"><span class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M4 12l6 6L20 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><div class="check-label">'+cat.label+'</div><div class="check-desc">'+cat.desc+'</div></span>';
-card.addEventListener('click',e=>{
-e.preventDefault();const on=card.classList.toggle('selected');card.querySelector('input').checked=on;
-if(on){_addlSel.push(id);}else{_addlSel=_addlSel.filter(x=>x!==id);}
-}); g.appendChild(card);
-});
-document.getElementById('addMoreBtn').onclick=()=>handleAdditional(_addlSel.slice());
-document.getElementById('additionalDoneBtn').onclick=()=>handleAdditional([]);
+  _addlSel=[];
+  const g=document.getElementById('additionalGrid'); g.innerHTML='';
+  const cats=t().categories;
+  remaining.forEach(id=>{
+    const cat=cats[id];
+    const card=document.createElement('label'); card.className='check-card';
+    card.innerHTML='<input type="checkbox" value="'+id+'"><span class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M4 12l6 6L20 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><div class="check-label">'+cat.label+'</div><div class="check-desc">'+cat.desc+'</div></span>';
+    card.addEventListener('click',e=>{
+      e.preventDefault();const on=card.classList.toggle('selected');card.querySelector('input').checked=on;
+      if(on){_addlSel.push(id);}else{_addlSel=_addlSel.filter(x=>x!==id);}
+    }); g.appendChild(card);
+  });
+  document.getElementById('addMoreBtn').onclick=()=>handleAdditional(_addlSel.slice());
+  document.getElementById('additionalDoneBtn').onclick=()=>handleAdditional([]);
 }
 function handleAdditional(extras){
-extras.forEach(id=>{if(!state.selectedCats.includes(id))state.selectedCats.push(id);});
-state.clarifyQueue=extras.filter(id=>CLARIFIERS[id]);
-if(extras.includes('show')&&!state.showArea){
-const areas=[...new Set(SHOW_STOPS.filter(st=>st.borough===state.borough).map(st=>st.area))];
-if(areas.length>0){pendingShowCb=advanceClarify; renderShowAreas(areas); goTo('screen-show-area'); return;}
-}
-advanceClarify();
+  extras.forEach(id=>{if(!state.selectedCats.includes(id))state.selectedCats.push(id);});
+  state.clarifyQueue=extras.filter(id=>CLARIFIERS[id]);
+  if(extras.includes('show')&&!state.showArea){
+    const areas=[...new Set(SHOW_STOPS.filter(st=>st.loc===state.location&&st.borough===state.borough).map(st=>st.area))];
+    if(areas.length>0){pendingShowCb=advanceClarify; renderShowAreas(areas); goTo('screen-show-area'); return;}
+  }
+  advanceClarify();
 }
 
 /* ============================================================
-2-WEEK CALENDAR
+   2-WEEK CALENDAR
 ============================================================ */
 function buildCalendar(){
-const grid=document.getElementById('calGrid'); grid.innerHTML='';
-const DAYS=lang==='en'?['Su','Mo','Tu','We','Th','Fr','Sa']:['Do','Lu','Ma','Mi','Ju','Vi','Sá'];
-DAYS.forEach(d=>{const h=document.createElement('div');h.className='cal-head';h.textContent=d;grid.appendChild(h);});
-const today=new Date(); today.setHours(0,0,0,0);
-const start=new Date(today); start.setDate(today.getDate()-today.getDay());
-const MO=lang==='en'?['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']:['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
-for(let i=0;i<14;i++){
-const d=new Date(start); d.setDate(start.getDate()+i);
-const ds=d.toISOString().slice(0,10);
-const isToday=d.getTime()===today.getTime();
-const cell=document.createElement('div');
-cell.className='cal-day'+(isToday?' today':'');
-if(state.calMarks.today===ds&&state.calMarks.appt===ds)cell.classList.add('marked-today','marked-appt');
-else if(state.calMarks.today===ds)cell.classList.add('marked-today');
-else if(state.calMarks.appt===ds)cell.classList.add('marked-appt');
-cell.innerHTML='<div class="cal-day-num">'+d.getDate()+'</div><div class="cal-day-mo">'+MO[d.getMonth()]+'</div>';
-cell.dataset.date=ds;
-cell.addEventListener('click',()=>{
-if(state.calMarks.today===ds&&state.calMarks.appt===ds){state.calMarks.today=null;state.calMarks.appt=null;}
-else if(state.calMarks.appt===ds){state.calMarks.appt=null;}
-else if(state.calMarks.today===ds){state.calMarks.appt=ds;}
-else if(!state.calMarks.today){state.calMarks.today=ds;}
-else if(!state.calMarks.appt){state.calMarks.appt=ds;}
-else{state.calMarks.appt=ds;}
-buildCalendar();
-});
-grid.appendChild(cell);
-}
+  const grid=document.getElementById('calGrid'); grid.innerHTML='';
+  const DAYS=lang==='en'?['Su','Mo','Tu','We','Th','Fr','Sa']:['Do','Lu','Ma','Mi','Ju','Vi','Sá'];
+  DAYS.forEach(d=>{const h=document.createElement('div');h.className='cal-head';h.textContent=d;grid.appendChild(h);});
+  const today=new Date(); today.setHours(0,0,0,0);
+  const start=new Date(today); start.setDate(today.getDate()-today.getDay());
+  const MO=lang==='en'?['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']:['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+  for(let i=0;i<14;i++){
+    const d=new Date(start); d.setDate(start.getDate()+i);
+    const ds=d.toISOString().slice(0,10);
+    const isToday=d.getTime()===today.getTime();
+    const cell=document.createElement('div');
+    cell.className='cal-day'+(isToday?' today':'');
+    if(state.calMarks.today===ds&&state.calMarks.appt===ds)cell.classList.add('marked-today','marked-appt');
+    else if(state.calMarks.today===ds)cell.classList.add('marked-today');
+    else if(state.calMarks.appt===ds)cell.classList.add('marked-appt');
+    cell.innerHTML='<div class="cal-day-num">'+d.getDate()+'</div><div class="cal-day-mo">'+MO[d.getMonth()]+'</div>';
+    cell.dataset.date=ds;
+    cell.addEventListener('click',()=>{
+      if(state.calMarks.today===ds&&state.calMarks.appt===ds){state.calMarks.today=null;state.calMarks.appt=null;}
+      else if(state.calMarks.appt===ds){state.calMarks.appt=null;}
+      else if(state.calMarks.today===ds){state.calMarks.appt=ds;}
+      else if(!state.calMarks.today){state.calMarks.today=ds;}
+      else if(!state.calMarks.appt){state.calMarks.appt=ds;}
+      else{state.calMarks.appt=ds;}
+      buildCalendar();
+    });
+    grid.appendChild(cell);
+  }
 }
 
 /* ============================================================
-BUILD RESULTS
+   CALL SCRIPTS (generalized, no hospital hardcoding)
+============================================================ */
+function buildCallPanel(id, panelId){
+  const hs=hospitalShort(), ml=modeLabel();
+  const scripts={
+    detox:{steps:[
+      {l:lang==='en'?'Go in person or call ahead':'Ir en persona o llamar antes',d:lang==='en'?'Walk up to the front desk and ask for the intake department. If you prefer to call first, ask your counselor for the number.':'Acérquese a la recepción y pida el departamento de admisiones. Si prefiere llamar primero, pida el número a su consejero.'},
+      {l:lang==='en'?'What to say':'Qué decir',d:lang==='en'?'"I was referred by the '+ml+' team at '+hs+'. I am looking for detox treatment."':'"Me refirió el equipo de '+ml+' de '+hs+'. Busco tratamiento de desintoxicación."'},
+      {l:lang==='en'?'Bring with you':'Qué llevar',d:lang==='en'?'Your ID if you have one. Let them know about your insurance status. It is okay if you do not have insurance.':'Su identificación si tiene una. Informe sobre su situación de seguro. No hay problema si no tiene seguro.'},
+    ]},
+    mat:{steps:[
+      {l:lang==='en'?'How to reach them':'Cómo contactarlos',d:lang==='en'?'Ask your counselor for the direct number, or walk in during their hours.':'Pida a su consejero el número directo, o vaya directamente durante sus horarios.'},
+      {l:lang==='en'?'What to say':'Qué decir',d:lang==='en'?'"I was referred by the '+ml+' team. I am looking to start methadone or buprenorphine treatment."':'"Me refirió el equipo de '+ml+'. Quiero comenzar tratamiento con metadona o buprenorfina."'},
+      {l:lang==='en'?'Bring with you':'Qué llevar',d:lang==='en'?'Your name, date of birth, and any insurance card if you have one.':'Su nombre, fecha de nacimiento y tarjeta de seguro si tiene una.'},
+    ]},
+    shelter:{steps:[
+      {l:lang==='en'?'Call 311 or go in person':'Llame al 311 o vaya en persona',d:lang==='en'?'Dial 311 (free call from any phone) and say you need emergency shelter, or go directly to a shelter intake center.':'Marque 311 (llamada gratuita desde cualquier teléfono) y diga que necesita refugio de emergencia, o vaya directamente a un centro de admisión.'},
+      {l:lang==='en'?'What to say':'Qué decir',d:lang==='en'?'"I was referred by the '+ml+' team at '+hs+'. I need shelter, as soon as possible."':'"Me refirió el equipo de '+ml+' de '+hs+'. Necesito un refugio lo antes posible."'},
+      {l:lang==='en'?'Good to know':'Bueno saber',d:lang==='en'?'The 311 shelter line is available 24 hours a day. You can bring belongings — they will be stored safely.':'La línea de refugio 311 está disponible las 24 horas. Puede traer sus pertenencias — se guardarán de forma segura.'},
+    ]},
+    mentalhealth:{steps:[
+      {l:lang==='en'?'Call or text 988':'Llame o escriba al 988',d:lang==='en'?'Dial or text 988 from any phone, 24 hours a day. It is free and confidential. Press 2 for Spanish.':'Marque o envíe un mensaje al 988 desde cualquier teléfono, las 24 horas. Es gratuito y confidencial. Presione 2 para español.'},
+      {l:lang==='en'?'What to say':'Qué decir',d:lang==='en'?'"I was referred by the '+ml+' team and I would like to speak with someone about how I have been feeling."':'"Me refirió el equipo de '+ml+' y me gustaría hablar con alguien sobre cómo me he sentido."'},
+      {l:lang==='en'?'Good to know':'Bueno saber',d:lang==='en'?'You do not have to be in crisis to call. This line also helps with substance use concerns.':'No tiene que estar en crisis para llamar. Esta línea también ayuda con preocupaciones sobre uso de sustancias.'},
+    ]},
+    pcp:{steps:[
+      {l:lang==='en'?'How to reach them':'Cómo contactarlos',d:lang==='en'?'Ask your counselor for the primary care access line and referral for your area.':'Pida a su consejero la línea de acceso a atención primaria y una derivación para su área.'},
+      {l:lang==='en'?'What to say':'Qué decir',d:lang==='en'?'"I was seen at '+hs+' Emergency and I need a primary care follow-up appointment."':'"Me atendieron en '+hs+' y necesito una cita de seguimiento de atención primaria."'},
+      {l:lang==='en'?'Bring with you':'Qué llevar',d:lang==='en'?'Your name, date of birth, and insurance card if you have one. Sliding-scale fees are often available.':'Su nombre, fecha de nacimiento y tarjeta de seguro si tiene una. Con frecuencia hay tarifas según ingresos.'},
+    ]},
+  };
+  const cs=scripts[id]; if(!cs) return '';
+  const steps=cs.steps.map(s=>'<li><strong>'+s.l+'</strong><span class="say-line">'+s.d+'</span></li>').join('');
+  return '<div class="collapse-panel call-panel-inner" id="'+panelId+'"><ol>'+steps+'</ol></div>';
+}
+
+function buildDirPanel(originAddr, destName, destAddr, panelId){
+  const seed=originAddr+'|'+destAddr;
+  const w1=seededInt(seed+'w1',4,12),d1=(seededInt(seed+'d1',1,5)/10+0.1).toFixed(1);
+  const tMin=seededInt(seed+'t',6,20),stops=seededInt(seed+'s',2,7);
+  const w2=seededInt(seed+'w2',1,6),d2=seededInt(seed+'d2',200,900);
+  const mapsUrl=mapsLinkFrom(originAddr,destAddr);
+
+  const stepHtml=
+    '<div class="transit-steps">'
+    +'<div class="transit-step"><div class="ts-icon walk">🚶</div><div class="ts-body"><strong>Walk ~'+w1+' min ('+d1+' mi)</strong><span>to nearest transit stop</span></div></div>'
+    +'<div class="transit-step"><div class="ts-icon subway">T</div><div class="ts-body"><strong>Take transit (~'+tMin+' min, '+stops+' stops)</strong><span>See live directions in Google Maps for exact line</span></div></div>'
+    +'<div class="transit-step"><div class="ts-icon walk">🚶</div><div class="ts-body"><strong>Walk ~'+w2+' min ('+d2+' ft)</strong><span>to '+destName+'</span></div></div>'
+    +'<div class="transit-step"><div class="ts-icon arrive">✓</div><div class="ts-body"><strong>Arrive at '+destName+'</strong><span>'+destAddr+'</span></div></div>'
+    +'</div>'
+    +'<a class="gmap-link" href="'+mapsUrl+'" target="_blank" rel="noopener">Open in Google Maps for live directions →</a>';
+
+  return '<div class="collapse-panel dir-panel-inner" id="'+panelId+'">'+stepHtml+'</div>';
+}
+
+/* ============================================================
+   BUILD RESULTS
 ============================================================ */
 function buildResults(){
-const container=document.getElementById('resultsContainer'); container.innerHTML='';
-document.getElementById('printDate').textContent=new Date().toLocaleDateString(lang==='en'?'en-US':'es-US',{weekday:'long',month:'long',day:'numeric'});
-document.getElementById('sheetPatientName').textContent='';
-// clear appt write-in
-document.getElementById('awbWhere').value='';
-document.getElementById('awbDate').value='';
-buildCalendar();
+  const container=document.getElementById('resultsContainer'); container.innerHTML='';
+  document.getElementById('printDate').textContent=new Date().toLocaleDateString(lang==='en'?'en-US':'es-US',{weekday:'long',month:'long',day:'numeric'});
+  document.getElementById('sheetPatientName').textContent='';
+  document.getElementById('awbWhere').value='';
+  document.getElementById('awbDate').value='';
+  buildCalendar();
+  applyLang();
 
-if(state.insurance==='none'||state.insurance==='unknown'){
-const b=document.createElement('div'); b.className='status-banner status-info';
-b.innerHTML='<strong>'+(lang==='en'?'Note: ':'Nota: ')+'</strong>'+t().noInsNote;
-container.appendChild(b);
-}
-
-const cats=t().categories;
-const originAddr=(state.zone?state.zone.addr:state.borough+', NY')||'Manhattan, NY';
-
-// counter for unique panel IDs
-let panelCount=0;
-const pid=prefix=>prefix+'-'+(panelCount++);
-
-state.selectedCats.forEach(id=>{
-const cat=cats[id];
-const card=document.createElement('div'); card.className='result-card';
-
-css
-Copy code
-/* ── SHOW Van ── */
-if(id==='show'){
-  const stops=SHOW_STOPS.filter(st=>st.borough===state.borough&&st.area===state.showArea);
-  if(!stops.length){
-    card.innerHTML='<h3><span class="cat-dot"></span>'+cat.label+'</h3>'
-      +'<div class="meta">'+(lang==='en'?'No listed stop in your area yet — please ask your counselor for the current schedule.':'No hay una parada listada en su área todavía — por favor pida el horario actual a su consejero.')+'</div>';
-  } else {
-    const rows=stops.map(st=>{
-      const cpid=pid('dir');
-      return '<div style="margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--line);">'
-        +'<div class="addr" style="font-size:1rem;">'+st.name+(st.cross?'<span style="font-weight:400;color:var(--muted);font-size:0.9rem;"> · '+st.cross+'</span>':'')+'</div>'
-        +'<div class="meta">'+st.day+' · '+st.hours+'<br>🚇 '+st.subway+'</div>'
-        +'<a class="directions-link no-print" href="'+mapsLink(st.name+' '+st.cross+' '+state.borough+' NY')+'" target="_blank" rel="noopener">'+(lang==='en'?'Open in Google Maps →':'Abrir en Google Maps →')+'</a>'
-        +'<button type="button" class="collapse-toggle dir-toggle no-print" data-panel="'+cpid+'" data-open="0">'+(lang==='en'?'How to get there ▾':'Cómo llegar ▾')+'</button>'
-        +buildDirPanel(originAddr,st.name,st.name+' '+st.cross+' '+state.borough+', NY',cpid)
-        +'</div>';
-    }).join('');
-    card.innerHTML='<h3><span class="cat-dot"></span>'+cat.label+(state.showArea?' — '+state.showArea:'')+'</h3>'
-      +'<div class="meta" style="margin-bottom:10px;">'+(lang==='en'?'Wound care · Narcan · SBIRT · Hygiene kits, snacks & water':'Cuidado de heridas · Narcan · SBIRT · Kits de higiene, refrigerios y agua')+'</div>'+rows;
+  if(state.insurance==='none'||state.insurance==='unknown'){
+    const b=document.createElement('div'); b.className='status-banner status-info';
+    const acc=ACCESS_LINK[state.location];
+    b.innerHTML='<strong>'+(lang==='en'?'Note: ':'Nota: ')+'</strong>'+t().noInsNote+' <a href="'+acc.url+'" target="_blank" style="color:inherit;font-weight:700;">'+acc.label+'</a> '+(lang==='en'?'can help you check what you qualify for.':'puede ayudarle a verificar a qué califica.');
+    container.appendChild(b);
   }
-  container.appendChild(card); return;
-}
+  const hasSample = (state.location==='SF');
+  if(hasSample){
+    const b2=document.createElement('div'); b2.className='status-banner status-closed';
+    b2.innerHTML='⚠️ '+t().sampleNote;
+    container.appendChild(b2);
+  }
 
-/* ── Telehealth ── */
-if(id==='telehealth'){
-  card.innerHTML='<h3><span class="cat-dot"></span>'+cat.label+'</h3>'
-    +'<div class="addr">'+TELEHEALTH.name+'</div>'
-    +'<div class="meta">'+TELEHEALTH.note+'</div>'
-    +'<a class="directions-link no-print" href="'+TELEHEALTH.url+'" target="_blank" rel="noopener">'+(lang==='en'?'Open expresscare.nyc →':'Abrir expresscare.nyc →')+'</a>';
-  container.appendChild(card); return;
-}
+  const cats=t().categories;
+  const originAddr=(state.zone?state.zone.addr:(state.borough?state.borough+', '+(state.location==='SF'?'CA':'NY'):'New York, NY'))||'New York, NY';
 
-/* ── Benefits ── */
-if(id==='benefits'){
-  card.innerHTML='<h3><span class="cat-dot"></span>'+cat.label+'</h3>'
-    +'<div class="addr">ACCESS NYC</div>'
-    +'<div class="meta">'+(lang==='en'?'Check what you may qualify for — Medicaid, SNAP, cash assistance, housing help, and more. Available in multiple languages.':'Verifique a qué puede calificar — Medicaid, SNAP, asistencia en efectivo, ayuda para vivienda y más. Disponible en múltiples idiomas.')+'</div>'
-    +'<a class="directions-link no-print" href="'+ACCESS_NYC+'" target="_blank" rel="noopener">'+(lang==='en'?'Visit access.nyc.gov →':'Visitar access.nyc.gov →')+'</a>';
-  container.appendChild(card); return;
-}
+  let panelCount=0;
+  const pid=prefix=>prefix+'-'+(panelCount++);
 
-/* ── Narcan ── */
-if(id==='narcan'){
-  card.innerHTML='<h3><span class="cat-dot"></span>'+cat.label+'</h3>'
-    +'<div class="addr">'+(lang==='en'?'Available before you leave — ask your counselor':'Disponible antes de irse — pida a su consejero')+'</div>'
-    +'<div class="meta">'+(lang==='en'?'A free naloxone kit is available today. Hands-on training takes about 10 minutes and is also available now.':'Un kit gratuito de naloxona está disponible hoy. El entrenamiento práctico toma unos 10 minutos y también está disponible ahora.')+'</div>'
-    +'<div class="note-box"><strong>'+(lang==='en'?'How to use it:':'Cómo usarlo:')+'</strong> '+(lang==='en'?'Call 911. Give rescue breaths. Spray one dose in one nostril. Repeat in the other nostril after 2–3 minutes if there is no response. Roll the person onto their side.':'Llame al 911. Dé respiraciones de rescate. Rocíe una dosis en una fosa nasal. Repita en la otra después de 2–3 min si no hay respuesta. Voltee a la persona de lado.')+'</div>';
-  container.appendChild(card); return;
-}
+  state.selectedCats.forEach(id=>{
+    const cat=cats[id];
+    const card=document.createElement('div'); card.className='result-card';
 
-/* ── Mental health ── */
-if(id==='mentalhealth'){
-  const cpid=pid('call');
-  card.innerHTML='<h3><span class="cat-dot"></span>'+cat.label+'</h3>'
-    +'<div class="addr">988 '+(lang==='en'?'Suicide & Crisis Lifeline':'Línea de Crisis y Suicidio')+'</div>'
-    +'<div class="meta">'+(lang==='en'?'Call or text <strong>988</strong> — available 24 hours a day, 7 days a week. Free and confidential.':'Llame o escriba al <strong>988</strong> — disponible 24 horas al día, 7 días a la semana. Gratis y confidencial.')+'</div>'
-    +'<div class="note-box">'+(lang==='en'?'You do not have to be in a crisis to reach out. This line is for anyone struggling with mental health or substance use — press 2 for Spanish.':'No tiene que estar en crisis para comunicarse. Esta línea es para cualquier persona con dificultades de salud mental o uso de sustancias — presione 2 para español.')+'</div>'
-    +'<button type="button" class="collapse-toggle no-print" data-panel="'+cpid+'" data-open="0">'+t().callToggle+'</button>'
-    +buildCallPanel('mentalhealth',cpid);
-  container.appendChild(card); return;
-}
+    if(id==='show'){
+      const stops=SHOW_STOPS.filter(st=>st.loc===state.location&&st.borough===state.borough&&st.area===state.showArea);
+      if(!stops.length){
+        card.innerHTML='<h3><span class="cat-dot"></span>'+cat.label+'</h3>'
+          +'<div class="meta">'+(lang==='en'?'No listed stop in your area yet — please ask your counselor for the current schedule.':'No hay una parada listada en su área todavía — por favor pida el horario actual a su consejero.')+'</div>';
+      } else {
+        const rows=stops.map(st=>{
+          const cpid=pid('dir');
+          return '<div style="margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--line);">'
+            +(st.sample?sampleTag():'')
+            +'<div class="addr" style="font-size:1rem;">'+st.name+(st.cross?'<span style="font-weight:400;color:var(--muted);font-size:0.9rem;"> · '+st.cross+'</span>':'')+'</div>'
+            +'<div class="meta">'+st.day+' · '+st.hours+'<br>🚇 '+st.subway+'</div>'
+            +'<a class="directions-link no-print" href="'+mapsLink(st.name+' '+st.cross+' '+state.borough)+'" target="_blank" rel="noopener">'+(lang==='en'?'Open in Google Maps →':'Abrir en Google Maps →')+'</a>'
+            +'<button type="button" class="collapse-toggle dir-toggle no-print" data-panel="'+cpid+'" data-open="0">'+(lang==='en'?'How to get there ▾':'Cómo llegar ▾')+'</button>'
+            +buildDirPanel(originAddr,st.name,st.name+' '+st.cross+' '+state.borough,cpid)
+            +'</div>';
+        }).join('');
+        card.innerHTML='<h3><span class="cat-dot"></span>'+cat.label+(state.showArea?' — '+state.showArea:'')+'</h3>'
+          +'<div class="meta" style="margin-bottom:10px;">'+(lang==='en'?'Wound care · Narcan · SBIRT · Hygiene kits, snacks & water':'Cuidado de heridas · Narcan · SBIRT · Kits de higiene, refrigerios y agua')+'</div>'+rows;
+      }
+      container.appendChild(card); return;
+    }
 
-/* ── Wellness ── */
-if(id==='wellness'){
-  const rows=RESOURCES.wellness.map(r=>{
-    const dpid=pid('dir');
-    return '<div style="margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--line);">'
-      +insTag(r.noInsOk,false)
-      +'<div class="addr" style="font-size:1rem;">'+r.name+'</div>'
-      +'<div class="meta">'+r.addr+(r.hours?'<br>'+r.hours:'')+'</div>'
-      +'<a class="directions-link no-print" href="'+mapsLink(r.addr)+'" target="_blank" rel="noopener">'+(lang==='en'?'Open in Google Maps →':'Abrir en Google Maps →')+'</a>'
-      +'<button type="button" class="collapse-toggle dir-toggle no-print" data-panel="'+dpid+'" data-open="0">'+t().dirToggle+'</button>'
-      +buildDirPanel(originAddr,r.name,r.addr,dpid)
-      +'</div>';
-  }).join('');
-  card.innerHTML='<h3><span class="cat-dot"></span>'+cat.label+'</h3>'+rows;
-  container.appendChild(card); return;
-}
+    if(id==='telehealth'){
+      const th=TELEHEALTH[state.location];
+      card.innerHTML='<h3><span class="cat-dot"></span>'+cat.label+'</h3>'
+        +(th.sample?sampleTag():'')
+        +'<div class="addr">'+th.name+'</div>'
+        +'<div class="meta">'+th.note+'</div>'
+        +'<a class="directions-link no-print" href="'+th.url+'" target="_blank" rel="noopener">'+(lang==='en'?'Open website →':'Abrir sitio →')+'</a>';
+      container.appendChild(card); return;
+    }
 
-/* ── Detox ── */
-if(id==='detox'){
-  const pool=state.insurance==='commercial'
-    ?[...(RESOURCES.detox[state.borough]||RESOURCES.detox.Manhattan),...RESOURCES.commercial]
-    :(RESOURCES.detox[state.borough]||RESOURCES.detox.Manhattan);
-  const rows=pool.map(r=>{
-    const cpid2=pid('call'); const dpid2=pid('dir');
-    return '<div style="margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--line);">'
-      +insTag(r.noInsOk,!r.noInsOk&&state.insurance==='commercial')
-      +(r.closed?'<div class="status-banner status-closed" style="margin:4px 0 6px;font-size:0.82rem;">⚠️ '+(lang==='en'?'Currently closed — please confirm before going':'Actualmente cerrado — confirme antes de ir')+'</div>':'')
-      +'<div class="addr" style="font-size:1rem;">'+r.name+'</div>'
-      +'<div class="meta">'+r.addr+(r.note?'<br><em>'+r.note+'</em>':'')+'</div>'
-      +'<a class="directions-link no-print" href="'+mapsLink(r.addr)+'" target="_blank" rel="noopener">'+(lang==='en'?'Open in Google Maps →':'Abrir en Google Maps →')+'</a>'
-      +'<button type="button" class="collapse-toggle no-print" data-panel="'+cpid2+'" data-open="0">'+t().callToggle+'</button>'
-      +buildCallPanel('detox',cpid2)
-      +'<button type="button" class="collapse-toggle dir-toggle no-print" data-panel="'+dpid2+'" data-open="0">'+t().dirToggle+'</button>'
-      +buildDirPanel(originAddr,r.name,r.addr,dpid2)
-      +'</div>';
-  }).join('');
-  card.innerHTML='<h3><span class="cat-dot"></span>'+cat.label+(state.borough?' — '+state.borough:'')+'</h3>'
-    +'<div class="meta" style="margin-bottom:10px;">'+(lang==='en'?'Please call ahead — bed availability changes every day.':'Por favor llame antes — la disponibilidad de camas cambia cada día.')+'</div>'+rows;
-  container.appendChild(card); return;
-}
+    if(id==='benefits'){
+      const acc=ACCESS_LINK[state.location];
+      card.innerHTML='<h3><span class="cat-dot"></span>'+cat.label+'</h3>'
+        +'<div class="addr">'+acc.label+'</div>'
+        +'<div class="meta">'+(lang==='en'?'Check what you may qualify for — Medicaid, food assistance, cash assistance, housing help, and more. Available in multiple languages.':'Verifique a qué puede calificar — Medicaid, asistencia alimentaria, asistencia en efectivo, ayuda para vivienda y más. Disponible en múltiples idiomas.')+'</div>'
+        +'<a class="directions-link no-print" href="'+acc.url+'" target="_blank" rel="noopener">'+(lang==='en'?'Visit '+acc.label+' →':'Visitar '+acc.label+' →')+'</a>';
+      container.appendChild(card); return;
+    }
 
-/* ── Generic: mat, shelter, pcp ── */
-const generic={
-  mat:{
-    en:{name:'NY State HOPEline — MAT Locator',addr:'',meta:'Call the NY State HOPEline (1-800-522-5353) to find methadone and buprenorphine programs near you. Free, available 24 hours a day.',url:''},
-    es:{name:'HOPEline del Estado de NY — Localizador MAT',addr:'',meta:'Llame a la HOPEline del Estado de NY (1-800-522-5353) para encontrar programas de metadona y buprenorfina cerca. Gratis, disponible 24 horas.',url:''},
-  },
-  shelter:{
-    en:{name:'NYC DHS Shelter Access',addr:'',meta:'Call 311 from any phone, 24 hours a day, to reach emergency shelter intake. Tell them you need shelter and mention you were referred from Bellevue.',url:''},
-    es:{name:'Acceso a Refugios NYC DHS',addr:'',meta:'Llame al 311 desde cualquier teléfono, 24 horas al día, para acceder a admisión de refugio de emergencia. Diga que necesita refugio y que lo refirieron de Bellevue.',url:''},
-  },
-  pcp:{
-    en:{name:'NYC Health + Hospitals — Primary Care',addr:'',meta:'Sliding-scale fees available; Medicaid accepted. Call 1-844-NYC-4NYC or ask your counselor for a referral.',url:''},
-    es:{name:'NYC Health + Hospitals — Atención Primaria',addr:'',meta:'Tarifas según ingresos disponibles; se acepta Medicaid. Llame al 1-844-NYC-4NYC o pida a su consejero una derivación.',url:''},
-  },
-};
-if(generic[id]){
-  const gd=generic[id][lang]||generic[id].en;
-  const cpid3=pid('call');
-  card.innerHTML='<h3><span class="cat-dot"></span>'+cat.label+'</h3>'
-    +'<div class="addr">'+gd.name+'</div>'
-    +'<div class="meta">'+gd.meta+'</div>'
-    +(gd.url?'<a class="directions-link no-print" href="'+gd.url+'" target="_blank" rel="noopener">'+(lang==='en'?'Visit website →':'Visitar sitio →')+'</a>':'')
-    +'<button type="button" class="collapse-toggle no-print" data-panel="'+cpid3+'" data-open="0">'+t().callToggle+'</button>'
-    +buildCallPanel(id,cpid3);
-} else {
-  card.innerHTML='<h3><span class="cat-dot"></span>'+cat.label+'</h3>'
-    +'<div class="meta">'+(lang==='en'?'Ask your counselor for a direct referral.':'Pida a su consejero una derivación directa.')+'</div>';
-}
-container.appendChild(card);
-});
+    if(id==='narcan'){
+      card.innerHTML='<h3><span class="cat-dot"></span>'+cat.label+'</h3>'
+        +'<div class="addr">'+(lang==='en'?'Available before you leave — ask your counselor':'Disponible antes de irse — pida a su consejero')+'</div>'
+        +'<div class="meta">'+(lang==='en'?'A free naloxone kit is available today. Hands-on training takes about 10 minutes and is also available now.':'Un kit gratuito de naloxona está disponible hoy. El entrenamiento práctico toma unos 10 minutos y también está disponible ahora.')+'</div>'
+        +'<div class="note-box"><strong>'+(lang==='en'?'How to use it:':'Cómo usarlo:')+'</strong> '+(lang==='en'?'Call 911. Give rescue breaths. Spray one dose in one nostril. Repeat in the other nostril after 2–3 minutes if there is no response. Roll the person onto their side.':'Llame al 911. Dé respiraciones de rescate. Rocíe una dosis en una fosa nasal. Repita en la otra después de 2–3 min si no hay respuesta. Voltee a la persona de lado.')+'</div>';
+      container.appendChild(card); return;
+    }
 
-buildQR();
+    if(id==='mentalhealth'){
+      const cpid=pid('call');
+      card.innerHTML='<h3><span class="cat-dot"></span>'+cat.label+'</h3>'
+        +'<div class="addr">988 '+(lang==='en'?'Suicide & Crisis Lifeline':'Línea de Crisis y Suicidio')+'</div>'
+        +'<div class="meta">'+(lang==='en'?'Call or text <strong>988</strong> — available 24 hours a day, 7 days a week. Free and confidential.':'Llame o escriba al <strong>988</strong> — disponible 24 horas al día, 7 días a la semana. Gratis y confidencial.')+'</div>'
+        +'<div class="note-box">'+(lang==='en'?'You do not have to be in a crisis to reach out. This line is for anyone struggling with mental health or substance use — press 2 for Spanish.':'No tiene que estar en crisis para comunicarse. Esta línea es para cualquier persona con dificultades de salud mental o uso de sustancias — presione 2 para español.')+'</div>'
+        +'<button type="button" class="collapse-toggle no-print" data-panel="'+cpid+'" data-open="0">'+t().callToggle+'</button>'
+        +buildCallPanel('mentalhealth',cpid);
+      container.appendChild(card); return;
+    }
+
+    if(id==='wellness'){
+      const pool=RESOURCES.wellness[state.location]||[];
+      const rows=pool.map(r=>{
+        const dpid=pid('dir');
+        return '<div style="margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--line);">'
+          +insTag(r.noInsOk,false)+(r.sample?sampleTag():'')
+          +'<div class="addr" style="font-size:1rem;">'+r.name+'</div>'
+          +'<div class="meta">'+r.addr+(r.hours?'<br>'+r.hours:'')+'</div>'
+          +'<a class="directions-link no-print" href="'+mapsLink(r.addr)+'" target="_blank" rel="noopener">'+(lang==='en'?'Open in Google Maps →':'Abrir en Google Maps →')+'</a>'
+          +'<button type="button" class="collapse-toggle dir-toggle no-print" data-panel="'+dpid+'" data-open="0">'+t().dirToggle+'</button>'
+          +buildDirPanel(originAddr,r.name,r.addr,dpid)
+          +'</div>';
+      }).join('');
+      card.innerHTML='<h3><span class="cat-dot"></span>'+cat.label+'</h3>'+(rows||'<div class="meta">'+(lang==='en'?'Ask your counselor for local options.':'Pida a su consejero opciones locales.')+'</div>');
+      container.appendChild(card); return;
+    }
+
+    if(id==='detox'){
+      const byLoc=RESOURCES.detox[state.location]||{};
+      const base=byLoc[state.borough]||byLoc[Object.keys(byLoc)[0]]||[];
+      const pool=state.insurance==='commercial'?[...base,...(RESOURCES.commercial[state.location]||[])]:base;
+      const rows=pool.map(r=>{
+        const cpid2=pid('call'); const dpid2=pid('dir');
+        return '<div style="margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--line);">'
+          +insTag(r.noInsOk,!r.noInsOk&&state.insurance==='commercial')+(r.sample?sampleTag():'')
+          +(r.closed?'<div class="status-banner status-closed" style="margin:4px 0 6px;font-size:0.82rem;">⚠️ '+(lang==='en'?'Currently closed — please confirm before going':'Actualmente cerrado — confirme antes de ir')+'</div>':'')
+          +'<div class="addr" style="font-size:1rem;">'+r.name+'</div>'
+          +'<div class="meta">'+r.addr+(r.note?'<br><em>'+r.note+'</em>':'')+'</div>'
+          +'<a class="directions-link no-print" href="'+mapsLink(r.addr)+'" target="_blank" rel="noopener">'+(lang==='en'?'Open in Google Maps →':'Abrir en Google Maps →')+'</a>'
+          +'<button type="button" class="collapse-toggle no-print" data-panel="'+cpid2+'" data-open="0">'+t().callToggle+'</button>'
+          +buildCallPanel('detox',cpid2)
+          +'<button type="button" class="collapse-toggle dir-toggle no-print" data-panel="'+dpid2+'" data-open="0">'+t().dirToggle+'</button>'
+          +buildDirPanel(originAddr,r.name,r.addr,dpid2)
+          +'</div>';
+      }).join('');
+      card.innerHTML='<h3><span class="cat-dot"></span>'+cat.label+(state.borough?' — '+state.borough:'')+'</h3>'
+        +'<div class="meta" style="margin-bottom:10px;">'+(lang==='en'?'Please call ahead — bed availability changes every day.':'Por favor llame antes — la disponibilidad de camas cambia cada día.')+'</div>'+(rows||'');
+      container.appendChild(card); return;
+    }
+
+    const generic={
+      mat:{
+        en:{name:'State substance-use treatment locator',meta:'Ask your counselor for the current state hotline/locator for methadone and buprenorphine programs near you.'},
+        es:{name:'Localizador estatal de tratamiento por uso de sustancias',meta:'Pida a su consejero la línea/localizador estatal actual de programas de metadona y buprenorfina cerca de usted.'},
+      },
+      shelter:{
+        en:{name:'Emergency shelter access',meta:'Call 311 from any phone, 24 hours a day, to reach emergency shelter intake. Mention who referred you.'},
+        es:{name:'Acceso a refugio de emergencia',meta:'Llame al 311 desde cualquier teléfono, 24 horas al día, para acceder a admisión de refugio de emergencia. Mencione quién lo refirió.'},
+      },
+      pcp:{
+        en:{name:'Primary care follow-up',meta:'Ask your counselor for a referral to a sliding-scale primary care clinic near you.'},
+        es:{name:'Seguimiento de atención primaria',meta:'Pida a su consejero una derivación a una clínica de atención primaria con tarifas según ingresos cerca de usted.'},
+      },
+    };
+    if(generic[id]){
+      const gd=generic[id][lang]||generic[id].en;
+      const cpid3=pid('call');
+      card.innerHTML='<h3><span class="cat-dot"></span>'+cat.label+'</h3>'
+        +'<div class="addr">'+gd.name+'</div>'
+        +'<div class="meta">'+gd.meta+'</div>'
+        +'<button type="button" class="collapse-toggle no-print" data-panel="'+cpid3+'" data-open="0">'+t().callToggle+'</button>'
+        +buildCallPanel(id,cpid3);
+    } else {
+      card.innerHTML='<h3><span class="cat-dot"></span>'+cat.label+'</h3>'
+        +'<div class="meta">'+(lang==='en'?'Ask your counselor for a direct referral.':'Pida a su consejero una derivación directa.')+'</div>';
+    }
+    container.appendChild(card);
+  });
+
+  buildQR();
 }
 
 /* ============================================================
-QR CODE
-Encodes a URL to a data URI HTML page — when scanned opens
-a readable version of the resource list in the phone browser,
-which can be bookmarked or saved to Notes via share sheet.
+   QR CODE — plain-text data URI (small, reliable, opens like a text file)
 ============================================================ */
 function buildQR(){
-const cats=t().categories;
-// Build a minimal HTML page encoded as data URI
-const lines=state.selectedCats.map(id=>{
-if(id==='telehealth') return '<li><strong>Virtual ExpressCare</strong>: <a href="'+TELEHEALTH.url+'">expresscare.nyc</a><br>'+TELEHEALTH.note+'</li>';
-if(id==='show'){
-const stops=SHOW_STOPS.filter(st=>st.borough===state.borough&&st.area===state.showArea);
-return '<li><strong>'+cats[id].label+'</strong> — '+state.showArea+':<br>'+stops.map(st=>'<em>'+st.name+'</em> — '+st.day+' '+st.hours).join('<br>')+'</li>';
-}
-if(id==='mentalhealth') return '<li><strong>'+(lang==='en'?'Crisis line':'Línea de crisis')+'</strong>: '+(lang==='en'?'Call or text':'Llame o escriba al')+' <strong>988</strong></li>';
-if(id==='benefits') return '<li><strong>Benefits / Medicaid</strong>: <a href="'+ACCESS_NYC+'">access.nyc.gov</a></li>';
-if(id==='narcan') return '<li><strong>'+cats[id].label+'</strong>: '+(lang==='en'?'Ask your ED Leads counselor':'Pida a su consejero ED Leads')+'</li>';
-if(id==='detox'){
-const pool=RESOURCES.detox[state.borough]||RESOURCES.detox.Manhattan;
-return '<li><strong>'+cats[id].label+'</strong>:<br>'+pool.slice(0,4).map(r=>'<em>'+r.name+'</em> — '+r.addr+(r.noInsOk?' ✓ No insurance required':'')).join('<br>')+'</li>';
-}
-return '<li><strong>'+cats[id].label+'</strong>: '+(lang==='en'?'Ask your counselor for a referral':'Pida a su consejero una derivación')+'</li>';
-}).join('');
+  const cats=t().categories;
+  const lines=[];
+  const title=lang==='en'?'YOUR RESOURCE PLAN':'SU PLAN DE RECURSOS';
+  const today=new Date().toLocaleDateString(lang==='en'?'en-US':'es-US',{weekday:'long',month:'long',day:'numeric'});
+  lines.push(title); lines.push(today);
+  if(state.hospitalKey) lines.push(HOSPITALS[state.hospitalKey].name[lang]);
+  lines.push('');
 
-const today=new Date().toLocaleDateString(lang==='en'?'en-US':'es-US',{weekday:'long',month:'long',day:'numeric'});
-const title=lang==='en'?'Your Resource Plan':'Su Plan de Recursos';
-const sub=lang==='en'?'Prepared by Bellevue CATCH-ED Leads · SBIRT':'Preparado por Bellevue CATCH-ED Leads · SBIRT';
+  state.selectedCats.forEach(id=>{
+    lines.push('• '+cats[id].label.toUpperCase());
+    if(id==='telehealth'){ const th=TELEHEALTH[state.location]; lines.push('  '+th.name+' — '+th.url); }
+    else if(id==='show'){
+      const stops=SHOW_STOPS.filter(st=>st.loc===state.location&&st.borough===state.borough&&st.area===state.showArea);
+      stops.slice(0,4).forEach(st=>lines.push('  '+st.name+' — '+st.day+' '+st.hours));
+    }
+    else if(id==='mentalhealth'){ lines.push('  '+(lang==='en'?'Call or text 988':'Llame o escriba al 988')); }
+    else if(id==='benefits'){ const acc=ACCESS_LINK[state.location]; lines.push('  '+acc.url); }
+    else if(id==='narcan'){ lines.push('  '+(lang==='en'?'Ask your counselor before you leave':'Pida a su consejero antes de irse')); }
+    else if(id==='detox'){
+      const byLoc=RESOURCES.detox[state.location]||{};
+      const pool=byLoc[state.borough]||byLoc[Object.keys(byLoc)[0]]||[];
+      pool.slice(0,3).forEach(r=>lines.push('  '+r.name+' — '+r.addr));
+    }
+    else if(id==='wellness'){
+      (RESOURCES.wellness[state.location]||[]).slice(0,3).forEach(r=>lines.push('  '+r.name+' — '+r.addr));
+    }
+    else { lines.push('  '+(lang==='en'?'Ask your counselor for a referral':'Pida a su consejero una derivación')); }
+    lines.push('');
+  });
+  lines.push(lang==='en'?'Pathway Patient Resource Guide':'Guía de Recursos para el Paciente — Pathway');
 
-const htmlContent='<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
-+'<title>'+title+'</title>'
-+'<style>body{font-family:system-ui,sans-serif;max-width:600px;margin:0 auto;padding:20px;color:#1C2B2D;background:#F6F4EE;}'
-+'h1{color:#2F6F5E;font-size:1.5rem;}h2{font-size:1rem;color:#6B6459;font-weight:400;margin-top:0;}'
-+'ul{padding-left:20px;}li{margin-bottom:12px;line-height:1.5;}a{color:#2F6F5E;}</style></head>'
-+'<body><h1>'+title+'</h1><h2>'+sub+'</h2><p style="color:#6B6459;font-size:0.85rem;border-bottom:2px solid #1C2B2D;padding-bottom:10px;">'+today+'</p>'
-+'<ul>'+lines+'</ul>'
-+'<p style="margin-top:24px;font-size:0.8rem;color:#6B6459;">Bellevue CATCH-ED Leads · SBIRT · Patient Resource Guide</p>'
-+'</body></html>';
+  let text=lines.join('\\n');
+  if(text.length>1400) text=text.slice(0,1380)+(lang==='en'?'\\n… (ask staff for the full printed list)':'\\n… (pida al personal la lista completa impresa)');
+  const dataUri='data:text/plain;charset=utf-8,'+encodeURIComponent(text);
 
-const dataUri='data:text/html;charset=utf-8,'+encodeURIComponent(htmlContent);
-
-document.getElementById('qrcode').innerHTML='';
-try{
-new QRCode(document.getElementById('qrcode'),{
-text:dataUri,
-width:130,height:130,
-colorDark:'#1C2B2D',colorLight:'#ffffff',
-correctLevel:QRCode.CorrectLevel.L, // L = smallest, needed for long URLs
-});
-}catch(e){
-// Fallback if data URI is too long: use a Google search link
-const fallback='https://access.nyc.gov/';
-new QRCode(document.getElementById('qrcode'),{text:fallback,width:130,height:130,colorDark:'#1C2B2D',colorLight:'#ffffff'});
-document.getElementById('s_qrP').textContent=lang==='en'
-?'Scan to open access.nyc.gov for benefits and resources.'
-:'Escanee para abrir access.nyc.gov con beneficios y recursos.';
-}
+  document.getElementById('qrcode').innerHTML='';
+  try{
+    new QRCode(document.getElementById('qrcode'),{
+      text:dataUri, width:130, height:130, typeNumber:0,
+      colorDark:'#1C2B2D', colorLight:'#ffffff',
+      correctLevel:QRCode.CorrectLevel.L,
+    });
+  }catch(e){
+    const fallback=ACCESS_LINK[state.location].url;
+    new QRCode(document.getElementById('qrcode'),{text:fallback,width:130,height:130,colorDark:'#1C2B2D',colorLight:'#ffffff'});
+    document.getElementById('s_qrP').textContent=lang==='en'
+      ?'Scan to open '+ACCESS_LINK[state.location].label+' for benefits and resources.'
+      :'Escanee para abrir '+ACCESS_LINK[state.location].label+' con beneficios y recursos.';
+  }
 }
 
 /* ============================================================
-EVENT DELEGATION — collapse toggles
+   EVENT DELEGATION — collapse toggles
 ============================================================ */
 document.getElementById('resultsContainer').addEventListener('click',e=>{
-const btn=e.target.closest('.collapse-toggle'); if(!btn) return;
-const panel=document.getElementById(btn.dataset.panel); if(!panel) return;
-const isDir=btn.classList.contains('dir-toggle');
-const open=panel.classList.toggle('open');
-btn.dataset.open=open?'1':'0';
-if(isDir) btn.textContent=open?t().dirToggleHide:t().dirToggle;
-else btn.textContent=open?t().callToggleHide:t().callToggle;
+  const btn=e.target.closest('.collapse-toggle'); if(!btn) return;
+  const panel=document.getElementById(btn.dataset.panel); if(!panel) return;
+  const isDir=btn.classList.contains('dir-toggle');
+  const open=panel.classList.toggle('open');
+  btn.dataset.open=open?'1':'0';
+  if(isDir) btn.textContent=open?t().dirToggleHide:t().dirToggle;
+  else btn.textContent=open?t().callToggleHide:t().callToggle;
 });
 
 document.getElementById('restartBtn').addEventListener('click',()=>{
-state={selectedCats:[],borough:null,zone:null,showArea:null,insurance:null,clarifyAnswers:{},clarifyQueue:[],currentClarifyId:null,additionalOffered:false,calMarks:{today:null,appt:null}};
-pendingShowCb=null;
-renderStaffGrid();
-goTo('screen-staff');
+  state={location:null,hospitalKey:null,mode:null,selectedCats:[],borough:null,zone:null,showArea:null,insurance:null,clarifyAnswers:{},clarifyQueue:[],currentClarifyId:null,additionalOffered:false,calMarks:{today:null,appt:null},uploadedFiles:[]};
+  pendingShowCb=null;
+  document.documentElement.style.removeProperty('--path');
+  document.documentElement.style.removeProperty('--path-light');
+  document.documentElement.style.removeProperty('--sun');
+  document.documentElement.style.removeProperty('--line');
+  document.documentElement.style.removeProperty('--paper');
+  renderLocationGrid();
+  updateBrandSub();
+  goTo('screen-location');
 });
 
 document.getElementById('langEnBtn').addEventListener('click',()=>{
-lang='en';
-document.getElementById('langEnBtn').classList.add('active');
-document.getElementById('langEsBtn').classList.remove('active');
-applyLang();
+  lang='en';
+  document.getElementById('langEnBtn').classList.add('active');
+  document.getElementById('langEsBtn').classList.remove('active');
+  applyLang();
 });
 document.getElementById('langEsBtn').addEventListener('click',()=>{
-lang='es';
-document.getElementById('langEsBtn').classList.add('active');
-document.getElementById('langEnBtn').classList.remove('active');
-applyLang();
+  lang='es';
+  document.getElementById('langEsBtn').classList.add('active');
+  document.getElementById('langEnBtn').classList.remove('active');
+  applyLang();
 });
 
 /* Init */
 applyLang();
-renderBoroughMap();
-goTo('screen-staff');
+goTo('screen-location');
 </script>
-
-</body> </html>
+</body>
+</html>
