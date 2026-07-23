@@ -109,13 +109,90 @@
   .ins-commercial{background:#f3f4f6;color:#374151;}
   .sample-tag{background:var(--sample-light);color:var(--sample);}
 
-  /* ── Interactive borough SVG map ── */
-  .borough-map-wrap{position:relative;margin-bottom:6px;}
-  .borough-map-wrap svg{width:100%;height:auto;touch-action:none;}
-  .borough-region{cursor:pointer;transition:opacity .15s;}
-  .borough-region:active{opacity:0.75;}
-  .borough-map-hint{font-size:0.82rem;color:var(--muted);text-align:center;margin-top:6px;margin-bottom:18px;}
+  /* ============================================================
+   Borough image map
+============================================================ */
 
+.borough-map-image{
+  position:relative;
+  width:100%;
+  max-width:700px;
+  margin:24px auto;
+}
+
+.borough-map-image img{
+  width:100%;
+  display:block;
+  border-radius:16px;
+}
+
+.borough-btn{
+  position:absolute;
+  background:rgba(255,255,255,.96);
+  border:2px solid #1E5A96;
+  border-radius:999px;
+  padding:10px 18px;
+  font-family:'Source Sans 3',sans-serif;
+  font-size:16px;
+  font-weight:700;
+  color:#1C2B2D;
+  cursor:pointer;
+  box-shadow:0 6px 18px rgba(0,0,0,.18);
+  transition:.2s;
+}
+
+.borough-btn:hover{
+  background:#1E5A96;
+  color:#fff;
+  transform:translateY(-2px);
+}
+
+/* Positions */
+
+.manhattan{
+    left:42%;
+    top:30%;
+    transform:rotate(-60deg);
+}
+
+.bronx{
+  left:65%;
+  top:10%;
+}
+
+.queens{
+  left:70%;
+  top:42%;
+}
+
+.brooklyn{
+  left:48%;
+  top:60%;
+}
+
+.staten{
+  left:12%;
+  top:74%;
+}
+
+.unsure{
+    right:20px;
+    bottom:20px;
+
+    background:#f5f7fa;
+
+    border:2px solid #d0d7de;
+
+    color:#374151;
+
+    font-size:15px;
+}
+
+.unsure:hover{
+    background:#1E5A96;
+    color:white;
+    border-color:#1E5A96;
+}
   /* ── Interactive zone SVG map (chip markers) ── */
   .zone-svg-wrap{position:relative;margin-bottom:24px;}
   .zone-svg-wrap svg{width:100%;height:auto;touch-action:none;overflow:visible;}
@@ -239,6 +316,207 @@
   /* section label */
   .section-div{font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--path);font-weight:700;margin:16px 0 9px;padding-top:14px;border-top:1px solid var(--line);}
 
+  /* ============================================================
+   Staten Island Map
+============================================================ */
+
+.district-map-image{
+    position:relative;
+    width:100%;
+    max-width:650px;
+    margin:20px auto;
+}
+
+.district-map-image img{
+    width:100%;
+    display:block;
+    border-radius:16px;
+}
+
+.district-btn{
+    position:absolute;
+
+    background:rgba(255,255,255,.95);
+
+    border:2px solid #1E5A96;
+
+    border-radius:999px;
+
+    padding:10px 18px;
+
+    font-weight:700;
+
+    font-size:15px;
+
+    cursor:pointer;
+
+    box-shadow:0 6px 18px rgba(0,0,0,.15);
+
+    transition:.2s;
+}
+
+.district-btn:hover{
+    background:#1E5A96;
+    color:white;
+}
+
+/* Move these however you want */
+
+.north{
+    left:55%;
+    top:25%;
+}
+
+.mid{
+    left:51%;
+    top:37%;
+}
+
+.south{
+    left:31%;
+    top:60%;
+}
+
+.district-dot{
+    position:absolute;
+
+    width:22px;
+    height:22px;
+
+    border-radius:50%;
+
+    border:3px solid white;
+
+    cursor:pointer;
+
+    box-shadow:0 4px 10px rgba(0,0,0,.35);
+
+    z-index:10;
+}
+.red         { background:#d92525; left:27%; top:26%; }
+.darkblue    { background:#2947c7; left:25%; top:35%; }
+.lightgreen  { background:#bfd9b0; left:35%; top:25%; }
+.brightgreen { background:#53c82f; left:32%; top:43%; }
+.purple      { background:#9a5d90; left:50%; top:30%; }
+.tan         { background:#033500; left:38%; top:41%; }
+.yellow      { background:#d8d271; left:70%; top:50%; }
+.blue        { background:#4b84b7; left:60%; top:70%; }
+.cyan        { background:#77c8c8; left:50%; top:80%; }
+.magenta     { background:#c133b5; left:20%; top:58%; }
+.violet      { background:#7f4ab2; left:15%; top:70%; }
+.olive       { background:#5f7d1b; left:50%; top:13% }
+.orange      { background:#e88a54; left:50%; top:55%; }
+
+.district-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+    margin-top:20px;
+}
+
+.district-grid-btn{
+    padding:14px;
+    border-radius:14px;
+    border:2px solid #1d5fb8;
+    background:white;
+    font-weight:700;
+    font-size:17px;
+    cursor:pointer;
+    transition:.15s;
+}
+
+.district-grid-btn:hover{
+    transform:translateY(-2px);
+    background:#eef6ff;
+}
+/* ---------- Manhattan grid ---------- */
+
+.district-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+    margin-top:18px;
+}
+
+.district-grid-btn{
+    padding:14px;
+    border-radius:14px;
+    border:2px solid #1d5fb8;
+    background:#fff;
+    font-weight:700;
+    font-size:16px;
+    cursor:pointer;
+    transition:.15s;
+}
+
+.district-grid-btn:hover{
+    background:#eef6ff;
+    transform:translateY(-2px);
+}
+
+.district-num{
+
+    position:absolute;
+
+    width:32px;
+    height:32px;
+
+    border-radius:50%;
+
+    background:#1d5fb8;
+    color:white;
+
+    border:3px solid white;
+
+    font-weight:700;
+    font-size:16px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    cursor:pointer;
+
+    box-shadow:0 3px 8px rgba(0,0,0,.35);
+
+    transition:.15s;
+}
+
+.district-num:hover{
+    transform:scale(1.12);
+}
+/* Queens numbered grid */
+
+.number-grid{
+    display:grid;
+    grid-template-columns:repeat(4,60px);
+    gap:10px;
+    justify-content:center;
+    margin-top:16px;
+}
+
+.number-btn{
+    width:60px;
+    height:48px;
+    border-radius:12px;
+    border:2px solid #174c97;
+    background:white;
+    font-size:20px;
+    font-weight:700;
+    cursor:pointer;
+    transition:.15s;
+}
+
+.number-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 4px 12px rgba(0,0,0,.18);
+}
+
+.number-btn:active{
+    transform:scale(.95);
+}
+
+
   @media print{
     body{background:#fff;}
     .topbar,.footer-actions,.qr-block,.no-print,.collapse-toggle{display:none!important;}
@@ -285,7 +563,6 @@
     <div class="prompt">
       <div class="prompt-eyebrow" id="s_hospEyebrow">Step 2 · Emergency Department</div>
       <h2 id="s_hospH">Choose an Emergency Department</h2>
-      <p class="sub" id="s_hospSub">This sets the color theme and how referrals are worded.</p>
     </div>
     <div class="picker-grid" id="hospitalGrid"></div>
   </section>
@@ -359,7 +636,7 @@
   <section class="screen" id="screen-borough">
     <div class="prompt">
       <div class="prompt-eyebrow" id="s_boroughEyebrow">Step 2 of 4</div>
-      <h2 id="s_boroughH">Where in New York City are you right now?</h2>
+      <h2 id="s_boroughH">Where in New York City are currently living</h2>
       <p class="sub" id="s_boroughSub">Tap your borough on the map below.</p>
     </div>
     <div class="borough-map-wrap" id="boroughMapWrap"></div>
@@ -475,20 +752,24 @@
    THEMES / LOCATIONS / HOSPITALS
 ============================================================ */
 const THEMES={
-  nyulangone:{path:'#57068C',pathLight:'#EFE3F7',sun:'#B5482A',line:'#E1D6EC',paper:'#F6F3F9'},
-  bellevue:{path:'#2F6F5E',pathLight:'#E4EEE9',sun:'#E0862F',line:'#D8D3C4',paper:'#F6F4EE'},
-  zsfg:{path:'#0B5394',pathLight:'#DDEBF7',sun:'#C2410C',line:'#CBD9E5',paper:'#EEF3F7'},
-  ucsf:{path:'#05203E',pathLight:'#E4E7EC',sun:'#C9A227',line:'#D7D2C2',paper:'#F5F3EC'},
+  /* NYU Langone: NYU Violet (main) + Ultra Violet (accent) */
+  nyulangone:{path:'#57068C',pathLight:'#F0E3F9',sun:'#8900E1',line:'#E1D2EF',paper:'#F8F4FB'},
+  /* Bellevue / NYC Health + Hospitals: Chathams Blue (main) + Dusty Gray (accent/line) */
+  bellevue:{path:'#1D4189',pathLight:'#E2E8F5',sun:'#949494',line:'#CCCCCC',paper:'#F3F5FA'},
+  /* Stanford: Cardinal Red (main) */
+  stanford:{path:'#8C1515',pathLight:'#F7E3E3',sun:'#B5482A',line:'#E8D4D4',paper:'#FAF4F4'},
+  /* UCSF: UCSF Navy (main) + Teal (accent) */
+  ucsf:{path:'#052049',pathLight:'#E3E7EC',sun:'#16A0AC',line:'#D3D8DE',paper:'#F2F4F6'},
 };
 const HOSPITALS={
-  bellevue:{name:{en:'Bellevue Hospital (NYC Health + Hospitals)',es:'Hospital Bellevue (NYC Health + Hospitals)'},short:'Bellevue',theme:'bellevue',loc:'NYC',icon:'🏛️'},
+  bellevue:{name:{en:'Bellevue Hospital<br> (NYC Health + Hospitals)',es:'Hospital Bellevue (NYC Health + Hospitals)'},short:'Bellevue',theme:'bellevue',loc:'NYC',icon:'🏛️'},
   nyulangone:{name:{en:'NYU Langone Health',es:'NYU Langone Health'},short:'NYU Langone',theme:'nyulangone',loc:'NYC',icon:'🔷'},
-  zsfg:{name:{en:'Zuckerberg San Francisco General',es:'Zuckerberg San Francisco General'},short:'ZSFG',theme:'zsfg',loc:'SF',icon:'🏥'},
+  stanford:{name:{en:'Stanford Hospital',es:'Stanford Hospital'},short:'STANFORD',theme:'stanford',loc:'SF',icon:'🏥'},
   ucsf:{name:{en:'UCSF Medical Center',es:'UCSF Medical Center'},short:'UCSF',theme:'ucsf',loc:'SF',icon:'🐻'},
 };
 const LOCATIONS={
   NYC:{label:{en:'New York City',es:'Nueva York'},icon:'🌆',hospitals:['bellevue','nyulangone']},
-  SF:{label:{en:'San Francisco',es:'San Francisco'},icon:'🌉',hospitals:['zsfg','ucsf']},
+  SF:{label:{en:'San Francisco/Bay Area',es:'San Francisco/Bay Area'},icon:'🌉',hospitals:['stanford','ucsf']},
 };
 function applyTheme(hospitalKey){
   const h=HOSPITALS[hospitalKey]; if(!h) return;
@@ -515,9 +796,9 @@ const LANG={
     upChoose:'Choose file', upPhoto:'Take photo', upSubmit:'Submit update', upCancel:'Cancel',
     upConfirm:'Thanks — your update has been queued for review. (This demo does not connect to a live server yet; wire this button to your team&#39;s inbox or shared drive.)',
     modeEyebrow:'Step 4 · Who are you?', modeH:'Who are you?', modeSub:'This adjusts which resources are shown.',
-    modeSbirtTitle:'SBIRT', modeSbirtDesc:'Walk-in resources only — no appointment or call-ahead items like methadone/detox intake.',
-    modeLeadsTitle:'LEADS', modeLeadsDesc:'Full resource list, including programs that need a call-ahead or intake appointment.',
-    modeOtherTitle:'Other', modeOtherDesc:'Full resource list with general wording.',
+    modeSbirtTitle:'SBIRT', modeSbirtDesc:'Walk-in resources only',
+    modeLeadsTitle:'LEADS', modeLeadsDesc:'Full resource list',
+    modeOtherTitle:'Other', modeOtherDesc:'Full resource list',
     staffEyebrow:'Staff', staffH:'What does this patient need today?',
     staffSub:'Select all that apply. The patient will only see what you check here.',
     startBtn:'Give tablet to patient →',
@@ -532,7 +813,7 @@ const LANG={
     ],
     boroughEyebrow:'Step 2 of 4', boroughH:'Where in New York City are you right now?',
     boroughSub:'Tap your borough on the map below.',
-    boroughHint:"Not sure? Tap the area that looks most familiar.",
+    boroughHint:"",
     zoneEyebrow:'Step 2 of 4', zoneSub:'This helps us find the nearest resources and transit routes.',
     zoneHint:"Not sure? Tap anywhere — we'll use the center of the area.",
     showEyebrow:'Mobile Outreach Van', showH:'Which area are you closest to?',
@@ -682,7 +963,7 @@ const RESOURCES={
       ],
     },
     SF:{
-      'San Francisco':[
+      'San Francisco/Bay Area':[
         {name:'Zuckerberg SF General — Psychiatric Emergency / Detox Referral',addr:'1001 Potrero Ave, San Francisco, CA 94110',noInsOk:true,sample:true},
         {name:'HealthRIGHT 360 — Integrated Care Center',addr:'1563 Mission St, San Francisco, CA 94103',noInsOk:true,sample:true},
         {name:'Salvation Army Harbor Light Center',addr:'1275 Harrison St, San Francisco, CA 94103',noInsOk:true,sample:true},
@@ -763,27 +1044,54 @@ const ZONES={
     {id:'fidi',label:'Financial District',addr:'Wall St & Broadway, Manhattan, NY',cx:140,cy:310},
   ],
   Brooklyn:[
-    {id:'wburg',label:'Williamsburg / Greenpoint',addr:'Bedford Ave & N 7th St, Brooklyn, NY',cx:80,cy:55},
-    {id:'bedstuy',label:'Bedstuy / Bushwick',addr:'Broadway & Myrtle Ave, Brooklyn, NY',cx:200,cy:55},
-    {id:'dtbk',label:'Downtown Brooklyn',addr:'Flatbush Ave & Fulton St, Brooklyn, NY',cx:140,cy:125},
-    {id:'sunset',label:'Sunset Park / Bay Ridge',addr:'5th Ave & 45th St, Brooklyn, NY',cx:80,cy:200},
-    {id:'flatbush',label:'Flatbush / E. Flatbush',addr:'Church Ave & Flatbush Ave, Brooklyn, NY',cx:200,cy:200},
-  ],
+  {id:'red',         label:'Red (Downtown Brooklyn)'},
+  {id:'darkblue',    label:'Dark Blue (Red Hook / Carroll Gardens/ Gowanus)'},
+  {id:'lightgreen',  label:'Light Green (Clinton Hill/Fort Greene)'},
+  {id:'brightgreen', label:'Bright Green (Park Slope / Prospect Heights/ Wndsor Terrace)'},
+  {id:'purple',      label:'Purple (Bedford-Stuy / Crown Heights'},
+  {id:'tan',         label:'Dark Green (Prospect Park)'},
+  {id:'yellow',      label:'Yellow (East New York / Canarsie / Brownsville)'},
+  {id:'blue',        label:'Blue (Marine Park / Flatlands)'},
+  {id:'cyan',        label:'Cyan (Coney Island / Brighton Beach / Gravesend)'},
+  {id:'magenta',     label:'Magenta (Sunset Park / Borough Park)'},
+  {id:'violet',      label:'Violet (Bay Ridge / Bensonhurst)'},
+  {id:'olive',       label:'Olive (Williamsburg / Greenpoint / Bushwick)'},
+  {id:'orange',      label:'Orange (East Flashbush)'},
+],
   Queens:[
-    {id:'astoria',label:'Astoria / LIC',addr:'31st St & Broadway, Queens, NY',cx:80,cy:50},
-    {id:'flushing',label:'Flushing',addr:'Main St & Roosevelt Ave, Queens, NY',cx:200,cy:50},
-    {id:'jhelm',label:'Jackson Hts / Elmhurst',addr:'Roosevelt Ave & 82nd St, Queens, NY',cx:80,cy:170},
-    {id:'jamaica',label:'Jamaica',addr:'Jamaica Ave & 165th St, Queens, NY',cx:200,cy:170},
-  ],
+  {id:'1',label:'District 1'},
+  {id:'2',label:'District 2'},
+  {id:'3',label:'District 3'},
+  {id:'4',label:'District 4'},
+  {id:'5',label:'District 5'},
+  {id:'6',label:'District 6'},
+  {id:'7',label:'District 7'},
+  {id:'8',label:'District 8'},
+  {id:'9',label:'District 9'},
+  {id:'10',label:'District 10'},
+  {id:'11',label:'District 11'},
+  {id:'12',label:'District 12'},
+  {id:'13',label:'District 13'},
+  {id:'14',label:'District 14'},
+],
   Bronx:[
-    {id:'pelham',label:'Pelham / Co-op City',addr:'Baychester Ave & Co-op City Blvd, Bronx, NY',cx:200,cy:45},
-    {id:'tremont',label:'Tremont / Fordham',addr:'Tremont Ave & Grand Concourse, Bronx, NY',cx:80,cy:120},
-    {id:'morrisania',label:'Morrisania / Melrose',addr:'Melrose Ave & 161st St, Bronx, NY',cx:200,cy:120},
-    {id:'motthaven',label:'Mott Haven / S. Bronx',addr:'3rd Ave & 149th St, Bronx, NY',cx:140,cy:200},
-  ],
+  {id:'1',label:'District 1'},
+  {id:'2',label:'District 2'},
+  {id:'3',label:'District 3'},
+  {id:'4',label:'District 4'},
+  {id:'5',label:'District 5'},
+  {id:'6',label:'District 6'},
+  {id:'7',label:'District 7'},
+  {id:'8',label:'District 8'},
+  {id:'9',label:'District 9'},
+  {id:'10',label:'District 10'},
+  {id:'11',label:'District 11'},
+  {id:'12',label:'District 12'},
+],
   'Staten Island':[
-    {id:'stgeorge',label:'St. George / North Shore',addr:'Richmond Terrace & Victory Blvd, Staten Island, NY',cx:100,cy:75},
-    {id:'midisland',label:'Mid-Island',addr:'Richmond Ave & Forest Ave, Staten Island, NY',cx:100,cy:175},
+    {id:'north', label:'North Shore', addr: 'Richmond Terrace & Victory Blvd, Staten Island, NY',cx:100,cy:75},
+    {id:'mid',label:'Mid-Island', addr:'Richmond Ave & Forest Ave, Staten Island, NY',cx:100,cy:175},
+    {id:'south',label:'South Shore', addr:'Richmond Ave & Forest Ave, Staten Island, NY',cx:100,cy:175},
   ],
   'San Francisco':[
     {id:'richmond',label:'Richmond',addr:'9th Ave & Irving St, San Francisco, CA',cx:70,cy:80},
@@ -906,7 +1214,10 @@ function renderLocationGrid(){
   Object.keys(LOCATIONS).forEach(key=>{
     const loc=LOCATIONS[key];
     const card=document.createElement('div'); card.className='picker-card';
-    card.innerHTML='<div class="picker-icon">'+loc.icon+'</div><h3>'+loc.label[lang]+'</h3><p>'+(lang==='en'?'Select to view Emergency Departments in '+loc.label.en:'Seleccione para ver Departamentos de Emergencias en '+loc.label.es)+'</p>';
+    card.innerHTML = `
+  <div class="picker-icon">${loc.icon}</div>
+  <h3>${loc.label[lang]}</h3>
+`;
     card.addEventListener('click',()=>{
       state.location=key; renderHospitalGrid(); goTo('screen-hospital');
     });
@@ -924,7 +1235,12 @@ function renderHospitalGrid(){
   LOCATIONS[state.location].hospitals.forEach(key=>{
     const h=HOSPITALS[key];
     const card=document.createElement('div'); card.className='picker-card';
-    card.innerHTML='<div class="picker-icon">'+h.icon+'</div><h3>'+h.name[lang]+'</h3><p>'+(lang==='en'?'Emergency Department':'Departamento de Emergencias')+'</p>';
+    card.innerHTML = `
+  <h3>${h.name[lang]}</h3>
+  <p>${lang === 'en'
+      ? 'Emergency Department'
+      : 'Departamento de Emergencias'}</p>
+`;
     card.addEventListener('click',()=>{
       state.hospitalKey=key; applyTheme(key); updateBrandSub();
       renderActionGrid(); goTo('screen-action');
@@ -941,10 +1257,10 @@ function renderActionGrid(){
   const g=document.getElementById('actionGrid'); g.innerHTML='';
   const s=t();
   const use=document.createElement('div'); use.className='picker-card';
-  use.innerHTML='<div class="picker-icon">🧭</div><h3>'+s.actUseTitle+'</h3><p>'+s.actUseDesc+'</p>';
+  use.innerHTML='<h3>'+s.actUseTitle+'</h3><p>'+s.actUseDesc+'</p>';
   use.addEventListener('click',()=>{renderModeGrid(); goTo('screen-mode');});
   const upd=document.createElement('div'); upd.className='picker-card';
-  upd.innerHTML='<div class="picker-icon">📤</div><h3>'+s.actUpdateTitle+'</h3><p>'+s.actUpdateDesc+'</p>';
+  upd.innerHTML='<h3>'+s.actUpdateTitle+'</h3><p>'+s.actUpdateDesc+'</p>';
   upd.addEventListener('click',()=>{renderUploadList(); goTo('screen-upload');});
   g.appendChild(use); g.appendChild(upd);
 }
@@ -1004,13 +1320,16 @@ function renderModeGrid(){
   const g=document.getElementById('modeGrid'); g.innerHTML='';
   const s=t();
   const modes=[
-    {key:'SBIRT',title:s.modeSbirtTitle,desc:s.modeSbirtDesc,icon:'🚶'},
-    {key:'LEADS',title:s.modeLeadsTitle,desc:s.modeLeadsDesc,icon:'📋'},
-    {key:'Other',title:s.modeOtherTitle,desc:s.modeOtherDesc,icon:'✳️'},
-  ];
+  {key:'SBIRT',title:s.modeSbirtTitle,desc:s.modeSbirtDesc},
+  {key:'LEADS',title:s.modeLeadsTitle,desc:s.modeLeadsDesc},
+  {key:'Other',title:s.modeOtherTitle,desc:s.modeOtherDesc},
+];
   modes.forEach(m=>{
     const card=document.createElement('div'); card.className='picker-card';
-    card.innerHTML='<div class="picker-icon">'+m.icon+'</div><h3>'+m.title+'</h3><p>'+m.desc+'</p>';
+    card.innerHTML=`
+  <h3>${m.title}</h3>
+  <p>${m.desc}</p>
+`;
     card.addEventListener('click',()=>{
       state.mode=m.key; updateBrandSub();
       state.selectedCats=state.selectedCats.filter(id=>!(MODE_EXCLUDE[m.key]||[]).includes(id));
@@ -1024,49 +1343,51 @@ function renderModeGrid(){
    BOROUGH MAP — SVG (NYC only)
 ============================================================ */
 function renderBoroughMap(){
-  const wrap=document.getElementById('boroughMapWrap'); wrap.innerHTML='';
-  const svg=`<svg viewBox="0 0 300 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Map of New York City boroughs">
-  <defs>
-    <style>
-      .b-manhattan{fill:#D4E8DF;stroke:#2F6F5E;stroke-width:1.5;}
-      .b-brooklyn{fill:#D9E8F5;stroke:#1a5276;stroke-width:1.5;}
-      .b-queens{fill:#FEF3CD;stroke:#7d6608;stroke-width:1.5;}
-      .b-bronx{fill:#F5D7D7;stroke:#7b241c;stroke-width:1.5;}
-      .b-si{fill:#E8D5F0;stroke:#6c3483;stroke-width:1.5;}
-      .borough-region{cursor:pointer;}
-      .borough-region:active{opacity:0.7;}
-      .blabel{font-family:'Source Sans 3',sans-serif;font-size:12px;font-weight:700;pointer-events:none;fill:#1C2B2D;}
-    </style>
-  </defs>
-  <g class="borough-region" data-b="Staten Island" tabindex="0" role="button" aria-label="Staten Island">
-    <path class="b-si" d="M 8 240 L 30 225 L 55 220 L 78 228 L 90 245 L 82 268 L 60 285 L 30 290 L 10 275 Z"/>
-    <text class="blabel" x="48" y="255" text-anchor="middle">Staten</text>
-    <text class="blabel" x="48" y="269" text-anchor="middle">Island</text>
-  </g>
-  <g class="borough-region" data-b="Brooklyn" tabindex="0" role="button" aria-label="Brooklyn">
-    <path class="b-brooklyn" d="M 130 190 L 185 180 L 220 185 L 238 200 L 242 225 L 222 248 L 195 265 L 162 272 L 130 265 L 108 248 L 102 225 L 112 205 Z"/>
-    <text class="blabel" x="172" y="226" text-anchor="middle">Brooklyn</text>
-  </g>
-  <g class="borough-region" data-b="Queens" tabindex="0" role="button" aria-label="Queens">
-    <path class="b-queens" d="M 185 80 L 248 72 L 285 90 L 292 130 L 280 170 L 250 190 L 220 185 L 185 180 L 162 155 L 158 118 L 168 90 Z"/>
-    <text class="blabel" x="232" y="135" text-anchor="middle">Queens</text>
-  </g>
-  <g class="borough-region" data-b="Bronx" tabindex="0" role="button" aria-label="The Bronx">
-    <path class="b-bronx" d="M 148 20 L 200 15 L 245 28 L 255 65 L 242 92 L 220 100 L 185 95 L 168 90 L 158 60 L 148 40 Z"/>
-    <text class="blabel" x="200" y="58" text-anchor="middle">The Bronx</text>
-  </g>
-  <g class="borough-region" data-b="Manhattan" tabindex="0" role="button" aria-label="Manhattan">
-    <path class="b-manhattan" d="M 148 40 L 158 60 L 164 90 L 162 118 L 162 155 L 158 180 L 148 200 L 130 190 L 112 165 L 108 130 L 112 95 L 118 60 L 128 40 Z"/>
-    <text class="blabel" x="136" y="125" text-anchor="middle">Manhattan</text>
-  </g>
-  <text style="font-family:'Source Sans 3',sans-serif;font-size:9px;fill:#8ab4c9;pointer-events:none;" x="88" y="170" text-anchor="middle">New York</text>
-  <text style="font-family:'Source Sans 3',sans-serif;font-size:9px;fill:#8ab4c9;pointer-events:none;" x="88" y="182" text-anchor="middle">Harbor</text>
-</svg>`;
-  wrap.innerHTML=svg;
-  wrap.querySelectorAll('.borough-region').forEach(el=>{
-    el.addEventListener('click',()=>{
-      const b=el.dataset.b; state.borough=b;
-      renderZoneMap(b); goTo('screen-zone');
+  const wrap = document.getElementById('boroughMapWrap');
+
+  wrap.innerHTML = `
+    <div class="borough-map-image">
+
+      <img src="assets/nyc_map.png" alt="Map of New York City boroughs">
+
+      <button class="borough-btn manhattan"
+              data-b="Manhattan">
+        Manhattan
+      </button>
+
+      <button class="borough-btn bronx"
+              data-b="Bronx">
+        Bronx
+      </button>
+
+      <button class="borough-btn queens"
+              data-b="Queens">
+        Queens
+      </button>
+
+      <button class="borough-btn brooklyn"
+              data-b="Brooklyn">
+        Brooklyn
+      </button>
+
+      <button class="borough-btn staten"
+              data-b="Staten Island">
+        Staten Island
+      </button>
+
+      <button class="borough-btn unsure">
+         Not sure?
+      </button>
+
+    </div>
+  `;
+
+  wrap.querySelectorAll(".borough-btn").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      const b = btn.dataset.b;
+      state.borough = b;
+      renderZoneMap(b);
+      goTo("screen-zone");
     });
   });
 }
@@ -1085,12 +1406,277 @@ function renderZoneMap(borough){
     Queens:{vw:280,vh:220,bg:'var(--path-light)'},
     Bronx:{vw:280,vh:250,bg:'var(--path-light)'},
     'Staten Island':{vw:200,vh:240,bg:'var(--path-light)'},
-    'San Francisco':{vw:280,vh:320,bg:'var(--path-light)'},
+    'San Francisco/Bay Area':{vw:280,vh:320,bg:'var(--path-light)'},
   };
   const cfg=configs[borough]||{vw:280,vh:280,bg:'var(--path-light)'};
   const CW=112, CH=46;
 
-  let chips='';
+  /* ---------- Custom Staten Island map ---------- */
+if (borough === 'Staten Island') {
+
+  wrap.innerHTML = `
+    <div class="district-map-image">
+
+      <img src="assets/staten.png" alt="Staten Island District Map">
+
+      <button class="district-btn north" data-zid="north">
+        North Shore
+      </button>
+
+      <button class="district-btn mid" data-zid="mid">
+        Mid Island
+      </button>
+
+      <button class="district-btn south" data-zid="south">
+        South Shore
+      </button>
+
+    </div>
+  `;
+
+  wrap.querySelectorAll('.district-btn').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+
+          const z = zones.find(z => z.id === btn.dataset.zid);
+
+          if(!z) return;
+
+          state.zone = z;
+
+          setTimeout(()=>afterZone(),220);
+
+      });
+  });
+
+  return;
+}
+
+/* ---------- Custom Bronx map ---------- */
+if (borough === 'Bronx') {
+
+  wrap.innerHTML = `
+    <div class="district-map-image">
+
+      <img src="assets/bronx.png"
+           alt=""
+           draggable="false">
+
+      <div class="number-grid">
+
+        <button class="number-btn" data-zid="1">1</button>
+        <button class="number-btn" data-zid="2">2</button>
+        <button class="number-btn" data-zid="3">3</button>
+        <button class="number-btn" data-zid="4">4</button>
+        <button class="number-btn" data-zid="5">5</button>
+
+        <button class="number-btn" data-zid="6">6</button>
+        <button class="number-btn" data-zid="7">7</button>
+        <button class="number-btn" data-zid="8">8</button>
+        <button class="number-btn" data-zid="9">9</button>
+        <button class="number-btn" data-zid="10">10</button>
+
+        <button class="number-btn" data-zid="11">11</button>
+        <button class="number-btn" data-zid="12">12</button>
+
+      </div>
+
+    </div>
+  `;
+
+  wrap.querySelectorAll(".number-btn").forEach(btn=>{
+
+      btn.addEventListener("click",()=>{
+
+          const z = zones.find(z=>z.id===btn.dataset.zid);
+
+          if(!z) return;
+
+          state.zone = z;
+
+          setTimeout(()=>afterZone(),220);
+
+      });
+
+  });
+
+  return;
+}
+
+/* ---------- Custom Brooklyn map ---------- */
+if (borough === 'Brooklyn') {
+
+  wrap.innerHTML = `
+    <div class="district-map-image">
+
+      <img src="assets/brooklyn.png"
+           alt="Brooklyn Service Areas">
+
+      <button class="district-dot red" data-zid="red"></button>
+      <button class="district-dot darkblue" data-zid="darkblue"></button>
+      <button class="district-dot lightgreen" data-zid="lightgreen"></button>
+      <button class="district-dot brightgreen" data-zid="brightgreen"></button>
+      <button class="district-dot purple" data-zid="purple"></button>
+      <button class="district-dot tan" data-zid="tan"></button>
+      <button class="district-dot yellow" data-zid="yellow"></button>
+      <button class="district-dot blue" data-zid="blue"></button>
+      <button class="district-dot cyan" data-zid="cyan"></button>
+      <button class="district-dot magenta" data-zid="magenta"></button>
+      <button class="district-dot violet" data-zid="violet"></button>
+      <button class="district-dot olive" data-zid="olive"></button>
+      <button class="district-dot orange" data-zid="orange"></button>
+
+    </div>
+  `;
+
+  wrap.querySelectorAll(".district-dot").forEach(btn=>{
+
+      btn.addEventListener("click",()=>{
+
+          const z = zones.find(z=>z.id===btn.dataset.zid);
+
+          if(!z) return;
+
+          state.zone = z;
+
+          setTimeout(()=>afterZone(),220);
+
+      });
+
+  });
+
+  return;
+}
+
+/* ---------- Custom Manhattan map ---------- */
+if (borough === 'Manhattan') {
+
+  wrap.innerHTML = `
+    <div class="district-map-image">
+
+      <img src="assets/manhattan.png" alt="Manhattan Neighborhood Map">
+
+      <div class="district-grid">
+
+        <button class="district-grid-btn" data-zid="uptown">
+          Uptown
+        </button>
+
+        <button class="district-grid-btn" data-zid="uws">
+          Upper West Side
+        </button>
+
+        <button class="district-grid-btn" data-zid="ues">
+          Upper East Side
+        </button>
+
+        <button class="district-grid-btn" data-zid="midtownwest">
+          Midtown West
+        </button>
+
+        <button class="district-grid-btn" data-zid="midtowneast">
+          Midtown East
+        </button>
+
+        <button class="district-grid-btn" data-zid="chelsea">
+          Chelsea
+        </button>
+
+        <button class="district-grid-btn" data-zid="greenwich">
+          Greenwich Village
+        </button>
+
+        <button class="district-grid-btn" data-zid="eastvillage">
+          East Village
+        </button>
+
+        <button class="district-grid-btn" data-zid="soho">
+          SoHo / Tribeca
+        </button>
+
+        <button class="district-grid-btn" data-zid="fidi">
+          Financial District
+        </button>
+
+      </div>
+
+    </div>
+  `;
+
+
+  wrap.querySelectorAll(".district-grid-btn").forEach(btn => {
+
+      btn.addEventListener("click", () => {
+
+          const z = zones.find(z => z.id === btn.dataset.zid);
+
+          if (!z) return;
+
+          state.zone = z;
+
+          setTimeout(() => afterZone(), 220);
+
+      });
+
+  });
+
+  return;
+}
+
+/* ---------- Custom Queens map ---------- */
+if (borough === 'Queens') {
+
+  wrap.innerHTML = `
+    <div class="district-map-image">
+
+      <img src="assets/queens.png"
+           alt="Queens District Map">
+
+      <div class="number-grid">
+
+        <button class="number-btn" data-zid="1">1</button>
+        <button class="number-btn" data-zid="2">2</button>
+        <button class="number-btn" data-zid="3">3</button>
+        <button class="number-btn" data-zid="4">4</button>
+        <button class="number-btn" data-zid="5">5</button>
+        <button class="number-btn" data-zid="6">6</button>
+        <button class="number-btn" data-zid="7">7</button>
+        <button class="number-btn" data-zid="8">8</button>
+        <button class="number-btn" data-zid="9">9</button>
+        <button class="number-btn" data-zid="10">10</button>
+        <button class="number-btn" data-zid="11">11</button>
+        <button class="number-btn" data-zid="12">12</button>
+        <button class="number-btn" data-zid="13">13</button>
+        <button class="number-btn" data-zid="14">14</button>
+
+      </div>
+
+    </div>
+  `;
+
+  wrap.querySelectorAll(".number-btn").forEach(btn=>{
+
+      btn.addEventListener("click",()=>{
+
+          const z = zones.find(z=>z.id===btn.dataset.zid);
+
+          if(!z) return;
+
+          state.zone = z;
+
+          setTimeout(()=>afterZone(),220);
+
+      });
+
+  });
+
+  return;
+}
+
+
+
+
+
+let chips='';
   zones.forEach(z=>{
     const x=Math.max(2,Math.min(cfg.vw-CW-2,z.cx-CW/2));
     const y=Math.max(2,Math.min(cfg.vh-CH-2,z.cy-CH/2));
@@ -1122,6 +1708,8 @@ function renderZoneMap(borough){
     if(!state.zone){ state.zone=zones[0]||{id:'center',label:borough,addr:borough+', NY'}; afterZone(); }
   });
 }
+
+
 
 /* ============================================================
    STAFF SCREEN
@@ -1160,7 +1748,7 @@ function renderInsuranceScreen(){
     btn.addEventListener('click',()=>{
       state.insurance=o.v;
       if(state.location==='NYC'){ renderBoroughMap(); goTo('screen-borough'); }
-      else { state.borough='San Francisco'; renderZoneMap('San Francisco'); goTo('screen-zone'); }
+      else { state.borough='San Francisco/Bay Area'; renderZoneMap('San Francisco/Bay Area'); goTo('screen-zone'); }
     });
     list.appendChild(btn);
   });
