@@ -922,7 +922,7 @@ img[alt="Map"]{
       <p class="sub" id="s_boroughSub">Tap your borough on the map below.</p>
     </div>
     <div class="borough-map-wrap" id="boroughMapWrap"></div>
-    <p class="borough-map-hint" id="s_boroughHint">Not sure? Tap the area that looks most familiar.</p>
+
   </section>
 
   <!-- ══ SCREEN: Zone map ══ -->
@@ -934,7 +934,7 @@ img[alt="Map"]{
       <p class="sub" id="s_zoneSub">This helps us find the nearest resources and transit routes.</p>
     </div>
     <div class="zone-svg-wrap" id="zoneSvgWrap"></div>
-    <p class="zone-map-hint" id="s_zoneHint">Not sure? Tap anywhere — we'll use the center of the area.</p>
+
   </section>
 
   <!-- ══ SCREEN: Mobile van / street medicine area ══ -->
@@ -1289,9 +1289,9 @@ const LANG={
 
     boroughEyebrow:'Step 2 of 4', boroughH:'Where in New York City are you right now?',
     boroughSub:'Tap your borough on the map below.',
-    boroughHint:"",
+
     zoneEyebrow:'Step 2 of 4', zoneSub:'This helps us find the nearest resources and transit routes.',
-    zoneHint:"Not sure? Tap anywhere — we'll use the center of the area.",
+
     showEyebrow:'Mobile Outreach Van', showH:'Which area are you closest to?',
     showSub:'The van visits different locations on different days.',
     addlEyebrow:'Step 3 of 4', addlH:'Is there anything else you would like information about?',
@@ -1355,7 +1355,6 @@ const LANG={
     ],
     boroughEyebrow:'Paso 2 de 4', boroughH:'¿Dónde en Nueva York se encuentra ahora?',
     boroughSub:'Toque su condado en el mapa.',
-    boroughHint:'¿No está seguro/a? Toque el área que le resulte más familiar.',
     zoneEyebrow:'Paso 2 de 4', zoneSub:'Esto nos ayuda a encontrar los recursos más cercanos y las rutas de tránsito.',
     zoneHint:'¿No está seguro/a? Toque en cualquier lugar — usaremos el centro del área.',
     showEyebrow:'Van móvil de alcance', showH:'¿A qué área está más cerca?',
@@ -1649,7 +1648,7 @@ function applyLang(){
   sa('s_modeEyebrow',s.modeEyebrow); sa('s_modeH',s.modeH); sa('s_modeSub',s.modeSub);
   sa('s_staffEyebrow',s.staffEyebrow); sa('s_staffH',s.staffH); sa('s_staffSub',s.staffSub);
   document.getElementById('startBtn').textContent=s.startBtn;
-  sa('s_boroughEyebrow',s.boroughEyebrow); sa('s_boroughH',s.boroughH); sa('s_boroughSub',s.boroughSub); sa('s_boroughHint',s.boroughHint);
+  sa('s_boroughEyebrow',s.boroughEyebrow); sa('s_boroughH',s.boroughH); sa('s_boroughSub',s.boroughSub);
   sa('s_zoneEyebrow',s.zoneEyebrow); sa('s_zoneSub',s.zoneSub); sa('s_zoneHint',s.zoneHint);
   sa('s_showEyebrow',s.showEyebrow); sa('s_showH',s.showH); sa('s_showSub',s.showSub);
   sa('s_addlEyebrow',s.addlEyebrow); sa('s_addlH',s.addlH); sa('s_addlSub',s.addlSub);
@@ -1727,7 +1726,7 @@ document.getElementById('backFromAction').addEventListener('click',()=>goTo('scr
 
 /* ============================================================
    SCREEN: ACTION
-============================================================ */
+=========================================================== */
 function renderActionGrid(){
   const g=document.getElementById('actionGrid'); g.innerHTML='';
   const s=t();
@@ -1874,9 +1873,7 @@ function renderBoroughMap(){
         Staten Island
       </button>
 
-      <button class="borough-btn unsure">
-         Not sure?
-      </button>
+
 
     </div>
   `;
