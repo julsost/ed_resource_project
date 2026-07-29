@@ -231,14 +231,23 @@
   .cal-wrap{margin-top:4px;}
   .cal-label{font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);font-weight:700;margin-bottom:7px;}
   .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;}
-  .cal-head{font-size:0.65rem;font-weight:700;text-align:center;color:var(--muted);text-transform:uppercase;padding-bottom:2px;}
+
   .cal-day{border:1.5px solid var(--line);border-radius:7px;aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;background:#fff;transition:background .12s;-webkit-user-select:none;user-select:none;min-height:36px;}
   .cal-day:active{background:var(--path-light);}
   /* base "is actually today" styling */
   .cal-day.today{border-color:var(--sun);background:#FFF8F2;}
   .cal-day.today .cal-day-num{color:var(--sun);}
-  .cal-day-num{font-size:0.88rem;font-weight:700;line-height:1;}
-  .cal-day-mo{font-size:0.55rem;color:var(--muted);margin-top:1px;line-height:1;}
+  .cal-day-num{
+    font-size:0.75rem;   /* was 0.88 */
+}
+
+.cal-day-mo{
+    font-size:0.45rem;   /* was 0.55 */
+}
+
+.cal-head{
+    font-size:0.55rem;   /* was 0.65 */
+}
   /* user-marked states declared AFTER .today so they always win (fixes disappearing number) */
   .cal-day.marked-today{background:var(--sun);border-color:var(--sun);}
   .cal-day.marked-appt{background:var(--path);border-color:var(--path);}
@@ -517,16 +526,289 @@
 }
 
 
-  @media print{
-    body{background:#fff;}
-    .topbar,.footer-actions,.qr-block,.no-print,.collapse-toggle{display:none!important;}
-    .app{max-width:100%;padding:0;}
-    .sheet-wrap{background:none;padding:0;}
-    .sheet{box-shadow:none;max-width:100%;padding:18px 0;}
-    .collapse-panel{display:block!important;}
-    .cal-day{border:1px solid #ccc;}
-    .awb-line{border-bottom:1px solid #999;}
+@media print{
+  @page{
+    margin:1.5cm 1.8cm;
+    size:letter;
   }
+  .sheet-eyebrow{
+  display:none!important;
+}
+  .note-box{
+  page-break-inside:avoid!important;
+  break-inside:avoid!important;
+}
+
+img[alt="Map"]{
+  page-break-inside:avoid!important;
+  break-inside:avoid!important;
+  page-break-before:avoid!important;
+  break-before:avoid!important;
+  width:280px!important;
+  max-width:280px!important;
+  display:block!important;
+  float:none!important;
+  margin:12px 0 6px 0!important;
+  border-radius:6px!important;
+  border:1.5px solid #aaa!important;
+}
+
+  /* ── Base ── */
+  body{
+    background:#fff!important;
+    font-size:11pt!important;
+    color:#000!important;
+    -webkit-print-color-adjust:exact;
+    print-color-adjust:exact;
+  }
+
+  /* Force ALL text black */
+  *{
+    color:#000!important;
+  }
+
+  .topbar,.footer-actions,.qr-block,.no-print,.collapse-toggle{
+    display:none!important;
+  }
+
+  .app{
+    max-width:100%;
+    padding:0;
+    margin:0;
+  }
+
+  .sheet-wrap{
+    background:none!important;
+    padding:0!important;
+    border-radius:0;
+  }
+
+  .sheet{
+    box-shadow:none!important;
+    max-width:100%!important;
+    padding:0!important;
+  }
+
+  .collapse-panel{
+    display:block!important;
+  }
+
+  .awb-line{
+    border-bottom:1px solid #000;
+  }
+
+  /* ── Header ── */
+  .sheet-eyebrow{
+    font-size:8pt!important;
+    margin-bottom:4px!important;
+    color:#000!important;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+  }
+
+  h1.headline{
+    font-size:20pt!important;
+    margin-bottom:4px!important;
+    color:#000!important;
+  }
+
+  .sheet-sub{
+    font-size:10pt!important;
+    margin-bottom:4px!important;
+    color:#000!important;
+  }
+
+  .sheet-date{
+    font-size:9pt!important;
+    margin-bottom:12px!important;
+    padding-bottom:10px!important;
+    color:#000!important;
+    border-bottom:2px solid #000!important;
+  }
+
+  /* ── Single column ── */
+  #resultsContainer{
+    columns:1!important;
+    column-gap:0!important;
+  }
+
+  /* ── Resource cards ── */
+  .result-card{
+  page-break-inside:avoid!important;
+  break-inside:avoid!important;
+  padding:14px 0!important;
+  margin:0!important;
+  border-bottom:1.5px solid #aaa!important;
+}
+
+  .result-card h3{
+    font-size:13pt!important;
+    margin-bottom:5px!important;
+    margin-top:0!important;
+    color:#000!important;
+    page-break-after:avoid;
+    break-after:avoid;
+  }
+
+  .result-card .addr{
+    font-size:11pt!important;
+    font-weight:700!important;
+    margin:3px 0!important;
+    color:#000!important;
+  }
+
+  .result-card .meta{
+    font-size:10pt!important;
+    line-height:1.5!important;
+    margin:3px 0!important;
+    color:#000!important;
+  }
+
+  /* ── Proximity labels ── */
+  .result-card>div>div:first-child{
+    font-size:8pt!important;
+    margin-bottom:3px!important;
+    color:#000!important;
+  }
+
+  /* ── Directions box ── */
+  .note-box{
+    font-size:10pt!important;
+    padding:10px 14px!important;
+    margin-top:10px!important;
+    line-height:1.5!important;
+    background:#f5f5f5!important;
+    color:#000!important;
+    border:1.5px solid #999!important;
+    border-radius:6px!important;
+  }
+
+  .note-box div{
+    padding:4px 0!important;
+    font-size:10pt!important;
+    color:#000!important;
+  }
+
+  /* ── Maps — larger for annotation ── */
+  img[alt="Map"]{
+    width:280px!important;
+    max-width:280px!important;
+    display:block!important;
+    float:none!important;
+    margin:12px 0 6px 0!important;
+    border-radius:6px!important;
+    border:1.5px solid #aaa!important;
+  }
+
+  /* Clear floats */
+  .result-card::after{
+    content:'';
+    display:table;
+    clear:both;
+  }
+
+   /* Narcan images — side by side */
+  .narcan-images{
+    display:flex!important;
+    gap:10px!important;
+    flex-wrap:nowrap!important;
+    margin-top:6px!important;
+  }
+  .narcan-images > div{
+    flex:1 1 0!important;
+    min-width:0!important;
+  }
+  img[alt="Narcan instructions"],
+  img[alt="Fentanyl test strip instructions"],
+  img[alt="Instrucciones de Narcan"],
+  img[alt="Instrucciones de tiras de prueba de fentanilo"]{
+    width:100%!important;
+    max-width:100%!important;
+    float:none!important;
+    filter:none!important;
+  }
+
+  /* ── Appointment box — compact ── */
+  .appt-write-box{
+    padding:8px 12px!important;
+    margin-bottom:14px!important;
+    border:1.5px dashed #555!important;
+    border-radius:8px!important;
+  }
+
+  .awb-label{
+    font-size:8pt!important;
+    color:#000!important;
+    margin-bottom:8px!important;
+  }
+
+  .awb-row{
+    gap:10px!important;
+    margin-bottom:8px!important;
+  }
+
+  .awb-field label{
+    font-size:8pt!important;
+    color:#000!important;
+  }
+
+  /* ── Calendar — compact ── */
+  .cal-wrap{
+    margin-top:4px!important;
+  }
+
+  .cal-grid{
+    gap:3px!important;
+  }
+
+  .cal-day{
+    min-height:24px!important;
+  }
+
+  .cal-label{
+    font-size:8pt!important;
+    margin-bottom:4px!important;
+    color:#000!important;
+  }
+
+  .cal-day-num{
+    font-size:8pt!important;
+    color:#000!important;
+  }
+
+  .cal-day-mo{
+    font-size:6pt!important;
+    color:#000!important;
+  }
+
+  .cal-head{
+    font-size:7pt!important;
+    color:#000!important;
+  }
+
+  .cal-legend{
+    margin-top:6px!important;
+  }
+
+  .cal-legend-item{
+    font-size:8pt!important;
+    color:#000!important;
+  }
+
+  /* ── Status banners ── */
+  .status-banner{
+    font-size:9pt!important;
+    padding:8px 10px!important;
+    margin-bottom:12px!important;
+    color:#000!important;
+    border:1.5px solid #aaa!important;
+  }
+
+  /* ── Links — hide on print ── */
+  a.directions-link{
+    display:none!important;
+  }
+}
 </style>
 </head>
 <body>
@@ -579,24 +861,30 @@
   </section>
 
   <!-- ══ SCREEN: Upload / Update info ══ -->
-  <section class="screen" id="screen-upload">
-    <button class="back-link no-print" id="backFromUpload">← <span id="s_backAct2">Back</span></button>
-    <div class="prompt">
-      <div class="prompt-eyebrow" id="s_upEyebrow">Update Information</div>
-      <h2 id="s_upH">Upload or photograph updated resource sheets</h2>
-      <p class="sub" id="s_upSub">Choose a file from this device, or use the camera to photograph a printed sheet. You can add more than one.</p>
+<section class="screen" id="screen-upload">
+  <button class="back-link no-print" id="backFromUpload">← <span id="s_backAct2">Back</span></button>
+  <div class="prompt">
+    <div class="prompt-eyebrow" id="s_upEyebrow">Update Information</div>
+    <h2 id="s_upH">What would you like to do?</h2>
+    <p class="sub" id="s_upSub">Choose an option below.</p>
+  </div>
+
+  <div class="picker-grid">
+
+    <div class="picker-card" onclick="window.open('https://forms.gle/bn8cGepWpauYPh5Z6','_blank')">
+      <div class="picker-icon">➕</div>
+      <h3>Add a new resource</h3>
+      <p>Opens a form to submit a new location, shelter, clinic, or service to the directory.</p>
     </div>
-    <div class="upload-actions">
-      <label class="choice-btn compact" for="fileUploadInput"><span class="upload-icon">📁</span><span id="s_upChoose">Choose file</span><input type="file" id="fileUploadInput" accept=".pdf,image/*" multiple hidden></label>
-      <label class="choice-btn compact" for="cameraInput"><span class="upload-icon">📷</span><span id="s_upPhoto">Take photo</span><input type="file" id="cameraInput" accept="image/*" capture="environment" hidden></label>
+
+    <div class="picker-card" onclick="window.open('https://docs.google.com/spreadsheets/d/1kJG96DBAodZyMIhm2qC84UoZ5cA2H-6kaWpqY9-uSek/edit?usp=sharing','_blank')">
+      <div class="picker-icon">🗑️</div>
+      <h3>Remove or disable a resource</h3>
+      <p>Opens the sheet directly. Use Ctrl+F / Cmd+F to find the entry, then either delete the row entirely or change the <strong>open</strong> column to <strong>FALSE</strong> to hide it temporarily.</p>
     </div>
-    <div class="upload-list" id="uploadList"></div>
-    <div class="btn-row">
-      <button class="btn btn-primary" id="submitUploadBtn" disabled>Submit update</button>
-      <button class="btn btn-ghost" id="uploadCancelBtn">Cancel</button>
-    </div>
-    <div id="uploadConfirm"></div>
-  </section>
+
+  </div>
+</section>
 
   <!-- ══ SCREEN: Mode (Who are you) ══ -->
   <section class="screen" id="screen-mode">
@@ -609,8 +897,9 @@
     <div class="picker-grid cols-3" id="modeGrid"></div>
   </section>
 
-  <!-- ══ SCREEN: Staff resource selection ══ -->
+ <!-- ══ SCREEN: Staff resource selection ══ -->
   <section class="screen" id="screen-staff">
+    <button class="back-link no-print" id="backFromStaff">← <span id="s_backMode">Back</span></button>
     <div class="prompt">
       <div class="prompt-eyebrow" id="s_staffEyebrow">Staff</div>
       <h2 id="s_staffH">What does this patient need today?</h2>
@@ -622,18 +911,11 @@
     </div>
   </section>
 
-  <!-- ══ SCREEN: Insurance ══ -->
-  <section class="screen" id="screen-insurance">
-    <div class="prompt">
-      <div class="prompt-eyebrow" id="s_insEyebrow">Step 1 of 4</div>
-      <h2 id="s_insH">Do you have health insurance?</h2>
-      <p class="sub" id="s_insSub">This helps us find the right options for you. Many resources are available no matter what.</p>
-    </div>
-    <div class="choice-list" id="insuranceList"></div>
-  </section>
+
 
   <!-- ══ SCREEN: Borough map (NYC only) ══ -->
   <section class="screen" id="screen-borough">
+    <button class="back-link no-print" id="backFromBorough">← <span id="s_backStaff">Back</span></button>
     <div class="prompt">
       <div class="prompt-eyebrow" id="s_boroughEyebrow">Step 2 of 4</div>
       <h2 id="s_boroughH">Where in New York City are currently living</h2>
@@ -645,6 +927,7 @@
 
   <!-- ══ SCREEN: Zone map ══ -->
   <section class="screen" id="screen-zone">
+    <button class="back-link no-print" id="backFromZone">← <span id="s_backBorough">Back</span></button>
     <div class="prompt">
       <div class="prompt-eyebrow" id="s_zoneEyebrow">Step 2 of 4</div>
       <h2 id="s_zoneH">Tap the part of <span id="zoneBorough"></span> closest to you.</h2>
@@ -656,6 +939,7 @@
 
   <!-- ══ SCREEN: Mobile van / street medicine area ══ -->
   <section class="screen" id="screen-show-area">
+    <button class="back-link no-print" id="backFromShow">← <span id="s_backZone">Back</span></button>
     <div class="prompt">
       <div class="prompt-eyebrow" id="s_showEyebrow">Mobile Outreach Van</div>
       <h2 id="s_showH">Which area are you closest to?</h2>
@@ -666,6 +950,7 @@
 
   <!-- ══ SCREEN: Clarifier ══ -->
   <section class="screen" id="screen-clarify">
+    <button class="back-link no-print" id="backFromClarify">← <span id="s_backClarify">Back</span></button>
     <div class="prompt">
       <div class="prompt-eyebrow" id="clarifyEyebrow"></div>
       <h2 id="clarifyQ"></h2>
@@ -677,6 +962,7 @@
 
   <!-- ══ SCREEN: Additional topics ══ -->
   <section class="screen" id="screen-additional">
+    <button class="back-link no-print" id="backFromAdditional">← <span id="s_backAdditional">Back</span></button>
     <div class="prompt">
       <div class="prompt-eyebrow" id="s_addlEyebrow">Step 3 of 4</div>
       <h2 id="s_addlH">Is there anything else you would like information about?</h2>
@@ -704,7 +990,7 @@
         <div class="sheet-date" id="printDate"></div>
 
         <!-- Appointment write-in box -->
-        <div class="appt-write-box">
+        <div class="appt-write-box" id="appointmentBox">
           <div class="awb-label" id="s_awbLabel">My next appointment</div>
           <div class="awb-row">
             <div class="awb-field">
@@ -738,9 +1024,9 @@
     <div class="qr-block no-print">
       <div id="qrcode"></div>
       <div class="qr-copy">
-        <h3 id="s_qrH">Save this to your phone</h3>
-        <p id="s_qrP">Point your phone camera at this code. It opens a plain text version of your resource list that you can save, copy, or share.</p>
-        <div class="qr-note" id="s_qrNote">Works on iPhone and Android — no app needed</div>
+        <h3 id="s_qrH">Access this resource on your phone!</h3>
+        <p id="s_qrP">Point your phone camera at this code.</p>
+        <div class="qr-note" id="s_qrNote">Works on iPhone and Android</div>
       </div>
     </div>
   </section>
@@ -748,9 +1034,205 @@
 </div>
 
 <script>
+
+  /* ============================================================
+   GOOGLE SHEET
+============================================================ */
+const ZONE_MAP={
+  Manhattan:{
+    inwood:['Inwood','Washington Heights','Fort George'],
+    harlem:['Harlem','East Harlem','Spanish Harlem'],
+    uws:['Upper West Side','Morningside Heights','Manhattan Valley'],
+    ues:['Upper East Side','Lenox Hill','Yorkville'],
+    midtown:['Midtown',"Hell's Kitchen",'Clinton'],
+    midtownwest:['Midtown West',"Hell's Kitchen",'Clinton'],
+    midtowneast:['Midtown East','Murray Hill','Gramercy','Kips Bay'],
+    chelsea:['Chelsea','West Village','Meatpacking District'],
+    greenwich:['Greenwich Village','West Village','NoHo'],
+    eastvillage:['East Village','Lower East Side','Alphabet City'],
+    les:['Lower East Side','East Village','Two Bridges'],
+    soho:['SoHo','Tribeca','Little Italy','Chinatown'],
+    fidi:['Financial District','Chinatown/Lower Manhattan','Battery Park City','Seaport'],
+    uptown:['Inwood','Washington Heights','Fort George'],
+  },
+  Brooklyn:{
+    red:['Downtown Brooklyn','Brooklyn Heights','DUMBO','Cobble Hill','Boerum Hill'],
+    darkblue:['Red Hook','Carroll Gardens','Gowanus'],
+    lightgreen:['Clinton Hill','Fort Greene','Navy Yard'],
+    brightgreen:['Park Slope','Prospect Heights','Prospect Park South','Windsor Terrace','Kensington','Parkville'],
+    tan:['Park Slope','Prospect Heights','Prospect Park South','Windsor Terrace','Kensington'],
+    purple:['Bedford-Stuyvesant','Bed-Stuy','Crown Heights'],
+    yellow:['East New York','Brownsville','Canarsie','Cypress Hills'],
+    magenta:['Borough Park','Sunset Park','Greenwood Heights'],
+    violet:['Dyker Heights','Bay Ridge','Bensonhurst','Bath Beach','Fort Hamilton'],
+    olive:['Williamsburg','Greenpoint','Bushwick'],
+    orange:['East Flatbush','Flatbush','Midwood','Lefferts Gardens'],
+    cyan:['Gravesend','Sheepshead Bay','Brighton Beach','Manhattan Beach','Coney Island','Sea Gate'],
+    blue:['Flatlands','Marine Park','Mill Basin','Bergen Beach'],
+  },
+  Queens:{
+    '1':['Astoria','Astoria Heights','Ravenswood','Steinway'],
+    '2':['Hunters Point','Long Island City','Dutch Kills','Sunnyside','Woodside'],
+    '3':['East Elmhurst','Jackson Heights','North Corona'],
+    '4':['Elmhurst','South Corona','Corona','Lefrak City','Elmhurst/Corona'],
+    '5':['Maspeth','Ridgewood','Middle Village','Glendale'],
+    '6':['Rego Park','Forest Hills','Forest Hills Gardens'],
+    '7':['College Point','Whitestone','Downtown Flushing','Flushing','Queensboro Hill'],
+    '8':['Pomonok','Fresh Meadows','Kew Gardens Hills','Hillcrest','Jamaica Estates'],
+    '9':['Richmond Hill','Kew Gardens','Forest Park','Woodhaven','Ozone Park'],
+    '10':['South Ozone Park','Lindenwood','Howard Beach'],
+    '11':['Bayside','Oakland Gardens','Auburndale','Little Neck','Douglaston'],
+    '12':['Jamaica Center','South Jamaica','Hollis','St. Albans','Rochdale','Springfield Gardens','Jamaica'],
+    '13':['Queens Village','Bellerose','Floral Park','Glen Oaks','Cambria Heights','Laurelton','Rosedale'],
+    '14':['Broad Channel','Arverne','Far Rockaway','Rockaway Park','Belle Harbor','Breezy Point'],
+  },
+  Bronx:{
+    '1':['Mott Haven','Port Morris','South Bronx'],
+    '2':['Hunts Point','Longwood'],
+    '3':['Morrisania','Melrose','Claremont','South Bronx'],
+    '4':['Concourse','Highbridge','Mount Eden'],
+    '5':['University Heights','Morris Heights','Fordham'],
+    '6':['East Tremont','Tremont','West Farms'],
+    '7':['Bedford Park','Norwood','Fordham'],
+    '8':['Riverdale','Fieldston','Kingsbridge'],
+    '9':['Soundview','Parkchester','Castle Hill'],
+    '10':['Co-op City','Baychester','Eastchester'],
+    '11':['Pelham Parkway','Morris Park','Allerton'],
+    '12':['Williamsbridge','Wakefield','Woodlawn'],
+  },
+  'Staten Island':{
+    north:['North Shore','St. George','Stapleton','Port Richmond','Mariners Harbor','New Brighton'],
+    mid:['Mid-Island','Willowbrook','New Springville','Bulls Head','Heartland Village'],
+    south:['South Shore','Tottenville','Great Kills','Annadale','Huguenot'],
+  },
+};
+
+function proximityLabel(r){
+  const zoneSubLocs=getZoneSubLocations();
+  if(zoneSubLocs.length && zoneSubLocs.includes(r.sub_location)){
+    return '<div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--path);margin-bottom:4px;">📍 Very close to you</div>';
+  }
+  if(r.sub_location==='Citywide'){
+    return '<div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:4px;">🌐 Citywide</div>';
+  }
+  if(r.borough==='Outside NYC'){
+    return '<div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:4px;">🚗 Outside NYC</div>';
+  }
+  return '<div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:4px;">📌 In your borough</div>';
+}
+
+function getZoneSubLocations(){
+  if(!state.zone||!state.borough) return [];
+  const boroughMap=ZONE_MAP[state.borough]||{};
+  return boroughMap[state.zone.id]||[];
+}
+
+const SHEET_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vR1rtUpDLd7M1oilhNNIeQ8Nrfe0wdqWWKXG9BW73Sr2w-znOiEI_2xK8Tn-I5J0aXHojO3YOfT383F/pub?gid=0&single=true&output=csv';
+
+let SHEET_ROWS=[];
+
+function parseCSVRow(row){
+  const result=[];let cur='';let inQ=false;
+  for(let i=0;i<row.length;i++){
+    const ch=row[i];
+    if(ch==='"'){if(inQ&&row[i+1]==='"'){cur+='"';i++;}else inQ=!inQ;}
+    else if(ch===','&&!inQ){result.push(cur);cur='';}
+    else cur+=ch;
+  }
+  result.push(cur);return result;
+}
+
+function parseCSV(text){
+  // Normalize line endings
+  text=text.replace(/\r\n/g,'\n').replace(/\r/g,'\n');
+  const lines=[];
+  let cur='';
+  let inQ=false;
+  // Split into lines respecting quoted multiline cells
+  for(let i=0;i<text.length;i++){
+    const ch=text[i];
+    if(ch==='"') inQ=!inQ;
+    if(ch==='\n'&&!inQ){lines.push(cur);cur='';}
+    else cur+=ch;
+  }
+  if(cur) lines.push(cur);
+
+  const headers=parseCSVRow(lines[0]).map(h=>h.trim().toLowerCase().replace(/\s+/g,'_'));
+  const rows=[];
+  for(let i=1;i<lines.length;i++){
+    if(!lines[i].trim()) continue;
+    const vals=parseCSVRow(lines[i]);
+    const obj={};
+    headers.forEach((h,idx)=>{obj[h]=(vals[idx]||'').trim();});
+    rows.push(obj);
+  }
+  return rows;
+}
+
+async function fetchResources(){
+  try{
+    const resp=await fetch(SHEET_URL);
+    if(!resp.ok) throw new Error('HTTP '+resp.status);
+    const text=await resp.text();
+    SHEET_ROWS=parseCSV(text).filter(r=>r.open&&r.open.toUpperCase()==='TRUE');
+    console.log('Sheet loaded:',SHEET_ROWS.length,'rows');
+  }catch(e){
+    console.warn('Sheet fetch failed, using hardcoded data',e);
+  }
+}
+
+function sheetGet(category, borough, limit=4){
+  if(!SHEET_ROWS.length) return null;
+
+  const zoneSubLocs = getZoneSubLocations();
+
+  const rows = SHEET_ROWS.filter(r =>
+    r.category === category &&
+    (!borough || r.borough === borough || r.sub_location === 'Citywide')
+  );
+
+  const scored = rows.map(r => {
+    let score = 3; // same borough, no zone match
+    if(r.sub_location === 'Citywide') score = 2;
+    if(zoneSubLocs.length && zoneSubLocs.includes(r.sub_location)) score = 1;
+    if(r.borough === 'Outside NYC') score = 4;
+    return {r, score};
+  });
+
+  scored.sort((a, b) => a.score - b.score);
+  return scored.slice(0, limit).map(x => x.r);
+}
+function sheetVanAreas(borough){
+  return [...new Set(
+    SHEET_ROWS.filter(r=>r.category==='show'&&r.borough===borough)
+      .map(r=>r.sub_location).filter(Boolean)
+  )];
+}
+function sheetVanStops(borough, area){
+  const zoneSubLocs = getZoneSubLocations();
+
+  const rows = SHEET_ROWS.filter(r =>
+    r.category === 'show' && r.borough === borough && r.sub_location === area
+  );
+
+  const scored = rows.map(r => {
+    let score = 2;
+    if(zoneSubLocs.length && zoneSubLocs.includes(r.sub_location)) score = 1;
+    return {r, score};
+  });
+
+  scored.sort((a, b) => a.score - b.score);
+  return scored.slice(0, 4).map(x => x.r);
+}
+
+
 /* ============================================================
    THEMES / LOCATIONS / HOSPITALS
 ============================================================ */
+
+
+
+
 const THEMES={
   /* NYU Langone: NYU Violet (main) + Ultra Violet (accent) */
   nyulangone:{path:'#57068C',pathLight:'#F0E3F9',sun:'#8900E1',line:'#E1D2EF',paper:'#F8F4FB'},
@@ -762,7 +1244,7 @@ const THEMES={
   ucsf:{path:'#052049',pathLight:'#E3E7EC',sun:'#16A0AC',line:'#D3D8DE',paper:'#F2F4F6'},
 };
 const HOSPITALS={
-  bellevue:{name:{en:'Bellevue Hospital<br> (NYC Health + Hospitals)',es:'Hospital Bellevue (NYC Health + Hospitals)'},short:'Bellevue',theme:'bellevue',loc:'NYC',icon:'🏛️'},
+  bellevue:{name:{en:'Bellevue Hospital (NYC Health + Hospitals)',es:'Hospital Bellevue (NYC Health + Hospitals)'},short:'Bellevue',theme:'bellevue',loc:'NYC',icon:'🏛️'},
   nyulangone:{name:{en:'NYU Langone Health',es:'NYU Langone Health'},short:'NYU Langone',theme:'nyulangone',loc:'NYC',icon:'🔷'},
   stanford:{name:{en:'Stanford Hospital',es:'Stanford Hospital'},short:'STANFORD',theme:'stanford',loc:'SF',icon:'🏥'},
   ucsf:{name:{en:'UCSF Medical Center',es:'UCSF Medical Center'},short:'UCSF',theme:'ucsf',loc:'SF',icon:'🐻'},
@@ -798,19 +1280,13 @@ const LANG={
     modeEyebrow:'Step 4 · Who are you?', modeH:'Who are you?', modeSub:'This adjusts which resources are shown.',
     modeSbirtTitle:'SBIRT', modeSbirtDesc:'Walk-in resources only',
     modeLeadsTitle:'LEADS', modeLeadsDesc:'Full resource list',
-    modeOtherTitle:'Other', modeOtherDesc:'Full resource list',
+    modeOtherTitle:'Other Care Providers', modeOtherDesc:'Full resource list',
     staffEyebrow:'Staff', staffH:'What does this patient need today?',
     staffSub:'Select all that apply. The patient will only see what you check here.',
     startBtn:'Give tablet to patient →',
     insEyebrow:'Step 1 of 4', insH:'Do you have health insurance?',
     insSub:'This helps us find the right options for you. Many resources are available no matter what.',
-    insOpts:[
-      {v:'medicaid',l:'Medicaid',d:'State health coverage'},
-      {v:'medicare',l:'Medicare',d:'Federal program, age 65+ or disability'},
-      {v:'commercial',l:'Private insurance',d:'Through a job or marketplace'},
-      {v:'none',l:'No insurance',d:''},
-      {v:'unknown',l:"I'm not sure",d:''},
-    ],
+
     boroughEyebrow:'Step 2 of 4', boroughH:'Where in New York City are you right now?',
     boroughSub:'Tap your borough on the map below.',
     boroughHint:"",
@@ -825,7 +1301,7 @@ const LANG={
     resultsSub:'Your counselor will print this for you. You can also scan the code below to save it on your phone.',
     headline:'Your plan',
     printBtn:'Print this page',
-    qrH:'Save this to your phone',
+    qrH:'Use this resource on your phone',
     qrP:'Point your phone camera at this code. It opens a plain text version of your resource list that you can save, copy, or share.',
     qrNote:'Works on iPhone and Android — no app needed',
     awbLabel:'My next appointment', awbWhere:'Where', awbDate:'Date & Time',
@@ -839,14 +1315,14 @@ const LANG={
     categories:{
       detox:{label:'Detox / treatment program',desc:'Inpatient beds for detoxification'},
       show:{label:'Mobile Outreach Van',desc:'Street medicine — wound care, Narcan, hygiene kits'},
-      telehealth:{label:'24/7 Virtual Care',desc:'Speak with a provider today — opioids, withdrawal, urgent care'},
+
       wellness:{label:'Wellness & peer support',desc:'Drop-in centers, clubhouses, mutual aid'},
-      narcan:{label:'Narcan (naloxone)',desc:'Free kit and hands-on training, available today'},
+      narcan:{label:'Narcan (naloxone) and Fentanyl Test Strips',desc:'Free kit and hands-on training, available today'},
       mentalhealth:{label:'Mental health support',desc:'Crisis line, counseling, walk-in care'},
-      shelter:{label:'Shelter & housing',desc:'Emergency beds and transitional housing'},
-      benefits:{label:'Benefits & Medicaid',desc:'Help enrolling in insurance and income support'},
-      mat:{label:'MAT — medication treatment',desc:'Methadone or buprenorphine (Suboxone) — call ahead / intake needed'},
-      pcp:{label:'Primary care',desc:'Follow-up health visit — appointment needed'},
+      shelter:{label:'Shelter, housing & Food',desc:'Emergency beds and transitional housing'},
+      benefits:{label:'Benefits, Insurance & Legal Services',desc:'Help enrolling in insurance, income support, and free/low-cost legal help'},
+      hygiene:{label:'Toilets, Showers & Haircuts',desc:'Public restrooms, shower access, and free haircuts'},
+      clothing:{label:'Clothing & Laundry',desc:'Free clothing and laundry access'},
     },
   },
   es:{
@@ -905,14 +1381,14 @@ const LANG={
     categories:{
       detox:{label:'Programa de desintoxicación',desc:'Camas hospitalarias para desintoxicación'},
       show:{label:'Van móvil de alcance',desc:'Medicina callejera — cuidado de heridas, Narcan, kits de higiene'},
-      telehealth:{label:'Atención virtual 24/7',desc:'Hable con un proveedor hoy — opioides, abstinencia, urgencias'},
+
       wellness:{label:'Bienestar y apoyo entre pares',desc:'Centros de acogida, clubes, ayuda mutua'},
-      narcan:{label:'Narcan (naloxona)',desc:'Kit gratuito y entrenamiento disponible hoy'},
+      narcan:{label:'Narcan (naloxona) y Tiras de Prueba de Fentanilo',desc:'Kit gratuito y entrenamiento disponible hoy'},
       mentalhealth:{label:'Apoyo de salud mental',desc:'Línea de crisis, consejería, atención sin cita'},
-      shelter:{label:'Refugio y vivienda',desc:'Camas de emergencia y vivienda transitoria'},
-      benefits:{label:'Beneficios y Medicaid',desc:'Ayuda para inscribirse en seguro y apoyo de ingresos'},
-      mat:{label:'MAT — tratamiento con medicación',desc:'Metadona o buprenorfina (Suboxone) — requiere llamar antes / admisión'},
-      pcp:{label:'Atención primaria',desc:'Visita de seguimiento — requiere cita'},
+      shelter:{label:'Refugio, vivienda y comida',desc:'Camas de emergencia y vivienda transitoria'},
+      benefits:{label:'Beneficios, Seguro y Servicios Legales',desc:'Ayuda para inscribirse en seguro, apoyo de ingresos, y ayuda legal gratuita o de bajo costo'},
+      hygiene:{label:'Baños, Duchas y Cortes de Cabello',desc:'Baños públicos, acceso a duchas y cortes de cabello gratuitos'},
+      clothing:{label:'Ropa y Lavandería',desc:'Ropa gratuita y acceso a lavandería'},
     },
   }
 };
@@ -1019,30 +1495,30 @@ const SHOW_STOPS=[
   {loc:'SF',borough:'San Francisco',area:'Bayview',name:'Third St & Palou Ave (sample stop)',cross:'',day:'Friday',hours:'9am–2pm',subway:'T Third Muni',sample:true},
 ];
 
-const TELEHEALTH={
-  NYC:{name:'Virtual ExpressCare (NYC Health + Hospitals)',url:'https://www.expresscare.nyc/',note:'Available 24 hours a day, 7 days a week. Help with opioid use, withdrawal symptoms, and urgent medical needs.'},
-  SF:{name:'San Francisco Health Network Telehealth (sample — verify current service)',url:'https://www.sf.gov/',note:'Ask your counselor for the current telehealth access line for San Francisco Health Network patients.',sample:true},
-};
+
 const ACCESS_LINK={
   NYC:{url:'https://access.nyc.gov/',label:'access.nyc.gov'},
   SF:{url:'https://www.benefitscal.com/',label:'benefitscal.com'},
 };
 const BOROUGHS=['Manhattan','Brooklyn','Queens','Bronx','Staten Island'];
-const CATEGORY_IDS=['detox','show','telehealth','wellness','narcan','mentalhealth','shelter','benefits','mat','pcp'];
+const CATEGORY_IDS=['detox','show','wellness','narcan','mentalhealth','shelter','benefits','hygiene','clothing'];
 const MODE_EXCLUDE={SBIRT:['detox','mat','pcp'],LEADS:[],Other:[]};
 
 /* Zone data — chip markers, uniform box size so labels always fit */
 const ZONES={
   Manhattan:[
-    {id:'inwood',label:'Inwood / Wash. Heights',addr:'181st St & Broadway, Manhattan, NY',cx:140,cy:40},
-    {id:'harlem',label:'Harlem',addr:'125th St & Malcolm X Blvd, Manhattan, NY',cx:140,cy:95},
-    {id:'uws',label:'Upper West Side',addr:'79th St & Broadway, Manhattan, NY',cx:90,cy:150},
-    {id:'ues',label:'Upper East Side',addr:'79th St & Lexington Ave, Manhattan, NY',cx:190,cy:150},
-    {id:'midtown',label:'Midtown',addr:'42nd St & 6th Ave, Manhattan, NY',cx:140,cy:205},
-    {id:'chelsea',label:'Chelsea / W. Village',addr:'23rd St & 8th Ave, Manhattan, NY',cx:90,cy:260},
-    {id:'les',label:'East Village / LES',addr:'Houston St & Ave A, Manhattan, NY',cx:190,cy:260},
-    {id:'fidi',label:'Financial District',addr:'Wall St & Broadway, Manhattan, NY',cx:140,cy:310},
-  ],
+  {id:'uptown',    label:'Uptown / Inwood',        addr:'181st St & Broadway, Manhattan, NY'},
+  {id:'harlem',    label:'Harlem',                  addr:'125th St & Malcolm X Blvd, Manhattan, NY'},
+  {id:'uws',       label:'Upper West Side',         addr:'79th St & Broadway, Manhattan, NY'},
+  {id:'ues',       label:'Upper East Side',         addr:'79th St & Lexington Ave, Manhattan, NY'},
+  {id:'midtownwest',label:'Midtown West',           addr:'42nd St & 8th Ave, Manhattan, NY'},
+  {id:'midtowneast',label:'Midtown East',           addr:'42nd St & Lexington Ave, Manhattan, NY'},
+  {id:'chelsea',   label:'Chelsea',                 addr:'23rd St & 8th Ave, Manhattan, NY'},
+  {id:'greenwich', label:'Greenwich Village',       addr:'Washington Sq Park, Manhattan, NY'},
+  {id:'eastvillage',label:'East Village',           addr:'Houston St & Ave A, Manhattan, NY'},
+  {id:'soho',      label:'SoHo / Tribeca',          addr:'Canal St & Broadway, Manhattan, NY'},
+  {id:'fidi',      label:'Financial District',      addr:'Wall St & Broadway, Manhattan, NY'},
+],
   Brooklyn:[
   {id:'red',         label:'Red (Downtown Brooklyn)'},
   {id:'darkblue',    label:'Dark Blue (Red Hook / Carroll Gardens/ Gowanus)'},
@@ -1112,7 +1588,7 @@ const ZONES={
 let state={
   location:null, hospitalKey:null, mode:null,
   selectedCats:[], borough:null, zone:null, showArea:null,
-  insurance:null,
+  insurance:null, shelterGender:null,
   clarifyAnswers:{}, clarifyQueue:[], currentClarifyId:null,
   additionalOffered:false,
   calMarks:{today:null,appt:null},
@@ -1165,15 +1641,14 @@ function applyLang(){
   sa('s_locEyebrow',s.locEyebrow); sa('s_locH',s.locH); sa('s_locSub',s.locSub);
   sa('s_hospEyebrow',s.hospEyebrow); sa('s_hospH',s.hospH); sa('s_hospSub',s.hospSub);
   sa('s_backLoc',s.backLoc); sa('s_backHosp',s.backHosp); sa('s_backAct',s.backAct); sa('s_backAct2',s.backAct2);
+  sa('s_backMode',s.backAct); sa('s_backStaff',s.backAct); sa('s_backBorough',s.backAct);
+  sa('s_backZone',s.backAct); sa('s_backClarify',s.backAct); sa('s_backAdditional',s.backAct);
   sa('s_actEyebrow',s.actEyebrow); sa('s_actH',s.actH); sa('s_actSub',s.actSub);
   sa('s_upEyebrow',s.upEyebrow); sa('s_upH',s.upH); sa('s_upSub',s.upSub);
-  sa('s_upChoose',s.upChoose); sa('s_upPhoto',s.upPhoto);
-  document.getElementById('submitUploadBtn').textContent=s.upSubmit;
-  document.getElementById('uploadCancelBtn').textContent=s.upCancel;
+
   sa('s_modeEyebrow',s.modeEyebrow); sa('s_modeH',s.modeH); sa('s_modeSub',s.modeSub);
   sa('s_staffEyebrow',s.staffEyebrow); sa('s_staffH',s.staffH); sa('s_staffSub',s.staffSub);
   document.getElementById('startBtn').textContent=s.startBtn;
-  sa('s_insEyebrow',s.insEyebrow); sa('s_insH',s.insH); sa('s_insSub',s.insSub);
   sa('s_boroughEyebrow',s.boroughEyebrow); sa('s_boroughH',s.boroughH); sa('s_boroughSub',s.boroughSub); sa('s_boroughHint',s.boroughHint);
   sa('s_zoneEyebrow',s.zoneEyebrow); sa('s_zoneSub',s.zoneSub); sa('s_zoneHint',s.zoneHint);
   sa('s_showEyebrow',s.showEyebrow); sa('s_showH',s.showH); sa('s_showSub',s.showSub);
@@ -1195,14 +1670,14 @@ function applyLang(){
   }
   updateBrandSub();
   renderLocationGrid(); renderHospitalGrid(); renderActionGrid(); renderModeGrid();
-  renderStaffGrid(); renderInsuranceScreen(); renderBoroughMap();
+  renderStaffGrid(); renderBoroughMap();
   if(currentScreen==='screen-zone'&&state.borough) renderZoneMap(state.borough);
   if(currentScreen==='screen-additional'){
     const excl=MODE_EXCLUDE[state.mode]||[];
     const rem=CATEGORY_IDS.filter(id=>!state.selectedCats.includes(id)&&!excl.includes(id));
     if(rem.length) renderAdditionalScreen(rem);
   }
-  if(currentScreen==='screen-upload') renderUploadList();
+
 }
 function sa(id,v){const el=document.getElementById(id);if(el)el.innerHTML=v;}
 
@@ -1261,11 +1736,41 @@ function renderActionGrid(){
   use.addEventListener('click',()=>{renderModeGrid(); goTo('screen-mode');});
   const upd=document.createElement('div'); upd.className='picker-card';
   upd.innerHTML='<h3>'+s.actUpdateTitle+'</h3><p>'+s.actUpdateDesc+'</p>';
-  upd.addEventListener('click',()=>{renderUploadList(); goTo('screen-upload');});
+  upd.addEventListener('click',()=>{goTo('screen-upload');});
   g.appendChild(use); g.appendChild(upd);
 }
 document.getElementById('backFromUpload').addEventListener('click',()=>goTo('screen-action'));
 document.getElementById('backFromMode').addEventListener('click',()=>goTo('screen-action'));
+
+document.getElementById('backFromStaff').addEventListener('click',()=>{renderModeGrid(); goTo('screen-mode');});
+
+document.getElementById('backFromBorough').addEventListener('click',()=>{renderStaffGrid(); goTo('screen-staff');});
+
+document.getElementById('backFromZone').addEventListener('click',()=>{
+  if(state.location==='NYC'){ renderBoroughMap(); goTo('screen-borough'); }
+  else { renderStaffGrid(); goTo('screen-staff'); }
+});
+
+document.getElementById('backFromShow').addEventListener('click',()=>{
+  renderZoneMap(state.borough); goTo('screen-zone');
+});
+
+document.getElementById('backFromClarify').addEventListener('click',()=>{
+  if(state.currentClarifyId) state.clarifyQueue.unshift(state.currentClarifyId);
+  if(state.selectedCats.includes('show') && state.showArea!==null){
+    goTo('screen-show-area');
+  } else if(state.zone){
+    renderZoneMap(state.borough); goTo('screen-zone');
+  } else {
+    renderStaffGrid(); goTo('screen-staff');
+  }
+});
+
+document.getElementById('backFromAdditional').addEventListener('click',()=>{
+  state.additionalOffered=false;
+  if(state.zone){ renderZoneMap(state.borough); goTo('screen-zone'); }
+  else { renderStaffGrid(); goTo('screen-staff'); }
+});
 
 /* ============================================================
    SCREEN: UPLOAD
@@ -1302,16 +1807,10 @@ function handleFileInput(fileList){
   });
   renderUploadList();
 }
-document.getElementById('fileUploadInput').addEventListener('change',e=>{handleFileInput(e.target.files); e.target.value='';});
-document.getElementById('cameraInput').addEventListener('change',e=>{handleFileInput(e.target.files); e.target.value='';});
-document.getElementById('uploadCancelBtn').addEventListener('click',()=>{
-  state.uploadedFiles=[]; document.getElementById('uploadConfirm').innerHTML=''; goTo('screen-action');
-});
-document.getElementById('submitUploadBtn').addEventListener('click',()=>{
-  const box=document.getElementById('uploadConfirm');
-  box.innerHTML='<div class="status-banner status-success">✓ '+t().upConfirm+'</div>';
-  state.uploadedFiles=[]; renderUploadList();
-});
+
+
+
+
 
 /* ============================================================
    SCREEN: MODE
@@ -1551,56 +2050,23 @@ if (borough === 'Brooklyn') {
 if (borough === 'Manhattan') {
 
   wrap.innerHTML = `
-    <div class="district-map-image">
-
-      <img src="assets/manhattan.png" alt="Manhattan Neighborhood Map">
-
-      <div class="district-grid">
-
-        <button class="district-grid-btn" data-zid="uptown">
-          Uptown
-        </button>
-
-        <button class="district-grid-btn" data-zid="uws">
-          Upper West Side
-        </button>
-
-        <button class="district-grid-btn" data-zid="ues">
-          Upper East Side
-        </button>
-
-        <button class="district-grid-btn" data-zid="midtownwest">
-          Midtown West
-        </button>
-
-        <button class="district-grid-btn" data-zid="midtowneast">
-          Midtown East
-        </button>
-
-        <button class="district-grid-btn" data-zid="chelsea">
-          Chelsea
-        </button>
-
-        <button class="district-grid-btn" data-zid="greenwich">
-          Greenwich Village
-        </button>
-
-        <button class="district-grid-btn" data-zid="eastvillage">
-          East Village
-        </button>
-
-        <button class="district-grid-btn" data-zid="soho">
-          SoHo / Tribeca
-        </button>
-
-        <button class="district-grid-btn" data-zid="fidi">
-          Financial District
-        </button>
-
-      </div>
-
+  <div class="district-map-image">
+    <img src="assets/manhattan.png" alt="Manhattan Neighborhood Map">
+    <div class="district-grid">
+      <button class="district-grid-btn" data-zid="uptown">Uptown</button>
+      <button class="district-grid-btn" data-zid="harlem">Harlem</button>
+      <button class="district-grid-btn" data-zid="uws">Upper West Side</button>
+      <button class="district-grid-btn" data-zid="ues">Upper East Side</button>
+      <button class="district-grid-btn" data-zid="midtownwest">Midtown West</button>
+      <button class="district-grid-btn" data-zid="midtowneast">Midtown East</button>
+      <button class="district-grid-btn" data-zid="chelsea">Chelsea</button>
+      <button class="district-grid-btn" data-zid="greenwich">Greenwich Village</button>
+      <button class="district-grid-btn" data-zid="eastvillage">East Village</button>
+      <button class="district-grid-btn" data-zid="soho">SoHo / Tribeca</button>
+      <button class="district-grid-btn" data-zid="fidi">Financial District</button>
     </div>
-  `;
+  </div>
+`;
 
 
   wrap.querySelectorAll(".district-grid-btn").forEach(btn => {
@@ -1736,28 +2202,31 @@ function renderStaffGrid(){
   });
   document.getElementById('startBtn').disabled=state.selectedCats.length===0;
 }
-document.getElementById('startBtn').addEventListener('click',()=>{
-  renderInsuranceScreen(); goTo('screen-insurance');
+document.getElementById('startBtn').addEventListener('click', () => {
+  if (state.location === 'NYC') {
+    renderBoroughMap();
+    goTo('screen-borough');
+  } else {
+    state.borough = 'San Francisco/Bay Area';
+    renderZoneMap('San Francisco/Bay Area');
+    goTo('screen-zone');
+  }
 });
 
-function renderInsuranceScreen(){
-  const list=document.getElementById('insuranceList'); list.innerHTML='';
-  t().insOpts.forEach(o=>{
-    const btn=document.createElement('button'); btn.className='choice-btn';
-    btn.innerHTML=o.l+(o.d?'<span class="sub-line">'+o.d+'</span>':'');
-    btn.addEventListener('click',()=>{
-      state.insurance=o.v;
-      if(state.location==='NYC'){ renderBoroughMap(); goTo('screen-borough'); }
-      else { state.borough='San Francisco/Bay Area'; renderZoneMap('San Francisco/Bay Area'); goTo('screen-zone'); }
-    });
-    list.appendChild(btn);
-  });
-}
-
 function afterZone(){
-  if(state.selectedCats.includes('show')&&!state.showArea){
-    const areas=[...new Set(SHOW_STOPS.filter(s=>s.loc===state.location&&s.borough===state.borough).map(s=>s.area))];
-    if(areas.length>0){pendingShowCb=startClarify; renderShowAreas(areas); goTo('screen-show-area'); return;}
+  if(state.selectedCats.includes('show')){
+    // Auto-pick best van stop — zone match first, then borough
+    const allStops=SHEET_ROWS.length
+      ? SHEET_ROWS.filter(r=>r.category==='show'&&r.borough===state.borough)
+      : SHOW_STOPS.filter(s=>s.loc===state.location&&s.borough===state.borough);
+
+    const zoneSubLocs=getZoneSubLocations();
+    const zoneMatch=allStops.filter(s=>zoneSubLocs.includes(s.sub_location||s.area));
+    const best=zoneMatch.length ? zoneMatch[0] : allStops[0];
+
+    // Store the area so buildResults knows what to show
+    state.showArea=best?(best.sub_location||best.area):null;
+    state._bestVanStop=best||null;
   }
   startClarify();
 }
@@ -1765,8 +2234,8 @@ function afterZone(){
 function renderShowAreas(areas){
   const wrap=document.getElementById('showAreaList'); wrap.innerHTML='';
   areas.forEach(area=>{
-    const stops=SHOW_STOPS.filter(s=>s.loc===state.location&&s.borough===state.borough&&s.area===area);
-    const days=[...new Set(stops.map(s=>s.day))].join(' · ');
+    const stops=state._bestVanStop ? [state._bestVanStop] : [];
+    const days=[...new Set(stops.map(s=>s.day||s.additional_info||''))].join(' · ');
     const btn=document.createElement('button'); btn.className='choice-btn';
     btn.innerHTML=area+'<span class="sub-line">'+days+'</span>';
     btn.addEventListener('click',()=>{state.showArea=area;(pendingShowCb||startClarify)();});
@@ -1779,11 +2248,16 @@ function renderShowAreas(areas){
 ============================================================ */
 const CLARIFIERS={
   shelter:{
-    eyebrow:{en:'Shelter / housing',es:'Refugio / vivienda'},
-    q:{en:'Are you looking for somewhere to stay tonight, or something longer-term?',es:'¿Busca un lugar para quedarse esta noche o algo más a largo plazo?'},
-    sub:{en:'This changes which options are most useful for you.',es:'Esto cambia qué opciones son más útiles para usted.'},
-    choices:[{l:{en:'Tonight / emergency',es:'Esta noche / emergencia'},v:'emergency'},{l:{en:'Longer-term',es:'Más a largo plazo'},v:'transitional'}],
-  },
+  eyebrow:{en:'Shelter',es:'Refugio'},
+  q:{en:'Do you have a preference for the type of shelter?',es:'¿Tiene preferencia por el tipo de refugio?'},
+  sub:{en:'We will show you all options that are available to you.',es:'Le mostraremos todas las opciones disponibles para usted.'},
+  choices:[
+    {l:{en:'Men only',es:'Solo hombres'},v:'Men'},
+    {l:{en:'Women only',es:'Solo mujeres'},v:'Women'},
+    {l:{en:'No preference',es:'Sin preferencia'},v:'All'},
+  ],
+},
+
   mat:{
     eyebrow:{en:'MAT — medication treatment',es:'MAT — tratamiento con medicación'},
     q:{en:'Which medication would you like to know about?',es:'¿Sobre qué medicación le gustaría saber?'},
@@ -1798,6 +2272,9 @@ function startClarify(){
 }
 function advanceClarify(){
   if(state.clarifyQueue.length===0){
+    if(state.clarifyAnswers.shelter){
+      state.shelterGender=state.clarifyAnswers.shelter;
+    }
     if(!state.additionalOffered){
       state.additionalOffered=true;
       const excl=MODE_EXCLUDE[state.mode]||[];
@@ -1816,7 +2293,12 @@ function renderClarify(id){
   const wrap=document.getElementById('clarifyChoices'); wrap.innerHTML='';
   c.choices.forEach(ch=>{
     const btn=document.createElement('button'); btn.className='choice-btn'; btn.textContent=ch.l[lang];
-    btn.addEventListener('click',()=>{state.clarifyAnswers[id]=ch.v; advanceClarify();}); wrap.appendChild(btn);
+    btn.addEventListener('click',()=>{
+      state.clarifyAnswers[id]=ch.v;
+      if(id==='shelter') state.shelterGender=ch.v;
+      advanceClarify();
+    });
+    wrap.appendChild(btn);
   });
   document.getElementById('skipClarify').onclick=()=>advanceClarify();
 }
@@ -1943,11 +2425,20 @@ function buildDirPanel(originAddr, destName, destAddr, panelId){
 ============================================================ */
 function buildResults(){
   const container=document.getElementById('resultsContainer'); container.innerHTML='';
+
+  // Show appointment box only for LEADS
+  document.getElementById('appointmentBox').style.display =
+      state.mode === 'LEADS' ? 'block' : 'none';
+
   document.getElementById('printDate').textContent=new Date().toLocaleDateString(lang==='en'?'en-US':'es-US',{weekday:'long',month:'long',day:'numeric'});
   document.getElementById('sheetPatientName').textContent='';
   document.getElementById('awbWhere').value='';
   document.getElementById('awbDate').value='';
-  buildCalendar();
+
+  if(state.mode === 'LEADS'){
+      buildCalendar();
+  }
+
   applyLang();
 
   if(state.insurance==='none'||state.insurance==='unknown'){
@@ -1974,37 +2465,43 @@ function buildResults(){
     const card=document.createElement('div'); card.className='result-card';
 
     if(id==='show'){
-      const stops=SHOW_STOPS.filter(st=>st.loc===state.location&&st.borough===state.borough&&st.area===state.showArea);
-      if(!stops.length){
-        card.innerHTML='<h3><span class="cat-dot"></span>'+cat.label+'</h3>'
-          +'<div class="meta">'+(lang==='en'?'No listed stop in your area yet — please ask your counselor for the current schedule.':'No hay una parada listada en su área todavía — por favor pida el horario actual a su consejero.')+'</div>';
-      } else {
-        const rows=stops.map(st=>{
-          const cpid=pid('dir');
-          return '<div style="margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--line);">'
-            +(st.sample?sampleTag():'')
-            +'<div class="addr" style="font-size:1rem;">'+st.name+(st.cross?'<span style="font-weight:400;color:var(--muted);font-size:0.9rem;"> · '+st.cross+'</span>':'')+'</div>'
-            +'<div class="meta">'+st.day+' · '+st.hours+'<br>🚇 '+st.subway+'</div>'
-            +'<a class="directions-link no-print" href="'+mapsLink(st.name+' '+st.cross+' '+state.borough)+'" target="_blank" rel="noopener">'+(lang==='en'?'Open in Google Maps →':'Abrir en Google Maps →')+'</a>'
-            +'<button type="button" class="collapse-toggle dir-toggle no-print" data-panel="'+cpid+'" data-open="0">'+(lang==='en'?'How to get there ▾':'Cómo llegar ▾')+'</button>'
-            +buildDirPanel(originAddr,st.name,st.name+' '+st.cross+' '+state.borough,cpid)
-            +'</div>';
-        }).join('');
-        card.innerHTML='<h3><span class="cat-dot"></span>'+cat.label+(state.showArea?' — '+state.showArea:'')+'</h3>'
-          +'<div class="meta" style="margin-bottom:10px;">'+(lang==='en'?'Wound care · Narcan · SBIRT · Hygiene kits, snacks & water':'Cuidado de heridas · Narcan · SBIRT · Kits de higiene, refrigerios y agua')+'</div>'+rows;
-      }
-      container.appendChild(card); return;
-    }
+  const stops=SHEET_ROWS.length
+    ? sheetVanStops(state.borough,state.showArea)
+    : SHOW_STOPS.filter(st=>st.loc===state.location&&st.borough===state.borough&&st.area===state.showArea);
+  if(!stops.length){
+    return;
+  } else {
+    const rows=stops.map(st=>{
+      const cpid=pid('dir');
+      const name=st.name||st.name;
+      const cross=st.cross||'';
+      const day=st.day||'';
+      const hours=st.hours||st.additional_info||'';
+      const subway=st.subway||'';
+      const addr=st.address||st.addr||'';
+      const stDirections=st.directions||'';
+const stMapImage=st.map_image||'';
+return '<div style="margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--line);">'
+  +'<div class="addr" style="font-size:1rem;">'+name+(cross?'<span style="font-weight:400;color:var(--muted);font-size:0.9rem;"> · '+cross+'</span>':'')+'</div>'
+  +'<div class="meta">'+day+' · '+hours+(subway?'<br>🚇 '+subway:'')+'</div>'
+  +(stDirections?'<div class="note-box" style="margin-top:8px;"><strong>'+(lang==='en'?'🚇 Directions from Bellevue:':'🚇 Instrucciones desde Bellevue:')+'</strong>'
+  +stDirections.split(/\n|\\n/).filter(l=>l.trim()).map((line,i)=>
+    '<div style="padding:5px 0;'+(i>0?'border-top:1px solid rgba(0,0,0,0.06);':'')+'display:flex;gap:8px;align-items:flex-start;">'
+    +'<span style="color:var(--path);font-weight:700;flex-shrink:0;">'+(i+1)+'.</span>'
+    +'<span>'+line.trim()+'</span>'
+    +'</div>'
+  ).join('')+'</div>':'')
+  +(stMapImage?'<img src="'+stMapImage+'" alt="Map" style="width:100%;max-width:400px;display:block;margin-top:10px;border-radius:10px;">':'')
+  +'<a class="directions-link no-print" href="'+mapsLink(addr||name)+'" target="_blank" rel="noopener">'+(lang==='en'?'Open in Google Maps →':'Abrir en Google Maps →')+'</a>'
+  +'</div>';
+    }).join('');
+    card.innerHTML='<h3><span class="cat-dot"></span>'+cat.label+(state.showArea?' — '+state.showArea:'')+'</h3>'
+      +'<div class="meta" style="margin-bottom:10px;">'+(lang==='en'?'Wound care · Narcan · SBIRT · Hygiene kits, snacks & water':'Cuidado de heridas · Narcan · SBIRT · Kits de higiene, refrigerios y agua')+'</div>'+rows;
+  }
+  container.appendChild(card); return;
+}
 
-    if(id==='telehealth'){
-      const th=TELEHEALTH[state.location];
-      card.innerHTML='<h3><span class="cat-dot"></span>'+cat.label+'</h3>'
-        +(th.sample?sampleTag():'')
-        +'<div class="addr">'+th.name+'</div>'
-        +'<div class="meta">'+th.note+'</div>'
-        +'<a class="directions-link no-print" href="'+th.url+'" target="_blank" rel="noopener">'+(lang==='en'?'Open website →':'Abrir sitio →')+'</a>';
-      container.appendChild(card); return;
-    }
+
 
     if(id==='benefits'){
       const acc=ACCESS_LINK[state.location];
@@ -2016,13 +2513,18 @@ function buildResults(){
     }
 
     if(id==='narcan'){
-      card.innerHTML='<h3><span class="cat-dot"></span>'+cat.label+'</h3>'
-        +'<div class="addr">'+(lang==='en'?'Available before you leave — ask your counselor':'Disponible antes de irse — pida a su consejero')+'</div>'
-        +'<div class="meta">'+(lang==='en'?'A free naloxone kit is available today. Hands-on training takes about 10 minutes and is also available now.':'Un kit gratuito de naloxona está disponible hoy. El entrenamiento práctico toma unos 10 minutos y también está disponible ahora.')+'</div>'
-        +'<div class="note-box"><strong>'+(lang==='en'?'How to use it:':'Cómo usarlo:')+'</strong> '+(lang==='en'?'Call 911. Give rescue breaths. Spray one dose in one nostril. Repeat in the other nostril after 2–3 minutes if there is no response. Roll the person onto their side.':'Llame al 911. Dé respiraciones de rescate. Rocíe una dosis en una fosa nasal. Repita en la otra después de 2–3 min si no hay respuesta. Voltee a la persona de lado.')+'</div>';
-      container.appendChild(card); return;
-    }
-
+  // store for later, render at bottom
+  state._narcanCard = card;
+  card.innerHTML='<h3><span class="cat-dot"></span>'+cat.label+'</h3>'
+    +'<div class="addr">'+(lang==='en'?'Available before you leave, just ask':'Disponible antes de irse — pida a su consejero')+'</div>'
+    +'<div class="meta">'+(lang==='en'?'A free naloxone kit and fentanyl test strips are available today. Hands-on training takes about 10 minutes and is also available now.':'Un kit gratuito de naloxona y tiras de prueba de fentanilo están disponibles hoy. El entrenamiento práctico toma unos 10 minutos y también está disponible ahora.')+'</div>'
+    +'<div class="narcan-images" style="display:flex;gap:16px;margin-top:12px;flex-wrap:wrap;">'
+    +'<div style="flex:1 1 200px;min-width:0;"><img src="assets/narcan.png" alt="'+(lang==='en'?'Narcan instructions':'Instrucciones de Narcan')+'" style="width:100%;display:block;border-radius:10px;"></div>'
+    +'<div style="flex:1 1 200px;min-width:0;"><img src="assets/fentanyl.png" alt="'+(lang==='en'?'Fentanyl test strip instructions':'Instrucciones de tiras de prueba de fentanilo')+'" style="width:100%;display:block;border-radius:10px;"></div>'
+    +'</div>'
+    +'<div class="note-box" style="margin-top:12px;"><strong>'+(lang==='en'?'Fentanyl test strips:':'Tiras de prueba de fentanilo:')+'</strong> '+(lang==='en'?'Follow the instructions above.':'Siga las instrucciones a continuación.')+'</div>';
+  return; // don't append yet
+}
     if(id==='mentalhealth'){
       const cpid=pid('call');
       card.innerHTML='<h3><span class="cat-dot"></span>'+cat.label+'</h3>'
@@ -2035,46 +2537,75 @@ function buildResults(){
     }
 
     if(id==='wellness'){
-      const pool=RESOURCES.wellness[state.location]||[];
-      const rows=pool.map(r=>{
-        const dpid=pid('dir');
-        return '<div style="margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--line);">'
-          +insTag(r.noInsOk,false)+(r.sample?sampleTag():'')
-          +'<div class="addr" style="font-size:1rem;">'+r.name+'</div>'
-          +'<div class="meta">'+r.addr+(r.hours?'<br>'+r.hours:'')+'</div>'
-          +'<a class="directions-link no-print" href="'+mapsLink(r.addr)+'" target="_blank" rel="noopener">'+(lang==='en'?'Open in Google Maps →':'Abrir en Google Maps →')+'</a>'
-          +'<button type="button" class="collapse-toggle dir-toggle no-print" data-panel="'+dpid+'" data-open="0">'+t().dirToggle+'</button>'
-          +buildDirPanel(originAddr,r.name,r.addr,dpid)
-          +'</div>';
-      }).join('');
-      card.innerHTML='<h3><span class="cat-dot"></span>'+cat.label+'</h3>'+(rows||'<div class="meta">'+(lang==='en'?'Ask your counselor for local options.':'Pida a su consejero opciones locales.')+'</div>');
-      container.appendChild(card); return;
-    }
+  const pool=SHEET_ROWS.length
+    ? sheetGet('wellness',state.borough)
+    : (RESOURCES.wellness[state.location]||[]);
+  const rows=(pool||[]).map(r=>{
+    const dpid=pid('dir');
+    const name=r.name;
+    const addr=r.address||r.addr||'';
+    const info=r.additional_info||r.hours||'';
+    const directions=r.directions||'';
+    const mapImage=r.map_image||'';
+    const phone=r.phone||'';
+    return '<div style="margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--line);">'
+  +proximityLabel(r)
+      +'<div class="addr" style="font-size:1rem;">'+name+'</div>'
+      +'<div class="meta">'+addr+(info?'<br>'+info:'')+(phone?'<br>📞 '+phone:'')+'</div>'
++(directions?'<div class="note-box" style="margin-top:8px;"><strong>'+(lang==='en'?'🚇 Directions from Bellevue:':'🚇 Instrucciones desde Bellevue:')+'</strong>'
++directions.split(/\n|\\n/).filter(l=>l.trim()).map((line,i)=>
+  '<div style="padding:5px 0;'+(i>0?'border-top:1px solid rgba(0,0,0,0.06)':'')+'display:flex;gap:8px;align-items:flex-start;">'
+  +'<span style="color:var(--path);font-weight:700;flex-shrink:0;">'+(i+1)+'.</span>'
+  +'<span>'+line.trim()+'</span>'
+  +'</div>'
+).join('')
++'</div>':'')
++(mapImage?'<img src="'+mapImage+'" alt="Map" style="width:100%;max-width:400px;display:block;margin-top:10px;border-radius:10px;">':'')
+
+      +'<a class="directions-link no-print" href="'+mapsLink(addr)+'" target="_blank" rel="noopener">'+(lang==='en'?'Open in Google Maps →':'Abrir en Google Maps →')+'</a>'
+
+      +'</div>';
+  }).join('');
+  if(!rows) return;
+card.innerHTML='<h3><span class="cat-dot"></span>'+cat.label+'</h3>'+rows;
+  container.appendChild(card); return;
+}
 
     if(id==='detox'){
-      const byLoc=RESOURCES.detox[state.location]||{};
-      const base=byLoc[state.borough]||byLoc[Object.keys(byLoc)[0]]||[];
-      const pool=state.insurance==='commercial'?[...base,...(RESOURCES.commercial[state.location]||[])]:base;
-      const rows=pool.map(r=>{
-        const cpid2=pid('call'); const dpid2=pid('dir');
-        return '<div style="margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--line);">'
-          +insTag(r.noInsOk,!r.noInsOk&&state.insurance==='commercial')+(r.sample?sampleTag():'')
-          +(r.closed?'<div class="status-banner status-closed" style="margin:4px 0 6px;font-size:0.82rem;">⚠️ '+(lang==='en'?'Currently closed — please confirm before going':'Actualmente cerrado — confirme antes de ir')+'</div>':'')
-          +'<div class="addr" style="font-size:1rem;">'+r.name+'</div>'
-          +'<div class="meta">'+r.addr+(r.note?'<br><em>'+r.note+'</em>':'')+'</div>'
-          +'<a class="directions-link no-print" href="'+mapsLink(r.addr)+'" target="_blank" rel="noopener">'+(lang==='en'?'Open in Google Maps →':'Abrir en Google Maps →')+'</a>'
-          +'<button type="button" class="collapse-toggle no-print" data-panel="'+cpid2+'" data-open="0">'+t().callToggle+'</button>'
-          +buildCallPanel('detox',cpid2)
-          +'<button type="button" class="collapse-toggle dir-toggle no-print" data-panel="'+dpid2+'" data-open="0">'+t().dirToggle+'</button>'
-          +buildDirPanel(originAddr,r.name,r.addr,dpid2)
-          +'</div>';
-      }).join('');
-      card.innerHTML='<h3><span class="cat-dot"></span>'+cat.label+(state.borough?' — '+state.borough:'')+'</h3>'
-        +'<div class="meta" style="margin-bottom:10px;">'+(lang==='en'?'Please call ahead — bed availability changes every day.':'Por favor llame antes — la disponibilidad de camas cambia cada día.')+'</div>'+(rows||'');
-      container.appendChild(card); return;
-    }
+  const pool=SHEET_ROWS.length
+    ? sheetGet('detox',state.borough)
+    : (()=>{const byLoc=RESOURCES.detox[state.location]||{};return byLoc[state.borough]||byLoc[Object.keys(byLoc)[0]]||[];})();
+  const rows=(pool||[]).map(r=>{
+    const cpid2=pid('call'); const dpid2=pid('dir');
+    const name=r.name; const addr=r.address||r.addr||'';
+    const info=r.additional_info||r.note||'';
+    const phone=r.phone||'';
+    const closed=(r.open==='FALSE'||r.closed);
+    return '<div style="margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--line);">'
+  +proximityLabel(r)
+      +(closed?'<div class="status-banner status-closed" style="margin:4px 0 6px;font-size:0.82rem;">⚠️ '+(lang==='en'?'Currently closed — please confirm before going':'Actualmente cerrado — confirme antes de ir')+'</div>':'')
+      +'<div class="addr" style="font-size:1rem;">'+name+'</div>'
+      +'<div class="meta">'+addr+(info?'<br><em>'+info+'</em>':'')+(phone?'<br>📞 '+phone:'')+'</div>'
+      +'<a class="directions-link no-print" href="'+mapsLink(addr)+'" target="_blank" rel="noopener">'+(lang==='en'?'Open in Google Maps →':'Abrir en Google Maps →')+'</a>'
+      +'<button type="button" class="collapse-toggle no-print" data-panel="'+cpid2+'" data-open="0">'+t().callToggle+'</button>'
+      +buildCallPanel('detox',cpid2)
+
+      +'</div>';
+  }).join('');
+  card.innerHTML='<h3><span class="cat-dot"></span>'+cat.label+(state.borough?' — '+state.borough:'')+'</h3>'
+    +'<div class="meta" style="margin-bottom:10px;">'+(lang==='en'?'Please call ahead — bed availability changes every day.':'Por favor llame antes — la disponibilidad de camas cambia cada día.')+'</div>'+(rows||'');
+  container.appendChild(card); return;
+}
 
     const generic={
+      hygiene:{
+        en:{name:'Toilets, showers & haircuts',meta:'Ask your counselor for the current list of public restrooms, shower access, and free haircut programs near you.'},
+        es:{name:'Baños, duchas y cortes de cabello',meta:'Pida a su consejero la lista actual de baños públicos, acceso a duchas y programas de cortes de cabello gratuitos cerca de usted.'},
+      },
+      clothing:{
+        en:{name:'Clothing & laundry',meta:'Ask your counselor for the current list of free clothing closets and laundry access near you.'},
+        es:{name:'Ropa y lavandería',meta:'Pida a su consejero la lista actual de armarios de ropa gratuita y acceso a lavandería cerca de usted.'},
+      },
       mat:{
         en:{name:'State substance-use treatment locator',meta:'Ask your counselor for the current state hotline/locator for methadone and buprenorphine programs near you.'},
         es:{name:'Localizador estatal de tratamiento por uso de sustancias',meta:'Pida a su consejero la línea/localizador estatal actual de programas de metadona y buprenorfina cerca de usted.'},
@@ -2088,23 +2619,86 @@ function buildResults(){
         es:{name:'Seguimiento de atención primaria',meta:'Pida a su consejero una derivación a una clínica de atención primaria con tarifas según ingresos cerca de usted.'},
       },
     };
-    if(generic[id]){
-      const gd=generic[id][lang]||generic[id].en;
-      const cpid3=pid('call');
-      card.innerHTML='<h3><span class="cat-dot"></span>'+cat.label+'</h3>'
-        +'<div class="addr">'+gd.name+'</div>'
-        +'<div class="meta">'+gd.meta+'</div>'
-        +'<button type="button" class="collapse-toggle no-print" data-panel="'+cpid3+'" data-open="0">'+t().callToggle+'</button>'
-        +buildCallPanel(id,cpid3);
-    } else {
-      card.innerHTML='<h3><span class="cat-dot"></span>'+cat.label+'</h3>'
-        +'<div class="meta">'+(lang==='en'?'Ask your counselor for a direct referral.':'Pida a su consejero una derivación directa.')+'</div>';
-    }
-    container.appendChild(card);
-  });
+    if(id==='hygiene'||id==='clothing'||id==='shelter'){
+  let pool=SHEET_ROWS.length ? sheetGet(id,state.borough) : null;
 
+  // filter by gender preference for shelter
+  if(id==='shelter' && pool && state.shelterGender && state.shelterGender!=='All'){
+    pool=pool.filter(r=>r.gender==='All'||r.gender===state.shelterGender);
+  }
+  if(pool&&pool.length){
+    const rows=pool.map(r=>{
+      const dpid=pid('dir');
+      const name=r.name; const addr=r.address||'';
+      const info=r.additional_info||''; const phone=r.phone||'';
+      const directions=r.directions||'';
+const mapImage=r.map_image||'';
+      const gender=r.gender&&r.gender!=='All'?'<span style="font-size:0.78rem;background:#f3f4f6;padding:2px 7px;border-radius:4px;margin-left:6px;">'+r.gender+'</span>':'';
+      return '<div style="margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--line);">'
+  +proximityLabel(r)
+        +'<div class="addr" style="font-size:1rem;">'+name+gender+'</div>'
+        +'<div class="meta">'+addr+(info?'<br>'+info:'')+(phone?'<br>📞 '+phone:'')+'</div>'
++(directions?'<div class="note-box" style="margin-top:8px;"><strong>'+(lang==='en'?'🚇 Directions from Bellevue:':'🚇 Instrucciones desde Bellevue:')+'</strong>'
++directions.split(/\n|\\n/).filter(l=>l.trim()).map((line,i)=>
+  '<div style="padding:5px 0;'+(i>0?'border-top:1px solid rgba(0,0,0,0.06)':'')+'display:flex;gap:8px;align-items:flex-start;">'
+  +'<span style="color:var(--path);font-weight:700;flex-shrink:0;">'+(i+1)+'.</span>'
+  +'<span>'+line.trim()+'</span>'
+  +'</div>'
+).join('')
++'</div>':'')
++(mapImage?'<img src="'+mapImage+'" alt="Map" style="width:100%;max-width:400px;display:block;margin-top:10px;border-radius:10px;">':'')
+        +(addr?'<a class="directions-link no-print" href="'+mapsLink(addr)+'" target="_blank" rel="noopener">'+(lang==='en'?'Open in Google Maps →':'Abrir en Google Maps →')+'</a>':'')
++'</div>';
+    }).join('');
+    card.innerHTML='<h3><span class="cat-dot"></span>'+cat.label+'</h3>'+rows;
+  } else if(generic[id]){
+    // silently skip — don't show card if no sheet data found
+    return;
+  } else {
+    card.innerHTML='<h3><span class="cat-dot"></span>'+cat.label+'</h3>'
+      +'<div class="meta">'+(lang==='en'?'Ask your counselor for a direct referral.':'Pida a su consejero una derivación directa.')+'</div>';
+  }
+  container.appendChild(card); return;
+    }
+
+    // fallback — only show if we have real sheet data for it
+    const fallbackPool = SHEET_ROWS.length ? sheetGet(id, state.borough) : null;
+    if(fallbackPool && fallbackPool.length){
+      const rows=fallbackPool.map(r=>{
+        const dpid=pid('dir');
+        const name=r.name; const addr=r.address||'';
+        const info=r.additional_info||''; const phone=r.phone||'';
+        const directions=r.directions||'';
+        const mapImage=r.map_image||'';
+        return '<div style="margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--line);">'
+          +proximityLabel(r)
+          +'<div class="addr" style="font-size:1rem;">'+name+'</div>'
+          +'<div class="meta">'+addr+(info?'<br>'+info:'')+(phone?'<br>📞 '+phone:'')+'</div>'
++(directions?'<div class="note-box" style="margin-top:8px;"><strong>'+(lang==='en'?'🚇 Directions from Bellevue:':'🚇 Instrucciones desde Bellevue:')+'</strong>'
++directions.split(/\n|\\n/).filter(l=>l.trim()).map((line,i)=>
+  '<div style="padding:5px 0;'+(i>0?'border-top:1px solid rgba(0,0,0,0.06)':'')+'display:flex;gap:8px;align-items:flex-start;">'
+  +'<span style="color:var(--path);font-weight:700;flex-shrink:0;">'+(i+1)+'.</span>'
+  +'<span>'+line.trim()+'</span>'
+  +'</div>'
+).join('')
++'</div>':'')
++(mapImage?'<img src="'+mapImage+'" alt="Map" style="width:100%;max-width:400px;display:block;margin-top:10px;border-radius:10px;">':'')
+          +(addr?'<a class="directions-link no-print" href="'+mapsLink(addr)+'" target="_blank" rel="noopener">'+(lang==='en'?'Open in Google Maps →':'Abrir en Google Maps →')+'</a>':'')
++'</div>';
+      }).join('');
+      card.innerHTML='<h3><span class="cat-dot"></span>'+cat.label+'</h3>'+rows;
+      container.appendChild(card);
+    }
+    // if no data found, silently skip — don't show the card at all
+
+  }); // closes state.selectedCats.forEach
+  // always append narcan card last
+  if(state._narcanCard){
+    container.appendChild(state._narcanCard);
+    state._narcanCard=null;
+  }
   buildQR();
-}
+} // closes buildResults
 
 /* ============================================================
    QR CODE — plain-text data URI (small, reliable, opens like a text file)
@@ -2120,8 +2714,8 @@ function buildQR(){
 
   state.selectedCats.forEach(id=>{
     lines.push('• '+cats[id].label.toUpperCase());
-    if(id==='telehealth'){ const th=TELEHEALTH[state.location]; lines.push('  '+th.name+' — '+th.url); }
-    else if(id==='show'){
+
+    if(id==='show'){
       const stops=SHOW_STOPS.filter(st=>st.loc===state.location&&st.borough===state.borough&&st.area===state.showArea);
       stops.slice(0,4).forEach(st=>lines.push('  '+st.name+' — '+st.day+' '+st.hours));
     }
@@ -2141,9 +2735,44 @@ function buildQR(){
   });
   lines.push(lang==='en'?'Pathway Patient Resource Guide':'Guía de Recursos para el Paciente — Pathway');
 
-  let text=lines.join('\\n');
-  if(text.length>1400) text=text.slice(0,1380)+(lang==='en'?'\\n… (ask staff for the full printed list)':'\\n… (pida al personal la lista completa impresa)');
-  const dataUri='data:text/plain;charset=utf-8,'+encodeURIComponent(text);
+ let html='<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+title+'</title>'
+    +'<style>body{font-family:sans-serif;padding:20px;line-height:1.5;color:#1C2B2D;} h1{font-size:1.3rem;} h2{font-size:1rem;margin-top:20px;border-bottom:1px solid #ccc;padding-bottom:4px;} a{color:#2F6F5E;font-weight:bold;} p{margin:4px 0;}</style>'
+    +'</head><body>';
+  html+='<h1>'+title+'</h1><p>'+today+'</p>';
+  if(state.hospitalKey) html+='<p>'+HOSPITALS[state.hospitalKey].name[lang]+'</p>';
+
+  state.selectedCats.forEach(id=>{
+    html+='<h2>'+cats[id].label+'</h2>';
+    if(id==='show'){
+      const stops=SHOW_STOPS.filter(st=>st.loc===state.location&&st.borough===state.borough&&st.area===state.showArea);
+      stops.slice(0,4).forEach(st=>{
+        html+='<p>'+st.name+' — '+st.day+' '+st.hours+' — <a href="'+mapsLink(st.address||st.name)+'">Directions</a></p>';
+      });
+    } else if(id==='mentalhealth'){
+      html+='<p>'+(lang==='en'?'Call or text 988':'Llame o escriba al 988')+'</p>';
+    } else if(id==='benefits'){
+      const acc=ACCESS_LINK[state.location];
+      html+='<p><a href="'+acc.url+'">'+acc.url+'</a></p>';
+    } else if(id==='narcan'){
+      html+='<p>'+(lang==='en'?'Ask your counselor before you leave':'Pida a su consejero antes de irse')+'</p>';
+    } else if(id==='detox'){
+      const byLoc=RESOURCES.detox[state.location]||{};
+      const pool=byLoc[state.borough]||byLoc[Object.keys(byLoc)[0]]||[];
+      pool.slice(0,3).forEach(r=>{
+        html+='<p>'+r.name+' — '+r.addr+' — <a href="'+mapsLink(r.addr)+'">Directions</a></p>';
+      });
+    } else if(id==='wellness'){
+      (RESOURCES.wellness[state.location]||[]).slice(0,3).forEach(r=>{
+        html+='<p>'+r.name+' — '+r.addr+' — <a href="'+mapsLink(r.addr)+'">Directions</a></p>';
+      });
+    } else {
+      html+='<p>'+(lang==='en'?'Ask your counselor for a referral':'Pida a su consejero una derivación')+'</p>';
+    }
+  });
+  html+='<p style="margin-top:24px;font-size:0.85rem;color:#888;">'+(lang==='en'?'Pathway Patient Resource Guide':'Guía de Recursos para el Paciente — Pathway')+'</p>';
+  html+='</body></html>';
+
+  const dataUri='https://julsost.github.io/ed_resource_project/';
 
   document.getElementById('qrcode').innerHTML='';
   try{
@@ -2175,7 +2804,9 @@ document.getElementById('resultsContainer').addEventListener('click',e=>{
 });
 
 document.getElementById('restartBtn').addEventListener('click',()=>{
-  state={location:null,hospitalKey:null,mode:null,selectedCats:[],borough:null,zone:null,showArea:null,insurance:null,clarifyAnswers:{},clarifyQueue:[],currentClarifyId:null,additionalOffered:false,calMarks:{today:null,appt:null},uploadedFiles:[]};
+  state={location:null,hospitalKey:null,mode:null,selectedCats:[],
+  borough:null,zone:null,showArea:null,insurance:null, shelterGender:null,
+  _bestVanStop:null, clarifyAnswers:{},clarifyQueue:[],currentClarifyId:null,additionalOffered:false,calMarks:{today:null,appt:null},uploadedFiles:[]};
   pendingShowCb=null;
   document.documentElement.style.removeProperty('--path');
   document.documentElement.style.removeProperty('--path-light');
@@ -2201,8 +2832,10 @@ document.getElementById('langEsBtn').addEventListener('click',()=>{
 });
 
 /* Init */
-applyLang();
-goTo('screen-location');
+fetchResources().then(()=>{
+  applyLang();
+  goTo('screen-location');
+});
 </script>
 </body>
 </html>

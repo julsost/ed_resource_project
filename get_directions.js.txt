@@ -1,0 +1,208 @@
+const https = require('https');
+const fs = require('fs');
+
+const API_KEY = 'AIzaSyDc1GdgUKSjOoXJx7aW1IaoIYORtFXflCU';
+const ORIGIN = '462 First Ave, New York, NY 10016';
+
+const addresses = [
+  '400-430 E 30th St, New York, NY',
+  '1122 Franklin Ave, Bronx, NY',
+  '400-430 E 30th St, New York, NY',
+  '151 E 151st St, Bronx, NY',
+  '116 Williams Ave, Brooklyn, NY',
+  '100-32 Atlantic Ave, Queens, NY',
+  '89-74 162nd Street 3rd Floor, Queens, NY',
+  '1600 Central Ave, Queens, NY',
+  '205 Canal St, Staten Island, NY',
+  '2134 Richmond Terrace, Staten Island, NY',
+  '1540 Castleton Ave, Staten Island, NY',
+  '1466 Manor Road, Staten Island, NY 10314',
+  '307 Saint Marks Place, Staten Island, NY 10301',
+  '8 E 109th St, New York, NY',
+  '263 W 86th St, New York, NY',
+  '252 W 116th St, New York, NY',
+  '144 W 32nd St, New York, NY',
+  '120 E 32nd St, New York, NY',
+  '296 9th Ave, New York, NY',
+  '108 E 51st St, New York, NY',
+  '601 W 114th St, New York, NY',
+  '540 Lenox Ave, New York, NY',
+  '2759 Webster Ave, Bronx, NY',
+  '1101 Boston Rd, Bronx, NY',
+  '425 E 159th St, Bronx, NY',
+  '1290 Hoe Ave, Bronx, NY',
+  '105-47 64th Road, Queens, NY',
+  '90-23 161st St, Queens, NY',
+  '102-16 89th Ave, Queens, NY',
+  '35-30 103rd St, Queens, NY',
+  '39-21 Crescent St, Queens, NY',
+  '140-32 Cherry Ave, Queens, NY',
+  '99-13 Northern Blvd, Queens, NY',
+  '289 Saint Nicholas Ave, New York, NY 10027',
+  '252 W 46th St 2nd Floor, New York, NY 10036',
+  '411 E 12th St, New York, NY 10009',
+  '122 East 37th St basement level, New York, NY',
+  '413 E 79th St, New York, NY 10075',
+  '33-19 101st Street, Corona, NY 11368',
+  '25 Chapel St, Brooklyn, NY 11201',
+  '800 Barretto St, Bronx, NY',
+  '2640 Third Ave, Bronx, NY',
+  '333 E 149th St, Bronx, NY',
+  '800 Barretto Street, Bronx, NY',
+  '2759 Webster Avenue, Bronx, NY',
+  '1911-21 Jerome Avenue, Bronx, NY',
+  '601 West 114th St, New York, NY',
+  '251 West 80th St, New York, NY',
+  '8 E 3rd St, New York, NY',
+  '651 W 168th St, New York, NY',
+  '356 W 18th St, New York, NY',
+  '743-749 E 9th St, New York, NY',
+  '90-23 161st Street, Jamaica, NY',
+  '90 Lafayette St, New York, NY',
+  '120 E 32nd St, New York, NY',
+  '257 West 30th Street, New York, NY',
+  '209 W 125th St, New York, NY',
+  '33 Essex St, New York, NY',
+  '321 W 125th St, New York, NY',
+  '555 Broome St, New York, NY',
+  '410 W 40th St, New York, NY',
+  '653 Greenwich St, New York, NY',
+  '108 E 51st St, New York, NY',
+  '251 West 80th St, New York, NY',
+  '227 Bowery, New York, NY',
+  '53 E 3rd St, New York, NY',
+  '601 W 114th St, New York, NY',
+  '8 E 109th St, New York, NY',
+  '90 Lafayette St, New York, NY',
+  '80 Catherine St, New York, NY',
+  'E 23rd St, New York, NY',
+  '1 Clarkson St & 7th Ave, New York, NY',
+  '360 Schermerhorn St, Brooklyn, NY',
+  '2759 Webster Ave, Bronx, NY',
+  '227 Bowery, New York, NY',
+  '251 West 80th St, New York, NY',
+  '485 Hudson St, New York, NY',
+  '108 E 51st St, New York, NY',
+  '508 W 46th St, New York, NY',
+  '2759 Webster Ave, Bronx, NY',
+  '333 Hart St, Brooklyn, NY',
+  '795 Lexington Ave, Brooklyn, NY',
+  '2759 Webster Ave, Bronx, NY',
+  'Citywide - call in',
+  'Phone/Text — Citywide',
+  'Phone — Citywide',
+  'Phone — Citywide',
+  'Phone — Citywide',
+  'Phone — Citywide',
+  'Phone — Citywide',
+  'Phone — Citywide',
+  'Phone/Online — Citywide',
+  'Online — Citywide',
+  'Phone — Citywide',
+  '41st Ave and 103rd St, Queens, NY',
+  'Broadway and 45th Ave, Queens, NY',
+  '41st Ave btw 79th and 80th St, Queens, NY',
+  'Between 160th St and Union Hall St, Queens, NY',
+  '147th St and Willis Ave, Bronx, NY',
+  '226 E 144th St, Bronx, NY',
+  'East Tremont Ave, Bronx, NY',
+  '1938 Webster Ave, Bronx, NY',
+  'Beaver St btw Fayette St and Ellery St, Brooklyn, NY',
+  'Havemeyer St btw South 5th St and Broadway, Brooklyn, NY',
+  'Hart St btw Broadway and Stuyvesant Ave, Brooklyn, NY',
+  '988 Myrtle Ave, Brooklyn, NY',
+  'Delancey St btw Forsyth St and Chrystie St, Manhattan, NY',
+  '28th St btw 9th and 10th Ave, Manhattan, NY',
+  'Mount Morris Park West btw W 122nd and W 122nd St, Manhattan, NY',
+  '113 E 60th St, New York, NY 10022',
+];
+
+function isRealAddress(addr){
+  return !addr.includes('Citywide');
+}
+
+function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
+
+function getDirections(destination){
+  return new Promise((resolve)=>{
+    const url='https://maps.googleapis.com/maps/api/directions/json'
+      +'?origin='+encodeURIComponent(ORIGIN)
+      +'&destination='+encodeURIComponent(destination)
+      +'&mode=transit'
+      +'&key='+API_KEY;
+
+    https.get(url,res=>{
+      let data='';
+      res.on('data',chunk=>data+=chunk);
+      res.on('end',()=>{
+        try{
+          const json=JSON.parse(data);
+          if(json.status!=='OK'){
+            console.log('  API status:',json.status);
+            resolve('Ask staff for directions to this location.');
+            return;
+          }
+          const steps=json.routes[0].legs[0].steps;
+          const text=steps.map(s=>{
+            const instr=s.html_instructions
+              .replace(/<b>/g,'').replace(/<\/b>/g,'')
+              .replace(/<div[^>]*>/g,' — ').replace(/<\/div>/g,'')
+              .replace(/<[^>]+>/g,'').replace(/\s+/g,' ').trim();
+            if(s.travel_mode==='TRANSIT'&&s.transit_details){
+              const td=s.transit_details;
+              return instr
+                +' — take the '+td.line.short_name
+                +' toward '+td.headsign
+                +' ('+td.num_stops+' stop'+(td.num_stops>1?'s':'')+')'
+                +', exit at '+td.arrival_stop.name;
+            }
+            return instr;
+          }).join('. ');
+          resolve(text);
+        }catch(e){
+          resolve('Ask staff for directions to this location.');
+        }
+      });
+    }).on('error',()=>resolve('Ask staff for directions to this location.'));
+  });
+}
+
+async function main(){
+  const results=[];
+
+  for(let i=0;i<addresses.length;i++){
+    const addr=addresses[i];
+    let directions;
+
+    if(!isRealAddress(addr)){
+      if(addr.includes('Online')) directions='Available online — no travel needed.';
+      else directions='Call or text — no travel needed.';
+      console.log(`[${i+1}/${addresses.length}] Skipping: ${addr}`);
+    } else {
+      console.log(`[${i+1}/${addresses.length}] Getting directions for: ${addr}`);
+      directions=await getDirections(addr);
+      console.log(`  → ${directions.slice(0,100)}...`);
+      await sleep(300);
+    }
+
+    results.push({
+      row: i+1,
+      address: addr,
+      directions
+    });
+  }
+
+  fs.writeFileSync('directions_output.json', JSON.stringify(results,null,2));
+
+  // Also write a simple CSV for easy pasting into sheets
+  const csv=results.map(r=>
+    '"'+r.row+'","'+r.address.replace(/"/g,'""')+'","'+r.directions.replace(/"/g,'""')+'"'
+  ).join('\n');
+  fs.writeFileSync('directions_output.csv','row,address,directions\n'+csv);
+
+  console.log('\n✅ Done!');
+  console.log('directions_output.json — full results');
+  console.log('directions_output.csv — paste into Google Sheets');
+}
+
+main();

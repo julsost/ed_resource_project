@@ -1,0 +1,552 @@
+[
+  {
+    "row": 1,
+    "address": "400-430 E 30th St, New York, NY",
+    "directions": "Walk to 400 E 30th St, New York, NY 10016, USA"
+  },
+  {
+    "row": 2,
+    "address": "1122 Franklin Ave, Bronx, NY",
+    "directions": "Walk to 28 St\nSubway towards Pelham Bay Park — take the 6 Train toward Pelham Bay Park (13 stops), exit at 3 Av-138 St\nWalk to Lincoln Av/E 138 St\nBus towards Westchester Sq — take the Bx21 toward Westchester Sq (9 stops), exit at Boston Rd/E 166 St\nWalk to 1122 Franklin Ave, Bronx, NY 10456, USA"
+  },
+  {
+    "row": 3,
+    "address": "400-430 E 30th St, New York, NY",
+    "directions": "Walk to 400 E 30th St, New York, NY 10016, USA"
+  },
+  {
+    "row": 4,
+    "address": "151 E 151st St, Bronx, NY",
+    "directions": "Walk to 28 St\nSubway towards Pelham Bay Park — take the 6 Train toward Pelham Bay Park (2 stops), exit at Grand Central-42 St\nWalk to Grand Central-42 St\nSubway towards Eastchester-Dyre Av — take the 5 Line toward Eastchester-Dyre Av (6 stops), exit at 3 Av-149 St\nWalk to E 151st St, Bronx, NY, USA"
+  },
+  {
+    "row": 5,
+    "address": "116 Williams Ave, Brooklyn, NY",
+    "directions": "Walk to 3 Avenue & East 23 Street\nBus towards City Hall via Lex Av — take the M103 toward City Hall via Lex Av (3 stops), exit at 3 Av/E 14 St\nWalk to 3 Av\nSubway towards Canarsie-Rockaway Pkwy — take the L Line toward Canarsie-Rockaway Pkwy (15 stops), exit at Atlantic Av\nWalk to 116 Williams Ave, Brooklyn, NY 11207, USA"
+  },
+  {
+    "row": 6,
+    "address": "100-32 Atlantic Ave, Queens, NY",
+    "directions": "Walk to E 34 St/2 Av\nBus towards Spring Creek Seaview Av via Linden Bl Via Penn Av — take the BM5 toward Spring Creek Seaview Av via Linden Bl Via Penn Av (1 stop), exit at Woodhaven Blvd/Penelope Av\nBus towards +select Bus Rockaway Park Beach 116 St — take the Q53-SBS toward +select Bus Rockaway Park Beach 116 St (4 stops), exit at Woodhaven Blvd/91 Av\nWalk to 100-32 Atlantic Ave, Jamaica, NY 11416, USA"
+  },
+  {
+    "row": 7,
+    "address": "89-74 162nd Street 3rd Floor, Queens, NY",
+    "directions": "Walk to 1 Av/E 29 St\nBus towards Select Bus Service 125 St via 1 Av — take the M15-SBS toward Select Bus Service 125 St via 1 Av (3 stops), exit at 1 Av/Mitchell Pl\nWalk to Lexington Av/53 St\nSubway towards Jamaica Center-Parsons/Archer — take the E Line toward Jamaica Center-Parsons/Archer (8 stops), exit at Jamaica Center-Parsons/Archer\nWalk to 89-74 162nd St 3rd floor, Jamaica, NY 11432, USA"
+  },
+  {
+    "row": 8,
+    "address": "1600 Central Ave, Queens, NY",
+    "directions": "Walk to E 34 St/1 Av\nBus towards Select Bus Pa Bus Trm via 34 St Via 8 Av — take the M34A-SBS toward Select Bus Pa Bus Trm via 34 St Via 8 Av (7 stops), exit at 8 Av/W 34 St\nWalk to 34 St-Penn Station\nSubway towards Far Rockaway-Mott Av — take the A Line toward Far Rockaway-Mott Av (25 stops), exit at Far Rockaway-Mott Av\nWalk to 16-00 Central Ave, Far Rockaway, NY 11691, USA"
+  },
+  {
+    "row": 9,
+    "address": "205 Canal St, Staten Island, NY",
+    "directions": "Walk to E 23 St/1 Av\nBus towards Eltingville Trans Ctr via Hylan Via Rich — take the SIM10 toward Eltingville Trans Ctr via Hylan Via Rich (2 stops), exit at Narrows Rd North/Saint Johns Av\nWalk to Hylan Blvd/Donley Av\nBus towards St George Ferry via Hylan — take the S78 toward St George Ferry via Hylan (8 stops), exit at Tompkins Av/Broad St\nWalk to 205 Canal St, Staten Island, NY 10304, USA"
+  },
+  {
+    "row": 10,
+    "address": "2134 Richmond Terrace, Staten Island, NY",
+    "directions": "Walk to E 23 St/1 Av\nBus towards Eltvlle Trans Ctr via F Cap Bl Via Gfrds — take the SIM6 toward Eltvlle Trans Ctr via F Cap Bl Via Gfrds (1 stop), exit at Lily Pond Av/Mcclean Av\nWalk to Mcclean Av/Lily Pond Av\nBus towards Port Richmond — take the S53 toward Port Richmond (39 stops), exit at Port Richmond Av/Richmond Terr\nWalk to 2134 Richmond Ter, Staten Island, NY 10302, USA"
+  },
+  {
+    "row": 11,
+    "address": "1540 Castleton Ave, Staten Island, NY",
+    "directions": "Walk to E 23 St/1 Av\nBus towards Eltvlle Trans Ctr via F Cap Bl Via Gfrds — take the SIM6 toward Eltvlle Trans Ctr via F Cap Bl Via Gfrds (1 stop), exit at Lily Pond Av/Mcclean Av\nWalk to Mcclean Av/Lily Pond Av\nBus towards Port Richmond — take the S53 toward Port Richmond (36 stops), exit at Castleton Av/Heberton Av\nWalk to 1540 Castleton Ave, Staten Island, NY 10302, USA"
+  },
+  {
+    "row": 12,
+    "address": "1466 Manor Road, Staten Island, NY 10314",
+    "directions": "Walk to E 23 St/1 Av\nBus towards Eltvlle Trans Ctr via F Cap Bl Via Gfrds — take the SIM6 toward Eltvlle Trans Ctr via F Cap Bl Via Gfrds (19 stops), exit at Nelson Av/Hylan Blvd\nBus towards W New Brighton Richmond Terr — take the S54 toward W New Brighton Richmond Terr (38 stops), exit at Brielle Av/Manor Rd\nWalk to 1466 Manor Rd, Staten Island, NY 10314, USA"
+  },
+  {
+    "row": 13,
+    "address": "307 Saint Marks Place, Staten Island, NY 10301",
+    "directions": "Walk to E 23 St/1 Av\nBus towards Eltingville Trans Ctr via Hylan Via Rich — take the SIM10 toward Eltingville Trans Ctr via Hylan Via Rich (5 stops), exit at Hylan Blvd/Old Town Rd\nWalk to Old Town\nTrain towards St George — take the SIR toward St George (4 stops), exit at Tompkinsville\nWalk to 307 St Marks Pl, Staten Island, NY 10301, USA"
+  },
+  {
+    "row": 14,
+    "address": "8 E 109th St, New York, NY",
+    "directions": "Walk to 28 St\nSubway towards Pelham Bay Park — take the 6 Train toward Pelham Bay Park (10 stops), exit at 110 St\nWalk to 8 E 109th St, New York, NY 10029, USA"
+  },
+  {
+    "row": 15,
+    "address": "263 W 86th St, New York, NY",
+    "directions": "Walk to E 23 St / 1 Av\nBus towards Select Bus Chelsea Piers 12av Crosstown — take the M23-SBS toward Select Bus Chelsea Piers 12av Crosstown (6 stops), exit at West 23 St & 7 Avenue\nWalk to 23 St\nSubway towards Van Cortlandt Park-242 St — take the 1 Line toward Van Cortlandt Park-242 St (9 stops), exit at 86 St\nWalk to 263 W 86th St, New York, NY 10024, USA"
+  },
+  {
+    "row": 16,
+    "address": "252 W 116th St, New York, NY",
+    "directions": "Walk to E 23 St / 1 Av\nBus towards Select Bus Chelsea Piers 12av Crosstown — take the M23-SBS toward Select Bus Chelsea Piers 12av Crosstown (7 stops), exit at W 23 St/8 Av\nWalk to 23 St\nSubway towards 168 St — take the C Line toward 168 St (11 stops), exit at 116 St\nWalk to 252 W 116th St, New York, NY 10026, USA"
+  },
+  {
+    "row": 17,
+    "address": "144 W 32nd St, New York, NY",
+    "directions": "Walk to E 34 St/1 Av\nBus towards Select Bus Pa Bus Trm via 34 St Via 8 Av — take the M34A-SBS toward Select Bus Pa Bus Trm via 34 St Via 8 Av (5 stops), exit at W 34 St/Broadway\nWalk to 144 W 32nd St, New York, NY 10001, USA"
+  },
+  {
+    "row": 18,
+    "address": "120 E 32nd St, New York, NY",
+    "directions": "Walk to 120 E 32nd St, New York, NY 10016, USA"
+  },
+  {
+    "row": 19,
+    "address": "296 9th Ave, New York, NY",
+    "directions": "Walk to E 23 St / 1 Av\nBus towards Select Bus Chelsea Piers 12av Crosstown — take the M23-SBS toward Select Bus Chelsea Piers 12av Crosstown (8 stops), exit at W 23 St/9 Av\nWalk to 296 9th Ave, New York, NY 10001, USA"
+  },
+  {
+    "row": 20,
+    "address": "108 E 51st St, New York, NY",
+    "directions": "Walk to 28 St\nSubway towards Pelham Bay Park — take the 6 Train toward Pelham Bay Park (3 stops), exit at 51 St"
+  },
+  {
+    "row": 21,
+    "address": "601 W 114th St, New York, NY",
+    "directions": "Walk to E 23 St / 1 Av\nBus towards Select Bus Chelsea Piers 12av Crosstown — take the M23-SBS toward Select Bus Chelsea Piers 12av Crosstown (6 stops), exit at West 23 St & 7 Avenue\nWalk to 23 St\nSubway towards Van Cortlandt Park-242 St — take the 1 Line toward Van Cortlandt Park-242 St (13 stops), exit at 116 St-Columbia University\nWalk to 601 W 114th St, New York, NY 10025, USA"
+  },
+  {
+    "row": 22,
+    "address": "540 Lenox Ave, New York, NY",
+    "directions": "Walk to E 34 St/1 Av\nBus towards Select Bus Pa Bus Trm via 34 St Via 8 Av — take the M34A-SBS toward Select Bus Pa Bus Trm via 34 St Via 8 Av (6 stops), exit at W 34 St/7 Av\nWalk to 34 St-Penn Station\nSubway towards Harlem-148 St — take the 3 Line toward Harlem-148 St (7 stops), exit at 135 St\nWalk to 540 Lenox Ave, New York, NY 10037, USA"
+  },
+  {
+    "row": 23,
+    "address": "2759 Webster Ave, Bronx, NY",
+    "directions": "Walk to 1 Av/E 25 St\nBus towards Select Bus Service 125 St via 1 Av — take the M15-SBS toward Select Bus Service 125 St via 1 Av (3 stops), exit at 1 Av/E 43 St\nWalk to Grand Central\nTrain towards Stamford — take the New Haven toward Stamford (2 stops), exit at Fordham\nWalk to Parking lot, 2759 Webster Ave, Bronx, NY 10458, USA"
+  },
+  {
+    "row": 24,
+    "address": "1101 Boston Rd, Bronx, NY",
+    "directions": "Walk to 28 St\nSubway towards Pelham Bay Park — take the 6 Train toward Pelham Bay Park (13 stops), exit at 3 Av-138 St\nWalk to Lincoln Av/E 138 St\nBus towards Westchester Sq — take the Bx21 toward Westchester Sq (9 stops), exit at Boston Rd/E 166 St\nWalk to 1101 Boston Rd, Bronx, NY 10456, USA"
+  },
+  {
+    "row": 25,
+    "address": "425 E 159th St, Bronx, NY",
+    "directions": "Walk to 28 St\nSubway towards Pelham Bay Park — take the 6 Train toward Pelham Bay Park (2 stops), exit at Grand Central-42 St\nWalk to Grand Central-42 St\nSubway towards Eastchester-Dyre Av — take the 5 Line toward Eastchester-Dyre Av (6 stops), exit at 3 Av-149 St\nWalk to 425 E 159th St, Bronx, NY 10451, USA"
+  },
+  {
+    "row": 26,
+    "address": "1290 Hoe Ave, Bronx, NY",
+    "directions": "Walk to 28 St\nSubway towards Pelham Bay Park — take the 6 Train toward Pelham Bay Park (2 stops), exit at Grand Central-42 St\nWalk to Grand Central-42 St\nSubway towards Eastchester-Dyre Av — take the 5 Line toward Eastchester-Dyre Av (11 stops), exit at Freeman St\nWalk to 1290 Hoe Ave, Bronx, NY 10459, USA"
+  },
+  {
+    "row": 27,
+    "address": "105-47 64th Road, Queens, NY",
+    "directions": "Walk to E 34 St/2 Av\nBus towards Spring Creek Seaview Av via Linden Bl Via Penn Av — take the BM5 toward Spring Creek Seaview Av via Linden Bl Via Penn Av (1 stop), exit at Woodhaven Blvd/Penelope Av\nWalk to Woodhaven Blvd/63 Dr\nBus towards Rego Park — take the Q38 toward Rego Park (8 stops), exit at 63 Rd/108 St\nWalk to 105-47 64th Rd, Forest Hills, NY 11375, USA"
+  },
+  {
+    "row": 28,
+    "address": "90-23 161st St, Queens, NY",
+    "directions": "Walk to E 34 St/1 Av\nBus towards Fresh Meadows 188 St via Union Tpke — take the QM7 toward Fresh Meadows 188 St via Union Tpke (4 stops), exit at 164 St/Union Tpke\nBus towards Jamaica Lirr via 164 St — take the Q65 toward Jamaica Lirr via 164 St (7 stops), exit at Parsons Blvd/Jamaica Av\nWalk to 90-23 161st St, Jamaica, NY 11432, USA"
+  },
+  {
+    "row": 29,
+    "address": "102-16 89th Ave, Queens, NY",
+    "directions": "Walk to E 23 St & 1 Av\nBus towards Battery Pk City via Avenue C Via Pk Row — take the M9 toward Battery Pk City via Avenue C Via Pk Row (15 stops), exit at Essex St/Delancey St\nWalk to Delancey St– Essex St\nSubway towards Jamaica Center-Parsons/Archer — take the J Train toward Jamaica Center-Parsons/Archer (17 stops), exit at 104 St\nWalk to 102-16 89th Ave, Jamaica, NY 11418, USA"
+  },
+  {
+    "row": 30,
+    "address": "35-30 103rd St, Queens, NY",
+    "directions": "Walk to 1 Av/E 29 St\nBus towards Select Bus Service 125 St via 1 Av — take the M15-SBS toward Select Bus Service 125 St via 1 Av (2 stops), exit at 1 Av/E 43 St\nWalk to Grand Central-42 St\nSubway towards Flushing-Main St — take the 7 toward Flushing-Main St (13 stops), exit at 103 St–Corona Plaza\nWalk to 35-30 103rd St, Flushing, NY 11368, USA"
+  },
+  {
+    "row": 31,
+    "address": "39-21 Crescent St, Queens, NY",
+    "directions": "Walk to 1 Av/E 29 St\nBus towards Select Bus Service 125 St via 1 Av — take the M15-SBS toward Select Bus Service 125 St via 1 Av (2 stops), exit at 1 Av/E 43 St\nWalk to Grand Central-42 St\nSubway towards Flushing-Main St — take the 7 toward Flushing-Main St (4 stops), exit at Queensboro Plaza\nWalk to 39-21 Crescent St, Long Island City, NY 11101, USA"
+  },
+  {
+    "row": 32,
+    "address": "140-32 Cherry Ave, Queens, NY",
+    "directions": "Walk to 3 Avenue & 29 St\nBus towards East Harlem 125 St via 3 Av — take the M103 toward East Harlem 125 St via 3 Av (5 stops), exit at 3 Av/E 42 St\nWalk to Grand Central-42 St\nSubway towards Flushing-Main St — take the 7X toward Flushing-Main St (11 stops), exit at Flushing-Main St\nWalk to Main St & 40 Rd\nBus towards Jamaica Lirr — take the Q25 toward Jamaica Lirr (3 stops), exit at Kissena Blvd/Elder Av\nWalk to 140-32 Cherry Ave, Flushing, NY 11355, USA"
+  },
+  {
+    "row": 33,
+    "address": "99-13 Northern Blvd, Queens, NY",
+    "directions": "Walk to 3 Avenue & 29 St\nBus towards East Harlem 125 St via 3 Av — take the M103 toward East Harlem 125 St via 3 Av (5 stops), exit at 3 Av/E 42 St\nWalk to Grand Central-42 St\nSubway towards Flushing-Main St — take the 7X toward Flushing-Main St (9 stops), exit at Junction Blvd\nWalk to 99-13 Northern Blvd, Flushing, NY 11368, USA"
+  },
+  {
+    "row": 34,
+    "address": "289 Saint Nicholas Ave, New York, NY 10027",
+    "directions": "Walk to E 34 St/1 Av\nBus towards Select Bus Pa Bus Trm via 34 St Via 8 Av — take the M34A-SBS toward Select Bus Pa Bus Trm via 34 St Via 8 Av (7 stops), exit at 8 Av/W 34 St\nWalk to 34 St-Penn Station\nSubway towards Inwood-207 St — take the A Line toward Inwood-207 St (3 stops), exit at 125 St\nWalk to 289 St Nicholas Ave, New York, NY 10027, USA"
+  },
+  {
+    "row": 35,
+    "address": "252 W 46th St 2nd Floor, New York, NY 10036",
+    "directions": "Walk to E 34 St/1 Av\nBus towards Select Bus Pa Bus Trm via 34 St Via 8 Av — take the M34A-SBS toward Select Bus Pa Bus Trm via 34 St Via 8 Av (10 stops), exit at W 43 St/8 Av\nWalk to 252 W 46th St 2nd fl, New York, NY 10036, USA"
+  },
+  {
+    "row": 36,
+    "address": "411 E 12th St, New York, NY 10009",
+    "directions": "Walk to 411 E 12th St, New York, NY 10009, USA"
+  },
+  {
+    "row": 37,
+    "address": "122 East 37th St basement level, New York, NY",
+    "directions": "Walk to E 34 St/1 Av\nBus towards Select Bus Pa Bus Trm via 34 St Via 8 Av — take the M34A-SBS toward Select Bus Pa Bus Trm via 34 St Via 8 Av (2 stops), exit at E 34 St/3 Av\nWalk to 122 E 37th St, New York, NY 10016, USA"
+  },
+  {
+    "row": 38,
+    "address": "413 E 79th St, New York, NY 10075",
+    "directions": "Walk to 1 Av/E 29 St\nBus towards Select Bus Service 125 St via 1 Av — take the M15-SBS toward Select Bus Service 125 St via 1 Av (6 stops), exit at 1 Av/E 80 St\nWalk to 413 E 79th St, New York, NY 10075, USA"
+  },
+  {
+    "row": 39,
+    "address": "33-19 101st Street, Corona, NY 11368",
+    "directions": "Walk to 1 Av/E 29 St\nBus towards Select Bus Service 125 St via 1 Av — take the M15-SBS toward Select Bus Service 125 St via 1 Av (2 stops), exit at 1 Av/E 43 St\nWalk to Grand Central-42 St\nSubway towards Flushing-Main St — take the 7 toward Flushing-Main St (13 stops), exit at 103 St–Corona Plaza\nWalk to 103 St/Roosevelt Av\nBus towards East Elmhurst — take the Q14 toward East Elmhurst (3 stops), exit at 103 St/Northern Blvd\nWalk to 33-19 101st St, Flushing, NY 11368, USA"
+  },
+  {
+    "row": 40,
+    "address": "25 Chapel St, Brooklyn, NY 11201",
+    "directions": "Walk to East 34th Street\nFerry towards Wall St./Pier 11 — take the AS toward Wall St./Pier 11 (1 stop), exit at Brooklyn Navy Yard\nWalk to Navy Yard Dr/4 Row\nBus towards Kensington Cortelyou Rd via 7 Av — take the B67 toward Kensington Cortelyou Rd via 7 Av (5 stops), exit at Jay St/Chapel St\nWalk to 25 Chapel St, Brooklyn, NY 11201, USA"
+  },
+  {
+    "row": 41,
+    "address": "800 Barretto St, Bronx, NY",
+    "directions": "Walk to 28 St\nSubway towards Pelham Bay Park — take the 6 Train toward Pelham Bay Park (19 stops), exit at Hunts Point Av\nWalk to 800 Barretto St, Bronx, NY 10474, USA"
+  },
+  {
+    "row": 42,
+    "address": "2640 Third Ave, Bronx, NY",
+    "directions": "Walk to 28 St\nSubway towards Pelham Bay Park — take the 6 Train toward Pelham Bay Park (13 stops), exit at 3 Av-138 St\nWalk to 2640 3rd Ave, Bronx, NY 10454, USA"
+  },
+  {
+    "row": 43,
+    "address": "333 E 149th St, Bronx, NY",
+    "directions": "Walk to 28 St\nSubway towards Pelham Bay Park — take the 6 Train toward Pelham Bay Park (2 stops), exit at Grand Central-42 St\nWalk to Grand Central-42 St\nSubway towards Eastchester-Dyre Av — take the 5 Line toward Eastchester-Dyre Av (6 stops), exit at 3 Av-149 St\nWalk to 333 E 149th St, Bronx, NY 10451, USA"
+  },
+  {
+    "row": 44,
+    "address": "800 Barretto Street, Bronx, NY",
+    "directions": "Walk to 28 St\nSubway towards Pelham Bay Park — take the 6 Train toward Pelham Bay Park (19 stops), exit at Hunts Point Av\nWalk to 800 Barretto St, Bronx, NY 10474, USA"
+  },
+  {
+    "row": 45,
+    "address": "2759 Webster Avenue, Bronx, NY",
+    "directions": "Walk to 28 St\nSubway towards 3 Av-138 St — take the 6 Train toward 3 Av-138 St (2 stops), exit at Grand Central-42 St\nWalk to Grand Central-42 St\nSubway towards Woodlawn — take the 4 Line toward Woodlawn (14 stops), exit at Kingsbridge Rd\nWalk to Parking lot, 2759 Webster Ave, Bronx, NY 10458, USA"
+  },
+  {
+    "row": 46,
+    "address": "1911-21 Jerome Avenue, Bronx, NY",
+    "directions": "Walk to 28 St\nSubway towards 3 Av-138 St — take the 6 Train toward 3 Av-138 St (2 stops), exit at Grand Central-42 St\nWalk to Grand Central-42 St\nSubway towards Woodlawn — take the 4 Line toward Woodlawn (10 stops), exit at 176 St\nWalk to 1911-21 Jerome Ave, Bronx, NY 10453, USA"
+  },
+  {
+    "row": 47,
+    "address": "601 West 114th St, New York, NY",
+    "directions": "Walk to E 23 St / 1 Av\nBus towards Select Bus Chelsea Piers 12av Crosstown — take the M23-SBS toward Select Bus Chelsea Piers 12av Crosstown (6 stops), exit at West 23 St & 7 Avenue\nWalk to 23 St\nSubway towards Van Cortlandt Park-242 St — take the 1 Line toward Van Cortlandt Park-242 St (13 stops), exit at 116 St-Columbia University\nWalk to 601 W 114th St, New York, NY 10025, USA"
+  },
+  {
+    "row": 48,
+    "address": "251 West 80th St, New York, NY",
+    "directions": "Walk to E 23 St / 1 Av\nBus towards Select Bus Chelsea Piers 12av Crosstown — take the M23-SBS toward Select Bus Chelsea Piers 12av Crosstown (6 stops), exit at West 23 St & 7 Avenue\nWalk to 23 St\nSubway towards Van Cortlandt Park-242 St — take the 1 Line toward Van Cortlandt Park-242 St (8 stops), exit at 79 St\nWalk to 251 W 80th St, New York, NY 10024, USA"
+  },
+  {
+    "row": 49,
+    "address": "8 E 3rd St, New York, NY",
+    "directions": "Walk to 2 Avenue & East 25 Street\nBus towards Pike St -Via 2 Av — take the M15 toward Pike St -Via 2 Av (8 stops), exit at 2 Avenue & East 3 St\nWalk to 8 E 3rd St, New York, NY 10003, USA"
+  },
+  {
+    "row": 50,
+    "address": "651 W 168th St, New York, NY",
+    "directions": "Walk to E 23 St / 1 Av\nBus towards Select Bus Chelsea Piers 12av Crosstown — take the M23-SBS toward Select Bus Chelsea Piers 12av Crosstown (6 stops), exit at West 23 St & 7 Avenue\nWalk to 23 St\nSubway towards Van Cortlandt Park-242 St — take the 1 Line toward Van Cortlandt Park-242 St (18 stops), exit at 168 St-Washington Hts\nWalk to 651 W 168th St, New York, NY 10032, USA"
+  },
+  {
+    "row": 51,
+    "address": "356 W 18th St, New York, NY",
+    "directions": "Walk to E 23 St / 1 Av\nBus towards Select Bus Chelsea Piers 12av Crosstown — take the M23-SBS toward Select Bus Chelsea Piers 12av Crosstown (8 stops), exit at W 23 St/9 Av\nWalk to 356 W 18th St, New York, NY 10011, USA"
+  },
+  {
+    "row": 52,
+    "address": "743-749 E 9th St, New York, NY",
+    "directions": "Walk to E 23 St & 1 Av\nBus towards Battery Pk City via Avenue C Via Pk Row — take the M9 toward Battery Pk City via Avenue C Via Pk Row (7 stops), exit at Avenue C/E 10 St\nWalk to 743-749 E 9th St, New York, NY 10009, USA"
+  },
+  {
+    "row": 53,
+    "address": "90-23 161st Street, Jamaica, NY",
+    "directions": "Walk to 1 Av/E 28 St\nBus towards East Harlem 125 St via 1 Av — take the M15 toward East Harlem 125 St via 1 Av (8 stops), exit at 1 Av/E 52 St\nWalk to Lexington Av/53 St\nSubway towards Jamaica Center-Parsons/Archer — take the E Line toward Jamaica Center-Parsons/Archer (8 stops), exit at Jamaica Center-Parsons/Archer\nWalk to 90-23 161st St, Jamaica, NY 11432, USA"
+  },
+  {
+    "row": 54,
+    "address": "90 Lafayette St, New York, NY",
+    "directions": "Walk to 28 St\nSubway towards Brooklyn Bridge-City Hall — take the 6 Train toward Brooklyn Bridge-City Hall (6 stops), exit at Canal St\nWalk to 90 Lafayette St, New York, NY 10013, USA"
+  },
+  {
+    "row": 55,
+    "address": "120 E 32nd St, New York, NY",
+    "directions": "Walk to 120 E 32nd St, New York, NY 10016, USA"
+  },
+  {
+    "row": 56,
+    "address": "257 West 30th Street, New York, NY",
+    "directions": "Walk to E 34 St/1 Av\nBus towards Select Bus Pa Bus Trm via 34 St Via 8 Av — take the M34A-SBS toward Select Bus Pa Bus Trm via 34 St Via 8 Av (7 stops), exit at 8 Av/W 34 St\nWalk to 257 W 30th St, New York, NY 10001, USA"
+  },
+  {
+    "row": 57,
+    "address": "209 W 125th St, New York, NY",
+    "directions": "Walk to E 23 St / 1 Av\nBus towards Select Bus Chelsea Piers 12av Crosstown — take the M23-SBS toward Select Bus Chelsea Piers 12av Crosstown (7 stops), exit at W 23 St/8 Av\nWalk to 23 St\nSubway towards 168 St — take the C Line toward 168 St (12 stops), exit at 125 St\nWalk to 209 W 125th St, New York, NY 10027, USA"
+  },
+  {
+    "row": 58,
+    "address": "33 Essex St, New York, NY",
+    "directions": "Walk to 2 Av & E 28 St\nBus towards Select Bus Service South Ferry via 2 Av — take the M15-SBS toward Select Bus Service South Ferry via 2 Av (4 stops), exit at Allen St/Hester St\nWalk to 33 Essex St, New York, NY 10002, USA"
+  },
+  {
+    "row": 59,
+    "address": "321 W 125th St, New York, NY",
+    "directions": "Walk to E 23 St / 1 Av\nBus towards Select Bus Chelsea Piers 12av Crosstown — take the M23-SBS toward Select Bus Chelsea Piers 12av Crosstown (7 stops), exit at W 23 St/8 Av\nWalk to 23 St\nSubway towards 168 St — take the C Line toward 168 St (12 stops), exit at 125 St\nWalk to 321 W 125th St, New York, NY 10027, USA"
+  },
+  {
+    "row": 60,
+    "address": "555 Broome St, New York, NY",
+    "directions": "Walk to E 23 St / 1 Av\nBus towards Select Bus Chelsea Piers 12av Crosstown — take the M23-SBS toward Select Bus Chelsea Piers 12av Crosstown (7 stops), exit at W 23 St/8 Av\nWalk to 23 St\nSubway towards World Trade Center — take the E Line toward World Trade Center (3 stops), exit at Spring St\nWalk to 555 Broome St, New York, NY 10013, USA"
+  },
+  {
+    "row": 61,
+    "address": "410 W 40th St, New York, NY",
+    "directions": "Walk to E 34 St/1 Av\nBus towards Select Bus Pa Bus Trm via 34 St Via 8 Av — take the M34A-SBS toward Select Bus Pa Bus Trm via 34 St Via 8 Av (12 stops), exit at 9 Av/W 42 St\nWalk to 410 W 40th St, New York, NY 10018, USA"
+  },
+  {
+    "row": 62,
+    "address": "653 Greenwich St, New York, NY",
+    "directions": "Walk to E 23 St / 1 Av\nBus towards Select Bus Chelsea Piers 12av Crosstown — take the M23-SBS toward Select Bus Chelsea Piers 12av Crosstown (5 stops), exit at W 23 St/6 Av\nWalk to 23 St\nTrain towards Journal Square — take the PATH toward Journal Square (3 stops), exit at Christopher Street\nWalk to 653 Greenwich St, New York, NY 10014, USA"
+  },
+  {
+    "row": 63,
+    "address": "108 E 51st St, New York, NY",
+    "directions": "Walk to 28 St\nSubway towards Pelham Bay Park — take the 6 Train toward Pelham Bay Park (3 stops), exit at 51 St"
+  },
+  {
+    "row": 64,
+    "address": "251 West 80th St, New York, NY",
+    "directions": "Walk to E 23 St / 1 Av\nBus towards Select Bus Chelsea Piers 12av Crosstown — take the M23-SBS toward Select Bus Chelsea Piers 12av Crosstown (6 stops), exit at West 23 St & 7 Avenue\nWalk to 23 St\nSubway towards Van Cortlandt Park-242 St — take the 1 Line toward Van Cortlandt Park-242 St (8 stops), exit at 79 St\nWalk to 251 W 80th St, New York, NY 10024, USA"
+  },
+  {
+    "row": 65,
+    "address": "227 Bowery, New York, NY",
+    "directions": "Walk to 3 Avenue & East 23 Street\nBus towards City Hall via Lex Av — take the M103 toward City Hall via Lex Av (9 stops), exit at Bowery/Prince St\nWalk to 227 Bowery, New York, NY 10002, USA"
+  },
+  {
+    "row": 66,
+    "address": "53 E 3rd St, New York, NY",
+    "directions": "Walk to 2 Avenue & East 25 Street\nBus towards Pike St -Via 2 Av — take the M15 toward Pike St -Via 2 Av (8 stops), exit at 2 Avenue & East 3 St\nWalk to 53 E 3rd St, New York, NY 10003, USA"
+  },
+  {
+    "row": 67,
+    "address": "601 W 114th St, New York, NY",
+    "directions": "Walk to E 23 St / 1 Av\nBus towards Select Bus Chelsea Piers 12av Crosstown — take the M23-SBS toward Select Bus Chelsea Piers 12av Crosstown (6 stops), exit at West 23 St & 7 Avenue\nWalk to 23 St\nSubway towards Van Cortlandt Park-242 St — take the 1 Line toward Van Cortlandt Park-242 St (13 stops), exit at 116 St-Columbia University\nWalk to 601 W 114th St, New York, NY 10025, USA"
+  },
+  {
+    "row": 68,
+    "address": "8 E 109th St, New York, NY",
+    "directions": "Walk to 28 St\nSubway towards Pelham Bay Park — take the 6 Train toward Pelham Bay Park (10 stops), exit at 110 St\nWalk to 8 E 109th St, New York, NY 10029, USA"
+  },
+  {
+    "row": 69,
+    "address": "90 Lafayette St, New York, NY",
+    "directions": "Walk to 28 St\nSubway towards Brooklyn Bridge-City Hall — take the 6 Train toward Brooklyn Bridge-City Hall (6 stops), exit at Canal St\nWalk to 90 Lafayette St, New York, NY 10013, USA"
+  },
+  {
+    "row": 70,
+    "address": "80 Catherine St, New York, NY",
+    "directions": "Walk to 2 Av & E 28 St\nBus towards Select Bus Service South Ferry via 2 Av — take the M15-SBS toward Select Bus Service South Ferry via 2 Av (5 stops), exit at Madison St/Catherine St\nWalk to 80 Catherine St, New York, NY 10038, USA"
+  },
+  {
+    "row": 71,
+    "address": "E 23rd St, New York, NY",
+    "directions": "Walk to E 23 St / 1 Av\nBus towards Select Bus Chelsea Piers 12av Crosstown — take the M23-SBS toward Select Bus Chelsea Piers 12av Crosstown (1 stop), exit at E 23 St/2 Av"
+  },
+  {
+    "row": 72,
+    "address": "1 Clarkson St & 7th Ave, New York, NY",
+    "directions": "Ask staff for directions to this location."
+  },
+  {
+    "row": 73,
+    "address": "360 Schermerhorn St, Brooklyn, NY",
+    "directions": "Walk to 28 St\nSubway towards Pelham Bay Park — take the 6 Train toward Pelham Bay Park (2 stops), exit at Grand Central-42 St\nWalk to Grand Central-42 St\nSubway towards Flatbush Av-Brooklyn College — take the 5 Line toward Flatbush Av-Brooklyn College (7 stops), exit at Nevins St\nWalk to 360 Schermerhorn St, Brooklyn, NY 11217, USA"
+  },
+  {
+    "row": 74,
+    "address": "2759 Webster Ave, Bronx, NY",
+    "directions": "Walk to 28 St\nSubway towards 3 Av-138 St — take the 6 Train toward 3 Av-138 St (2 stops), exit at Grand Central-42 St\nWalk to Grand Central-42 St\nSubway towards Woodlawn — take the 4 Line toward Woodlawn (14 stops), exit at Kingsbridge Rd\nWalk to Parking lot, 2759 Webster Ave, Bronx, NY 10458, USA"
+  },
+  {
+    "row": 75,
+    "address": "227 Bowery, New York, NY",
+    "directions": "Walk to 3 Avenue & East 23 Street\nBus towards City Hall via Lex Av — take the M103 toward City Hall via Lex Av (9 stops), exit at Bowery/Prince St\nWalk to 227 Bowery, New York, NY 10002, USA"
+  },
+  {
+    "row": 76,
+    "address": "251 West 80th St, New York, NY",
+    "directions": "Walk to E 23 St / 1 Av\nBus towards Select Bus Chelsea Piers 12av Crosstown — take the M23-SBS toward Select Bus Chelsea Piers 12av Crosstown (6 stops), exit at West 23 St & 7 Avenue\nWalk to 23 St\nSubway towards Van Cortlandt Park-242 St — take the 1 Line toward Van Cortlandt Park-242 St (8 stops), exit at 79 St\nWalk to 251 W 80th St, New York, NY 10024, USA"
+  },
+  {
+    "row": 77,
+    "address": "485 Hudson St, New York, NY",
+    "directions": "Walk to E 23 St / 1 Av\nBus towards Select Bus Chelsea Piers 12av Crosstown — take the M23-SBS toward Select Bus Chelsea Piers 12av Crosstown (5 stops), exit at W 23 St/6 Av\nWalk to 23 St\nTrain towards Journal Square — take the PATH toward Journal Square (3 stops), exit at Christopher Street\nWalk to 485 Hudson St, New York, NY 10014, USA"
+  },
+  {
+    "row": 78,
+    "address": "108 E 51st St, New York, NY",
+    "directions": "Walk to 28 St\nSubway towards Pelham Bay Park — take the 6 Train toward Pelham Bay Park (3 stops), exit at 51 St"
+  },
+  {
+    "row": 79,
+    "address": "508 W 46th St, New York, NY",
+    "directions": "Walk to E 34 St/1 Av\nBus towards Select Bus Pa Bus Trm via 34 St Via 8 Av — take the M34A-SBS toward Select Bus Pa Bus Trm via 34 St Via 8 Av (11 stops), exit at W 43 St/8 Av\nWalk to 508 W 46th St, New York, NY 10036, USA"
+  },
+  {
+    "row": 80,
+    "address": "2759 Webster Ave, Bronx, NY",
+    "directions": "Walk to 28 St\nSubway towards 3 Av-138 St — take the 6 Train toward 3 Av-138 St (2 stops), exit at Grand Central-42 St\nWalk to Grand Central-42 St\nSubway towards Woodlawn — take the 4 Line toward Woodlawn (14 stops), exit at Kingsbridge Rd\nWalk to Parking lot, 2759 Webster Ave, Bronx, NY 10458, USA"
+  },
+  {
+    "row": 81,
+    "address": "333 Hart St, Brooklyn, NY",
+    "directions": "Walk to E 23 St / 1 Av\nBus towards Select Bus Chelsea Piers 12av Crosstown — take the M23-SBS toward Select Bus Chelsea Piers 12av Crosstown (5 stops), exit at W 23 St/6 Av\nWalk to 23 St\nSubway towards Middle Village-Metropolitan Av — take the M Line toward Middle Village-Metropolitan Av (9 stops), exit at Myrtle Av\nWalk to 333 Hart St, Brooklyn, NY 11206, USA"
+  },
+  {
+    "row": 82,
+    "address": "795 Lexington Ave, Brooklyn, NY",
+    "directions": "Walk to E 23 St / 1 Av\nBus towards Select Bus Chelsea Piers 12av Crosstown — take the M23-SBS toward Select Bus Chelsea Piers 12av Crosstown (5 stops), exit at W 23 St/6 Av\nWalk to 23 St\nSubway towards Coney Island-Stillwell Av — take the F Line toward Coney Island-Stillwell Av (5 stops), exit at Delancey St– Essex St\nWalk to Delancey St– Essex St\nSubway towards Jamaica Center-Parsons/Archer — take the J Train toward Jamaica Center-Parsons/Archer (3 stops), exit at Kosciuszko St\nWalk to 795 Lexington Ave, Brooklyn, NY 11221, USA"
+  },
+  {
+    "row": 83,
+    "address": "2759 Webster Ave, Bronx, NY",
+    "directions": "Walk to 28 St\nSubway towards 3 Av-138 St — take the 6 Train toward 3 Av-138 St (2 stops), exit at Grand Central-42 St\nWalk to Grand Central-42 St\nSubway towards Woodlawn — take the 4 Line toward Woodlawn (14 stops), exit at Kingsbridge Rd\nWalk to Parking lot, 2759 Webster Ave, Bronx, NY 10458, USA"
+  },
+  {
+    "row": 84,
+    "address": "Citywide - call in",
+    "directions": "Call or text — no travel needed."
+  },
+  {
+    "row": 85,
+    "address": "Phone/Text — Citywide",
+    "directions": "Call or text — no travel needed."
+  },
+  {
+    "row": 86,
+    "address": "Phone — Citywide",
+    "directions": "Call or text — no travel needed."
+  },
+  {
+    "row": 87,
+    "address": "Phone — Citywide",
+    "directions": "Call or text — no travel needed."
+  },
+  {
+    "row": 88,
+    "address": "Phone — Citywide",
+    "directions": "Call or text — no travel needed."
+  },
+  {
+    "row": 89,
+    "address": "Phone — Citywide",
+    "directions": "Call or text — no travel needed."
+  },
+  {
+    "row": 90,
+    "address": "Phone — Citywide",
+    "directions": "Call or text — no travel needed."
+  },
+  {
+    "row": 91,
+    "address": "Phone — Citywide",
+    "directions": "Call or text — no travel needed."
+  },
+  {
+    "row": 92,
+    "address": "Phone/Online — Citywide",
+    "directions": "Available online — no travel needed."
+  },
+  {
+    "row": 93,
+    "address": "Online — Citywide",
+    "directions": "Available online — no travel needed."
+  },
+  {
+    "row": 94,
+    "address": "Phone — Citywide",
+    "directions": "Call or text — no travel needed."
+  },
+  {
+    "row": 95,
+    "address": "41st Ave and 103rd St, Queens, NY",
+    "directions": "Walk to 28 St\nSubway towards Pelham Bay Park — take the 6 Train toward Pelham Bay Park (2 stops), exit at Grand Central-42 St\nWalk to Grand Central-42 St\nSubway towards Flushing-Main St — take the 7 toward Flushing-Main St (13 stops), exit at 103 St–Corona Plaza\nWalk to 41st Ave & 103rd St, Queens, NY 11368, USA"
+  },
+  {
+    "row": 96,
+    "address": "Broadway and 45th Ave, Queens, NY",
+    "directions": "Walk to E 23 St / 1 Av\nBus towards Select Bus Chelsea Piers 12av Crosstown — take the M23-SBS toward Select Bus Chelsea Piers 12av Crosstown (5 stops), exit at W 23 St/6 Av\nWalk to 23 St\nSubway towards Forest Hills-71 Av — take the M Line toward Forest Hills-71 Av (14 stops), exit at Elmhurst Av\nWalk to 45th Ave & Broadway, Queens, NY 11373, USA"
+  },
+  {
+    "row": 97,
+    "address": "41st Ave btw 79th and 80th St, Queens, NY",
+    "directions": "Walk to 28 St\nSubway towards 3 Av-138 St — take the 6 Train toward 3 Av-138 St (2 stops), exit at Grand Central-42 St\nWalk to Grand Central-42 St\nSubway towards Flushing-Main St — take the 7X toward Flushing-Main St (11 stops), exit at Flushing-Main St\nWalk to Roosevelt Av/Main St\nBus towards Beechhurst via 150 St — take the Q15 toward Beechhurst via 150 St (3 stops), exit at 41 Av/147 St\nWalk to 41st Ave, Queens, NY, USA"
+  },
+  {
+    "row": 98,
+    "address": "Between 160th St and Union Hall St, Queens, NY",
+    "directions": "Walk to 28 St\nSubway towards Pelham Bay Park — take the 6 Train toward Pelham Bay Park (3 stops), exit at 51 St\nWalk to Lexington Av/53 St\nSubway towards Jamaica Center-Parsons/Archer — take the E Line toward Jamaica Center-Parsons/Archer (8 stops), exit at Jamaica Center-Parsons/Archer\nWalk to Union Hall St, Queens, NY, USA"
+  },
+  {
+    "row": 99,
+    "address": "147th St and Willis Ave, Bronx, NY",
+    "directions": "Walk to 28 St\nSubway towards Pelham Bay Park — take the 6 Train toward Pelham Bay Park (2 stops), exit at Grand Central-42 St\nWalk to Grand Central-42 St\nSubway towards Eastchester-Dyre Av — take the 5 Line toward Eastchester-Dyre Av (6 stops), exit at 3 Av-149 St\nWalk to Willis Ave & E 147th St, Bronx, NY 10455, USA"
+  },
+  {
+    "row": 100,
+    "address": "226 E 144th St, Bronx, NY",
+    "directions": "Walk to 28 St\nSubway towards Pelham Bay Park — take the 6 Train toward Pelham Bay Park (13 stops), exit at 3 Av-138 St\nWalk to 226 E 144th St, Bronx, NY 10451, USA"
+  },
+  {
+    "row": 101,
+    "address": "East Tremont Ave, Bronx, NY",
+    "directions": "Walk to 28 St\nSubway towards Pelham Bay Park — take the 6 Train toward Pelham Bay Park (2 stops), exit at Grand Central-42 St\nWalk to Grand Central-42 St\nSubway towards Eastchester-Dyre Av — take the 5 Line toward Eastchester-Dyre Av (14 stops), exit at E 180 St\nWalk to E Tremont Ave, Bronx, NY, USA"
+  },
+  {
+    "row": 102,
+    "address": "1938 Webster Ave, Bronx, NY",
+    "directions": "Walk to 28 St\nSubway towards 3 Av-138 St — take the 6 Train toward 3 Av-138 St (2 stops), exit at Grand Central-42 St\nWalk to Grand Central-42 St\nSubway towards Woodlawn — take the 4 Line toward Woodlawn (11 stops), exit at Burnside Av\nWalk to 1938 Webster Ave, Bronx, NY 10457, USA"
+  },
+  {
+    "row": 103,
+    "address": "Beaver St btw Fayette St and Ellery St, Brooklyn, NY",
+    "directions": "Walk to E 23 St / 1 Av\nBus towards Select Bus Chelsea Piers 12av Crosstown — take the M23-SBS toward Select Bus Chelsea Piers 12av Crosstown (5 stops), exit at W 23 St/6 Av\nWalk to 23 St\nSubway towards Middle Village-Metropolitan Av — take the M Line toward Middle Village-Metropolitan Av (8 stops), exit at Flushing Av\nWalk to Ellery St, Brooklyn, NY 11206, USA"
+  },
+  {
+    "row": 104,
+    "address": "Havemeyer St btw South 5th St and Broadway, Brooklyn, NY",
+    "directions": "Walk to E 23 St / 1 Av\nBus towards Select Bus Chelsea Piers 12av Crosstown — take the M23-SBS toward Select Bus Chelsea Piers 12av Crosstown (6 stops), exit at West 23 St & 7 Avenue\nWalk to 23 St\nSubway towards Van Cortlandt Park-242 St — take the 1 Line toward Van Cortlandt Park-242 St (13 stops), exit at 116 St-Columbia University\nWalk to 3000 Broadway, New York, NY 10027, USA"
+  },
+  {
+    "row": 105,
+    "address": "Hart St btw Broadway and Stuyvesant Ave, Brooklyn, NY",
+    "directions": "Walk to E 23 St / 1 Av\nBus towards Select Bus Chelsea Piers 12av Crosstown — take the M23-SBS toward Select Bus Chelsea Piers 12av Crosstown (5 stops), exit at W 23 St/6 Av\nWalk to 23 St\nSubway towards Middle Village-Metropolitan Av — take the M Line toward Middle Village-Metropolitan Av (9 stops), exit at Myrtle Av\nWalk to Broadway & Stuyvesant Ave, Brooklyn, NY 11221, USA"
+  },
+  {
+    "row": 106,
+    "address": "988 Myrtle Ave, Brooklyn, NY",
+    "directions": "Walk to E 23 St / 1 Av\nBus towards Select Bus Chelsea Piers 12av Crosstown — take the M23-SBS toward Select Bus Chelsea Piers 12av Crosstown (5 stops), exit at W 23 St/6 Av\nWalk to 23 St\nSubway towards Middle Village-Metropolitan Av — take the M Line toward Middle Village-Metropolitan Av (9 stops), exit at Myrtle Av\nWalk to 988 Myrtle Ave, Brooklyn, NY 11206, USA"
+  },
+  {
+    "row": 107,
+    "address": "Delancey St btw Forsyth St and Chrystie St, Manhattan, NY",
+    "directions": "Walk to 2 Avenue & East 25 Street\nBus towards Pike St -Via 2 Av — take the M15 toward Pike St -Via 2 Av (11 stops), exit at Allen St/Delancey St\nWalk to Chrystie St, New York, NY 10002, USA"
+  },
+  {
+    "row": 108,
+    "address": "28th St btw 9th and 10th Ave, Manhattan, NY",
+    "directions": "Walk to E 23 St / 1 Av\nBus towards Select Bus Chelsea Piers 12av Crosstown — take the M23-SBS toward Select Bus Chelsea Piers 12av Crosstown (9 stops), exit at W 23 St/10 Av\nWalk to 10th Ave, New York, NY, USA"
+  },
+  {
+    "row": 109,
+    "address": "Mount Morris Park West btw W 122nd and W 122nd St, Manhattan, NY",
+    "directions": "Walk to E 23 St / 1 Av\nBus towards Select Bus Chelsea Piers 12av Crosstown — take the M23-SBS toward Select Bus Chelsea Piers 12av Crosstown (7 stops), exit at W 23 St/8 Av\nWalk to 23 St\nSubway towards 168 St — take the C Line toward 168 St (12 stops), exit at 125 St\nWalk to W 122nd St, New York, NY, USA"
+  },
+  {
+    "row": 110,
+    "address": "113 E 60th St, New York, NY 10022",
+    "directions": "Walk to 28 St\nSubway towards Pelham Bay Park — take the 6 Train toward Pelham Bay Park (4 stops), exit at 59 St\nWalk to 113 E 60th St, New York, NY 10022, USA"
+  }
+]
