@@ -42,9 +42,9 @@
 }
 
 .brand-logo{
-    width:90px;
-    height:90px;
-    object-fit:contain;
+    width:100px;
+    height:100px;
+    object-fit:cover;
     flex-shrink:0;
 }
 
@@ -285,8 +285,28 @@
   .cal-legend-dot{width:9px;height:9px;border-radius:3px;flex-shrink:0;}
 
   /* result cards */
-  .result-card{border-bottom:1px solid var(--line);padding:18px 0;margin:0;}
-  .result-card:last-child{border-bottom:none;}
+  .sub-resource{
+    display: block !important;
+
+    page-break-inside: avoid !important;
+    break-inside: avoid-page !important;
+
+    -webkit-column-break-inside: avoid !important;
+
+    margin-bottom: 16px !important;
+  }
+
+}
+
+
+  .result-card{
+    page-break-after: always;
+    break-after: page;
+  }
+
+
+
+}
   .result-card h3{font-size:1.18rem;margin-bottom:5px;display:flex;align-items:center;gap:7px;}
   .cat-dot{width:7px;height:7px;border-radius:50%;background:var(--path);flex-shrink:0;}
   .result-card .addr{font-size:1.05rem;font-weight:700;margin:4px 0 2px;}
@@ -660,13 +680,14 @@ img[alt="Map"]{
   }
 
   /* ── Resource cards ── */
-  .result-card{
-  page-break-inside:avoid!important;
-  break-inside:avoid!important;
-  padding:14px 0!important;
-  margin:0!important;
-  border-bottom:1.5px solid #aaa!important;
-}
+   .result-card{
+      display:block !important;
+
+      page-break-inside: avoid !important;
+      break-inside: avoid-page !important;
+
+      border-bottom:none !important;
+  }
 
   .result-card h3{
     font-size:13pt!important;
@@ -2507,7 +2528,7 @@ function buildResults(){
       const addr=st.address||st.addr||'';
       const stDirections=st.directions||'';
 const stMapImage=st.map_image||'';
-return '<div style="margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--line);">'
+return '<div class="sub-resource" style="margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--line);">'
   +'<div class="addr" style="font-size:1rem;">'+name+(cross?'<span style="font-weight:400;color:var(--muted);font-size:0.9rem;"> · '+cross+'</span>':'')+'</div>'
   +'<div class="meta">'+day+' · '+hours+(subway?'<br>🚇 '+subway:'')+'</div>'
   +(stDirections?'<div class="note-box" style="margin-top:8px;"><strong>'+(lang==='en'?'🚇 Directions from Bellevue:':'🚇 Instrucciones desde Bellevue:')+'</strong>'
@@ -2574,7 +2595,7 @@ return '<div style="margin-bottom:14px;padding-bottom:14px;border-bottom:1px sol
     const directions=r.directions||'';
     const mapImage=r.map_image||'';
     const phone=r.phone||'';
-    return '<div style="margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--line);">'
+    return '<div class="sub-resource" style="margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--line);">'
   +proximityLabel(r)
       +'<div class="addr" style="font-size:1rem;">'+name+'</div>'
       +'<div class="meta">'+addr+(info?'<br>'+info:'')+(phone?'<br>📞 '+phone:'')+'</div>'
@@ -2607,7 +2628,7 @@ card.innerHTML='<h3><span class="cat-dot"></span>'+cat.label+'</h3>'+rows;
     const info=r.additional_info||r.note||'';
     const phone=r.phone||'';
     const closed=(r.open==='FALSE'||r.closed);
-    return '<div style="margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--line);">'
+    return '<div class="sub-resource" style="margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--line);">'
   +proximityLabel(r)
       +(closed?'<div class="status-banner status-closed" style="margin:4px 0 6px;font-size:0.82rem;">⚠️ '+(lang==='en'?'Currently closed — please confirm before going':'Actualmente cerrado — confirme antes de ir')+'</div>':'')
       +'<div class="addr" style="font-size:1rem;">'+name+'</div>'
@@ -2660,7 +2681,7 @@ card.innerHTML='<h3><span class="cat-dot"></span>'+cat.label+'</h3>'+rows;
       const directions=r.directions||'';
 const mapImage=r.map_image||'';
       const gender=r.gender&&r.gender!=='All'?'<span style="font-size:0.78rem;background:#f3f4f6;padding:2px 7px;border-radius:4px;margin-left:6px;">'+r.gender+'</span>':'';
-      return '<div style="margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--line);">'
+      return '<div class="sub-resource" style="margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--line);">'
   +proximityLabel(r)
         +'<div class="addr" style="font-size:1rem;">'+name+gender+'</div>'
         +'<div class="meta">'+addr+(info?'<br>'+info:'')+(phone?'<br>📞 '+phone:'')+'</div>'
@@ -2696,7 +2717,7 @@ const mapImage=r.map_image||'';
         const info=r.additional_info||''; const phone=r.phone||'';
         const directions=r.directions||'';
         const mapImage=r.map_image||'';
-        return '<div style="margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--line);">'
+        return '<div class="sub-resource" style="margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--line);">'
           +proximityLabel(r)
           +'<div class="addr" style="font-size:1rem;">'+name+'</div>'
           +'<div class="meta">'+addr+(info?'<br>'+info:'')+(phone?'<br>📞 '+phone:'')+'</div>'
