@@ -10,8 +10,8 @@
 <title>Pathway — Patient Resource Guide</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="icon" type="image/png" href="assets/logo.png">
-<link rel="apple-touch-icon" href="assets/logo.png">
+  <link rel="icon" type="image/png" href="assets/logo_modern.png">
+<link rel="apple-touch-icon" href="assets/logo_modern.png">
 <link rel="manifest" href="manifest.json">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
@@ -51,6 +51,7 @@
 .brand h1{
     font-size:2.5rem;
     letter-spacing:-0.02em;
+    color:#2e4236;
 }
   .brand-sub{
     font-size:0.73rem;
@@ -938,6 +939,13 @@ img[alt="Map"]{
       <p class="sub" id="s_locSub">This sets your nearby resources, transit routes, and map.</p>
     </div>
     <div class="picker-grid" id="locationGrid"></div>
+
+    <div class="section-div no-print" id="s_resumeDivider">Have a resource code?</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;" class="no-print">
+      <input type="text" id="resumeCodeInput" placeholder="Paste code here"
+        style="flex:1 1 220px;font-family:monospace;font-size:0.9rem;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;">
+      <button class="btn btn-primary" id="resumeCodeBtn" type="button">Go →</button>
+    </div>
   </section>
 
   <!-- ══ SCREEN: Hospital ══ -->
@@ -1122,12 +1130,17 @@ img[alt="Map"]{
       <button class="btn btn-ghost" id="restartBtn">Start over</button>
     </div>
 
+
     <div class="qr-block no-print">
-      <div id="qrcode"></div>
+      <div id="resumeQrcode"></div>
       <div class="qr-copy">
-        <h3 id="s_qrH">Access this resource on your phone!</h3>
-        <p id="s_qrP">Point your phone camera at this code.</p>
-        <div class="qr-note" id="s_qrNote">Works on iPhone and Android</div>
+        <h3 id="s_resumeH">Scan to reopen this plan</h3>
+        <p id="s_resumeP">Scan with another phone's camera — it opens this same resource list, already filled in. Or save the code below.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px;">
+          <input type="text" id="resumeCodeOutput" readonly
+            style="flex:1 1 180px;font-family:monospace;font-size:0.8rem;padding:8px 10px;border:1.5px solid var(--line);border-radius:8px;background:#faf9f5;">
+          <button class="btn btn-ghost" id="copyResumeCodeBtn" type="button" style="padding:8px 14px;">Copy</button>
+        </div>
       </div>
     </div>
   </section>
@@ -1696,6 +1709,151 @@ let state={
 };
 let pendingShowCb=null;
 let currentScreen='screen-location';
+
+/* ============================================================
+   RESUME CODE — compact index-based encoding
+============================================================ */
+const CODE_ALPHABET='ABCDEFGHJKMNPQRSTVWXYZ23456789'; // no 0/O/1/I/L/U — easy to type/read
+const CODE_LOCATIONS=['NYC','SF'];
+const CODE_HOSPITALS=Object.keys(HOSPITALS);
+const CODE_MODES=['SBIRT','LEADS','Other'];
+const CODE_BOROUGHS=[...BOROUGHS,'San Francisco/Bay Area'];
+const CODE_INSURANCE=['medicaid','medicare','commercial','none','unknown'];
+const CODE_GENDER=['Men','Women','All'];
+
+function idxOf(arr,val){const i=arr.indexOf(val);return i<0?31:i;} // 31 = "none/unset" sentinel
+
+function base32Encode(bytes){
+  let bits=0,value=0,output='';
+  for(const b of bytes){
+    value=(value<<8)|b; bits+=8;
+    while(bits>=5){ output+=CODE_ALPHABET[(value>>>(bits-5))&31]; bits-=5; }
+  }
+  if(bits>0) output+=CODE_ALPHABET[(value<<(5-bits))&31];
+  return output;
+}
+function base32Decode(str){
+  let bits=0,value=0;const bytes=[];
+  for(const ch of str.toUpperCase()){
+    const idx=CODE_ALPHABET.indexOf(ch);
+    if(idx<0) continue; // skip dashes/spaces/typos in separators
+    value=(value<<5)|idx; bits+=5;
+    if(bits>=8){ bytes.push((value>>>(bits-8))&255); bits-=8; }
+  }
+  return new Uint8Array(bytes);
+}
+
+function catBitmask(cats){
+  let mask=0;
+  cats.forEach(id=>{
+    const i=CATEGORY_IDS.indexOf(id);
+    if(i>=0) mask|=(1<<i);
+  });
+  return mask;
+}
+function catsFromBitmask(mask){
+  return CATEGORY_IDS.filter((id,i)=>(mask>>i)&1);
+}
+
+function stateToCode(){
+  const boroughKey = state.borough==='San Francisco/Bay Area' ? 'San Francisco/Bay Area' : state.borough;
+  const zonesForBorough = boroughKey ? (ZONES[boroughKey]||[]) : [];
+  const zoneIdx = state.zone ? zonesForBorough.findIndex(z=>z.id===state.zone.id) : -1;
+
+  let areaIdx=31;
+  if(state.selectedCats.includes('show') && state.borough){
+    const stops=SHEET_ROWS.length
+      ? [...new Set(SHEET_ROWS.filter(r=>r.category==='show'&&r.borough===state.borough).map(r=>r.sub_location))]
+      : [...new Set(SHOW_STOPS.filter(s=>s.loc===state.location&&s.borough===state.borough).map(s=>s.area))];
+    const i=stops.indexOf(state.showArea);
+    areaIdx = i<0?31:i;
+  }
+
+  const bytes=[
+    idxOf(CODE_LOCATIONS,state.location),
+    idxOf(CODE_HOSPITALS,state.hospitalKey),
+    idxOf(CODE_MODES,state.mode),
+    catBitmask(state.selectedCats) & 0xFF,          // low 8 bits
+    (catBitmask(state.selectedCats)>>8) & 0xFF,      // 9th bit spillover
+    idxOf(CODE_BOROUGHS,state.borough),
+    zoneIdx<0?31:zoneIdx,
+    areaIdx,
+    idxOf(CODE_INSURANCE,state.insurance),
+    idxOf(CODE_GENDER,state.shelterGender),
+  ];
+  return base32Encode(bytes);
+}
+
+function codeToState(code){
+  try{
+    const bytes=base32Decode(code);
+    if(bytes.length<10) throw new Error('too short');
+
+    const location = bytes[0]<CODE_LOCATIONS.length ? CODE_LOCATIONS[bytes[0]] : null;
+    const hospitalKey = bytes[1]<CODE_HOSPITALS.length ? CODE_HOSPITALS[bytes[1]] : null;
+    const mode = bytes[2]<CODE_MODES.length ? CODE_MODES[bytes[2]] : null;
+    const mask = bytes[3] | (bytes[4]<<8);
+    const selectedCats = catsFromBitmask(mask);
+    const borough = bytes[5]<CODE_BOROUGHS.length ? CODE_BOROUGHS[bytes[5]] : null;
+
+    let zone=null;
+    if(borough && bytes[6]!==31){
+      const zonesForBorough=ZONES[borough]||[];
+      zone=zonesForBorough[bytes[6]]||null;
+    }
+
+    let showArea=null;
+    if(selectedCats.includes('show') && borough && bytes[7]!==31){
+      const stops=SHEET_ROWS.length
+        ? [...new Set(SHEET_ROWS.filter(r=>r.category==='show'&&r.borough===borough).map(r=>r.sub_location))]
+        : [...new Set(SHOW_STOPS.filter(s=>s.loc===location&&s.borough===borough).map(s=>s.area))];
+      showArea=stops[bytes[7]]||null;
+    }
+
+    const insurance = bytes[8]<CODE_INSURANCE.length ? CODE_INSURANCE[bytes[8]] : null;
+    const shelterGender = bytes[9]<CODE_GENDER.length ? CODE_GENDER[bytes[9]] : null;
+
+    return {
+      location, hospitalKey, mode, selectedCats, borough, zone, showArea,
+      insurance, shelterGender,
+      clarifyAnswers:{}, clarifyQueue:[], currentClarifyId:null,
+      additionalOffered:true,
+      calMarks:{today:null,appt:null},
+      uploadedFiles:[], _bestVanStop:null,
+    };
+  }catch(e){
+    console.warn('Invalid resume code',e);
+    return null;
+  }
+}
+
+function applyResumeCode(code){
+  const restored=codeToState(code);
+  if(!restored || !restored.location){
+    alert(lang==='en' ? "That code isn't valid. Please check it and try again." : 'Ese código no es válido. Verifíquelo e intente de nuevo.');
+    return;
+  }
+  state=restored;
+  if(state.hospitalKey) applyTheme(state.hospitalKey);
+  updateBrandSub();
+
+  if(state.selectedCats.includes('show') && state.borough){
+    const allStops=SHEET_ROWS.length
+      ? SHEET_ROWS.filter(r=>r.category==='show'&&r.borough===state.borough)
+      : SHOW_STOPS.filter(s=>s.loc===state.location&&s.borough===state.borough);
+    const zoneSubLocs=getZoneSubLocations();
+    const zoneMatch=allStops.filter(s=>zoneSubLocs.includes(s.sub_location||s.area));
+    const best=zoneMatch.length ? zoneMatch[0] : allStops[0];
+    state.showArea = state.showArea || (best?(best.sub_location||best.area):null);
+    state._bestVanStop = best||null;
+  }
+
+  buildResults();
+  goTo('screen-results');
+}
+
+
+
 
 /* ============================================================
    HELPERS
@@ -2795,12 +2953,31 @@ const mapImage=r.map_image||'';
     container.appendChild(state._narcanCard);
     state._narcanCard=null;
   }
-  buildQR();
+   buildResumeQR();
+  const codeOut=document.getElementById('resumeCodeOutput');
+  if(codeOut) codeOut.value=stateToCode().match(/.{1,4}/g).join('-');
 } // closes buildResults
 
 /* ============================================================
    QR CODE — plain-text data URI (small, reliable, opens like a text file)
 ============================================================ */
+function buildResumeQR(){
+  const el=document.getElementById('resumeQrcode');
+  if(!el) return;
+  el.innerHTML='';
+  const code=stateToCode(); // no dashes, keep QR data compact
+  const baseUrl=window.location.origin+window.location.pathname;
+  const resumeUrl=baseUrl+'?resume='+code;
+  new QRCode(el,{
+    text:resumeUrl, width:130, height:130, typeNumber:0,
+    colorDark:'#1C2B2D', colorLight:'#ffffff',
+    correctLevel:QRCode.CorrectLevel.L,
+  });
+}
+
+
+
+
 function buildQR(){
   const cats=t().categories;
   const lines=[];
@@ -2916,6 +3093,28 @@ document.getElementById('restartBtn').addEventListener('click',()=>{
   goTo('screen-location');
 });
 
+document.getElementById('resumeCodeBtn').addEventListener('click',()=>{
+  const val=document.getElementById('resumeCodeInput').value;
+  if(val.trim()) applyResumeCode(val);
+});
+document.getElementById('resumeCodeInput').addEventListener('keydown',e=>{
+  if(e.key==='Enter'){
+    e.preventDefault();
+    const val=e.target.value;
+    if(val.trim()) applyResumeCode(val);
+  }
+});
+
+document.getElementById('copyResumeCodeBtn').addEventListener('click',()=>{
+  const input=document.getElementById('resumeCodeOutput');
+  input.select(); input.setSelectionRange(0,99999);
+  navigator.clipboard?.writeText(input.value).catch(()=>document.execCommand('copy'));
+  const btn=document.getElementById('copyResumeCodeBtn');
+  const orig=btn.textContent; btn.textContent=lang==='en'?'Copied ✓':'Copiado ✓';
+  setTimeout(()=>{btn.textContent=orig;},1500);
+});
+
+
 document.getElementById('langEnBtn').addEventListener('click',()=>{
   lang='en';
   document.getElementById('langEnBtn').classList.add('active');
@@ -2942,8 +3141,17 @@ function hideSplash(){
 /* Init */
 fetchResources().then(()=>{
   applyLang();
-  goTo('screen-location');
-  setTimeout(hideSplash, 800); // splash stays visible ~1.1s, then fades out
+
+  const params=new URLSearchParams(window.location.search);
+  const resumeParam=params.get('resume');
+
+  if(resumeParam){
+    applyResumeCode(resumeParam);
+  } else {
+    goTo('screen-location');
+  }
+
+  setTimeout(hideSplash, 800);
 });
 </script>
 </body>
